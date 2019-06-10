@@ -1,7 +1,7 @@
 #pragma once
 
-#include "QtScriptQObject.hpp"
-#include "QtCore"
+#include "QtScriptQObject.h"
+#include <QtCore/QtCore>
 
 void qtscript_register_all_QtCore(QScriptEngine *engine);
 
@@ -26,29 +26,26 @@ public:
 	int direction();
 	void setLoopCount(int loopCount);
 	Q_INVOKABLE QAnimationGroup* group();
-	Q_INVOKABLE void stateChanged(int newState, int oldState);
 	int loopCount();
 	int currentTime();
 	Q_INVOKABLE int currentLoopTime();
-	Q_INVOKABLE void directionChanged(int arg0);
 	void setDirection(int direction);
-	Q_INVOKABLE void finished();
+	Q_INVOKABLE void stop();
 	Q_INVOKABLE int currentLoop();
 	Q_INVOKABLE void resume();
-	Q_INVOKABLE void stop();
 	Q_INVOKABLE void start();
 	Q_INVOKABLE void start(int policy);
 	Q_INVOKABLE int state();
 	Q_INVOKABLE void pause();
 	void setCurrentTime(int msecs);
-	Q_INVOKABLE void currentLoopChanged(int currentLoop);
 	Q_INVOKABLE void setPaused(bool arg0);
 	Q_INVOKABLE int totalDuration();
 };
 
 Q_DECLARE_METATYPE(QAbstractAnimation *)
+Q_DECLARE_METATYPE(const QAbstractAnimation *)
 
-class QtScriptQPoint final : public QtScriptBaseClassPrototype<QPoint>
+class QtScriptQPoint final : public QtScriptBaseClassPrototype<QPoint, false>
 {
 	Q_OBJECT
 
@@ -80,10 +77,10 @@ public:
 	static QScriptValue dotProduct(QScriptContext *context, QScriptEngine* engine);
 };
 
-Q_DECLARE_METATYPE(QPoint)
 Q_DECLARE_METATYPE(QPoint *)
+Q_DECLARE_METATYPE(const QPoint *)
 
-class QtScriptQPointF final : public QtScriptBaseClassPrototype<QPointF>
+class QtScriptQPointF final : public QtScriptBaseClassPrototype<QPointF, false>
 {
 	Q_OBJECT
 
@@ -116,8 +113,8 @@ public:
 	static QScriptValue dotProduct(QScriptContext *context, QScriptEngine* engine);
 };
 
-Q_DECLARE_METATYPE(QPointF)
 Q_DECLARE_METATYPE(QPointF *)
+Q_DECLARE_METATYPE(const QPointF *)
 
 class QtScriptQAnimationGroup : public QtScriptQAbstractAnimation
 {
@@ -145,6 +142,7 @@ public:
 };
 
 Q_DECLARE_METATYPE(QAnimationGroup *)
+Q_DECLARE_METATYPE(const QAnimationGroup *)
 
 class QtScriptQIODevice : public QtScriptQObject
 {
@@ -165,11 +163,9 @@ public:
 	Q_PROPERTY(int currentReadChannel READ currentReadChannel WRITE setCurrentReadChannel)
 	Q_PROPERTY(bool textModeEnabled READ isTextModeEnabled WRITE setTextModeEnabled)
 	void setCurrentWriteChannel(int channel);
-	Q_INVOKABLE void channelBytesWritten(int channel, qint64 bytes);
 	Q_INVOKABLE qint64 bytesAvailable();
 	Q_INVOKABLE void startTransaction();
 	Q_INVOKABLE qint64 pos();
-	Q_INVOKABLE void channelReadyRead(int channel);
 	Q_INVOKABLE qint64 bytesToWrite();
 	Q_INVOKABLE void close();
 	void setCurrentReadChannel(int channel);
@@ -177,7 +173,6 @@ public:
 	Q_INVOKABLE bool isSequential();
 	Q_INVOKABLE void ungetChar(char c);
 	Q_INVOKABLE qint64 size();
-	Q_INVOKABLE void readyRead();
 	Q_INVOKABLE bool canReadLine();
 	Q_INVOKABLE bool waitForBytesWritten(int msecs);
 	int currentWriteChannel();
@@ -186,7 +181,6 @@ public:
 	Q_INVOKABLE bool isWritable();
 	Q_INVOKABLE qint64 write(const QByteArray& data);
 	Q_INVOKABLE qint64 write(const QByteArray& data, qint64 len);
-	Q_INVOKABLE void readChannelFinished();
 	int currentReadChannel();
 	Q_INVOKABLE QByteArray peek(qint64 maxlen);
 	Q_INVOKABLE qint64 peek(QByteArray* data, qint64 maxlen);
@@ -205,8 +199,6 @@ public:
 	bool isTextModeEnabled();
 	Q_INVOKABLE bool atEnd();
 	Q_INVOKABLE bool waitForReadyRead(int msecs);
-	Q_INVOKABLE void bytesWritten(qint64 bytes);
-	Q_INVOKABLE void aboutToClose();
 	Q_INVOKABLE int writeChannelCount();
 	Q_INVOKABLE bool isReadable();
 	Q_INVOKABLE void commitTransaction();
@@ -216,6 +208,7 @@ public:
 };
 
 Q_DECLARE_METATYPE(QIODevice *)
+Q_DECLARE_METATYPE(const QIODevice *)
 
 class QtScriptQBuffer : public QtScriptQIODevice
 {
@@ -241,8 +234,9 @@ public:
 };
 
 Q_DECLARE_METATYPE(QBuffer *)
+Q_DECLARE_METATYPE(const QBuffer *)
 
-class QtScriptQLocale final : public QtScriptBaseClassPrototype<QLocale>
+class QtScriptQLocale final : public QtScriptBaseClassPrototype<QLocale, false>
 {
 	Q_OBJECT
 
@@ -259,12 +253,12 @@ public:
 
 	Q_PROPERTY(int numberOptions READ numberOptions WRITE setNumberOptions)
 	Q_INVOKABLE bool notEquals(const QLocale& other);
-	Q_INVOKABLE unsigned short toUShort(const QString& s);
-	Q_INVOKABLE unsigned short toUShort(const QString& s, bool* ok);
+	Q_INVOKABLE ushort toUShort(const QString& s);
+	Q_INVOKABLE ushort toUShort(const QString& s, bool* ok);
 	Q_INVOKABLE void set(const QLocale& other);
 	Q_INVOKABLE QStringList uiLanguages();
-	Q_INVOKABLE unsigned int toUInt(const QString& s);
-	Q_INVOKABLE unsigned int toUInt(const QString& s, bool* ok);
+	Q_INVOKABLE uint toUInt(const QString& s);
+	Q_INVOKABLE uint toUInt(const QString& s, bool* ok);
 	Q_INVOKABLE QString currencySymbol();
 	Q_INVOKABLE QString currencySymbol(int arg0);
 	Q_INVOKABLE float toFloat(const QString& s);
@@ -285,10 +279,10 @@ public:
 	Q_INVOKABLE QString standaloneMonthName(int arg0, int format);
 	Q_INVOKABLE QChar percent();
 	Q_INVOKABLE QList<Qt::DayOfWeek> weekdays();
-	Q_INVOKABLE long long toLongLong(const QString& s);
-	Q_INVOKABLE long long toLongLong(const QString& s, bool* ok);
+	Q_INVOKABLE qlonglong toLongLong(const QString& s);
+	Q_INVOKABLE qlonglong toLongLong(const QString& s, bool* ok);
 	Q_INVOKABLE QChar negativeSign();
-	Q_INVOKABLE QString toString(long long i);
+	Q_INVOKABLE QString toString(qlonglong i);
 	Q_INVOKABLE QString toString(double i, char f);
 	Q_INVOKABLE QString toString(double i, char f, int prec);
 	Q_INVOKABLE void swap(QLocale& other);
@@ -307,7 +301,8 @@ public:
 	Q_INVOKABLE QString dateFormat();
 	Q_INVOKABLE QString dateFormat(int format);
 	Q_INVOKABLE bool equals(const QLocale& other);
-	Q_INVOKABLE QString toCurrencyString(long long arg0, const QString& symbol);
+	Q_INVOKABLE QString toCurrencyString(qlonglong arg0);
+	Q_INVOKABLE QString toCurrencyString(qlonglong arg0, const QString& symbol);
 	Q_INVOKABLE QString toCurrencyString(double arg0, const QString& symbol, int precision);
 	Q_INVOKABLE QChar decimalPoint();
 	Q_INVOKABLE QString timeFormat();
@@ -315,8 +310,8 @@ public:
 	Q_INVOKABLE QString quoteString(const QString& str);
 	Q_INVOKABLE QString quoteString(const QString& str, int style);
 	int numberOptions();
-	Q_INVOKABLE unsigned long long toULongLong(const QString& s);
-	Q_INVOKABLE unsigned long long toULongLong(const QString& s, bool* ok);
+	Q_INVOKABLE qulonglong toULongLong(const QString& s);
+	Q_INVOKABLE qulonglong toULongLong(const QString& s, bool* ok);
 	void setNumberOptions(int options);
 	Q_INVOKABLE QString name();
 	Q_INVOKABLE int language();
@@ -343,10 +338,10 @@ public:
 	static QScriptValue languageToString(QScriptContext *context, QScriptEngine* engine);
 };
 
-Q_DECLARE_METATYPE(QLocale)
 Q_DECLARE_METATYPE(QLocale *)
+Q_DECLARE_METATYPE(const QLocale *)
 
-class QtScriptQTime final : public QtScriptBaseClassPrototype<QTime>
+class QtScriptQTime final : public QtScriptBaseClassPrototype<QTime, false>
 {
 	Q_OBJECT
 
@@ -391,10 +386,10 @@ public:
 	static QScriptValue currentTime(QScriptContext *context, QScriptEngine* engine);
 };
 
-Q_DECLARE_METATYPE(QTime)
 Q_DECLARE_METATYPE(QTime *)
+Q_DECLARE_METATYPE(const QTime *)
 
-class QtScriptQTextStream : public QtScriptBaseClassPrototype<QTextStream *>
+class QtScriptQTextStream : public QtScriptBaseClassPrototype<QTextStream *, false>
 {
 	Q_OBJECT
 
@@ -462,7 +457,9 @@ public:
 	Q_INVOKABLE QString readLine(qint64 maxlen);
 };
 
+Q_DECLARE_METATYPE(QtScriptQTextStream::StorageType)
 Q_DECLARE_METATYPE(QTextStream *)
+Q_DECLARE_METATYPE(const QTextStream *)
 
 class QtScriptQFileDevice : public QtScriptQIODevice
 {
@@ -490,6 +487,7 @@ public:
 };
 
 Q_DECLARE_METATYPE(QFileDevice *)
+Q_DECLARE_METATYPE(const QFileDevice *)
 
 class QtScriptQFile : public QtScriptQFileDevice
 {
@@ -514,8 +512,6 @@ public:
 	Q_INVOKABLE QString readLink();
 	Q_INVOKABLE bool link(const QString& newName);
 	Q_INVOKABLE bool copy(const QString& newName);
-	Q_INVOKABLE bool open(_iobuf* f, int ioFlags);
-	Q_INVOKABLE bool open(_iobuf* f, int ioFlags, int handleFlags);
 	static QScriptValue rename(QScriptContext *context, QScriptEngine* engine);
 	static QScriptValue encodeName(QScriptContext *context, QScriptEngine* engine);
 	static QScriptValue exists(QScriptContext *context, QScriptEngine* engine);
@@ -531,8 +527,9 @@ public:
 };
 
 Q_DECLARE_METATYPE(QFile *)
+Q_DECLARE_METATYPE(const QFile *)
 
-class QtScriptQFileInfo final : public QtScriptBaseClassPrototype<QFileInfo>
+class QtScriptQFileInfo final : public QtScriptBaseClassPrototype<QFileInfo, false>
 {
 	Q_OBJECT
 
@@ -579,7 +576,7 @@ public:
 	void setCaching(bool on);
 	Q_INVOKABLE QString completeSuffix();
 	Q_INVOKABLE QString path();
-	Q_INVOKABLE unsigned int groupId();
+	Q_INVOKABLE uint groupId();
 	Q_INVOKABLE int permissions();
 	Q_INVOKABLE bool isNativePath();
 	Q_INVOKABLE QDateTime created();
@@ -592,7 +589,7 @@ public:
 	Q_INVOKABLE void setFile(const QDir& dir, const QString& file);
 	Q_INVOKABLE bool isReadable();
 	bool caching();
-	Q_INVOKABLE unsigned int ownerId();
+	Q_INVOKABLE uint ownerId();
 	Q_INVOKABLE bool permission(int permissions);
 	Q_INVOKABLE bool isFile();
 	Q_INVOKABLE bool makeAbsolute();
@@ -600,10 +597,10 @@ public:
 	static QScriptValue exists(QScriptContext *context, QScriptEngine* engine);
 };
 
-Q_DECLARE_METATYPE(QFileInfo)
 Q_DECLARE_METATYPE(QFileInfo *)
+Q_DECLARE_METATYPE(const QFileInfo *)
 
-class QtScriptQDir : public QtScriptBaseClassPrototype<QDir *>
+class QtScriptQDir final : public QtScriptBaseClassPrototype<QDir, false>
 {
 	Q_OBJECT
 
@@ -654,7 +651,7 @@ public:
 	Q_INVOKABLE bool rmpath(const QString& dirPath);
 	QString path();
 	void setFilter(int filter);
-	Q_INVOKABLE unsigned int count();
+	Q_INVOKABLE uint count();
 	Q_INVOKABLE bool cdUp();
 	int sorting();
 	QStringList nameFilters();
@@ -694,9 +691,11 @@ public:
 	static QScriptValue root(QScriptContext *context, QScriptEngine* engine);
 };
 
+Q_DECLARE_METATYPE(QDir)
 Q_DECLARE_METATYPE(QDir *)
+Q_DECLARE_METATYPE(const QDir *)
 
-class QtScriptQDirIterator : public QtScriptBaseClassPrototype<QDirIterator *>
+class QtScriptQDirIterator : public QtScriptBaseClassPrototype<QDirIterator *, false>
 {
 	Q_OBJECT
 
@@ -719,9 +718,11 @@ public:
 	Q_INVOKABLE QString next();
 };
 
+Q_DECLARE_METATYPE(QtScriptQDirIterator::StorageType)
 Q_DECLARE_METATYPE(QDirIterator *)
+Q_DECLARE_METATYPE(const QDirIterator *)
 
-class QtScriptQEasingCurve final : public QtScriptBaseClassPrototype<QEasingCurve>
+class QtScriptQEasingCurve final : public QtScriptBaseClassPrototype<QEasingCurve, false>
 {
 	Q_OBJECT
 
@@ -758,10 +759,10 @@ public:
 	Q_INVOKABLE QVector<QPointF> toCubicSpline();
 };
 
-Q_DECLARE_METATYPE(QEasingCurve)
 Q_DECLARE_METATYPE(QEasingCurve *)
+Q_DECLARE_METATYPE(const QEasingCurve *)
 
-class QtScriptQLine final : public QtScriptBaseClassPrototype<QLine>
+class QtScriptQLine final : public QtScriptBaseClassPrototype<QLine, false>
 {
 	Q_OBJECT
 
@@ -800,10 +801,10 @@ public:
 	Q_INVOKABLE void setPoints(const QPoint& p1, const QPoint& p2);
 };
 
-Q_DECLARE_METATYPE(QLine)
 Q_DECLARE_METATYPE(QLine *)
+Q_DECLARE_METATYPE(const QLine *)
 
-class QtScriptQLineF final : public QtScriptBaseClassPrototype<QLineF>
+class QtScriptQLineF final : public QtScriptBaseClassPrototype<QLineF, false>
 {
 	Q_OBJECT
 
@@ -856,10 +857,10 @@ public:
 	static QScriptValue fromPolar(QScriptContext *context, QScriptEngine* engine);
 };
 
-Q_DECLARE_METATYPE(QLineF)
 Q_DECLARE_METATYPE(QLineF *)
+Q_DECLARE_METATYPE(const QLineF *)
 
-class QtScriptQMargins final : public QtScriptBaseClassPrototype<QMargins>
+class QtScriptQMargins final : public QtScriptBaseClassPrototype<QMargins, false>
 {
 	Q_OBJECT
 
@@ -895,8 +896,9 @@ public:
 
 Q_DECLARE_METATYPE(QMargins)
 Q_DECLARE_METATYPE(QMargins *)
+Q_DECLARE_METATYPE(const QMargins *)
 
-class QtScriptQMarginsF final : public QtScriptBaseClassPrototype<QMarginsF>
+class QtScriptQMarginsF final : public QtScriptBaseClassPrototype<QMarginsF, false>
 {
 	Q_OBJECT
 
@@ -933,6 +935,7 @@ public:
 
 Q_DECLARE_METATYPE(QMarginsF)
 Q_DECLARE_METATYPE(QMarginsF *)
+Q_DECLARE_METATYPE(const QMarginsF *)
 
 class QtScriptQParallelAnimationGroup : public QtScriptQAnimationGroup
 {
@@ -953,6 +956,7 @@ public:
 };
 
 Q_DECLARE_METATYPE(QParallelAnimationGroup *)
+Q_DECLARE_METATYPE(const QParallelAnimationGroup *)
 
 class QtScriptQPauseAnimation : public QtScriptQAbstractAnimation
 {
@@ -975,6 +979,7 @@ public:
 };
 
 Q_DECLARE_METATYPE(QPauseAnimation *)
+Q_DECLARE_METATYPE(const QPauseAnimation *)
 
 class QtScriptQVariantAnimation : public QtScriptQAbstractAnimation
 {
@@ -992,7 +997,6 @@ public:
 	static void Register(const QScriptValue &targetNamespace);
 
 	Q_PROPERTY(QEasingCurve easingCurve READ easingCurve WRITE setEasingCurve)
-	Q_PROPERTY(QVector<QPair<double, QVariant>> keyValues READ keyValues WRITE setKeyValues)
 	Q_PROPERTY(QVariant endValue READ endValue WRITE setEndValue)
 	Q_PROPERTY(QVariant startValue READ startValue WRITE setStartValue)
 	Q_PROPERTY(int duration READ duration WRITE setDuration)
@@ -1000,19 +1004,17 @@ public:
 	Q_INVOKABLE QVariant currentValue();
 	Q_INVOKABLE void setKeyValueAt(qreal step, const QVariant& value);
 	void setEasingCurve(const QEasingCurve& easing);
-	void setKeyValues(const QVector<QPair<double, QVariant>>& values);
-	QVector<QPair<double, QVariant>> keyValues();
 	QEasingCurve easingCurve();
 	void setEndValue(const QVariant& value);
 	QVariant endValue();
 	int duration();
-	Q_INVOKABLE void valueChanged(const QVariant& value);
 	void setStartValue(const QVariant& value);
 	void setDuration(int msecs);
 	QVariant startValue();
 };
 
 Q_DECLARE_METATYPE(QVariantAnimation *)
+Q_DECLARE_METATYPE(const QVariantAnimation *)
 
 class QtScriptQPropertyAnimation : public QtScriptQVariantAnimation
 {
@@ -1038,8 +1040,9 @@ public:
 };
 
 Q_DECLARE_METATYPE(QPropertyAnimation *)
+Q_DECLARE_METATYPE(const QPropertyAnimation *)
 
-class QtScriptQSize final : public QtScriptBaseClassPrototype<QSize>
+class QtScriptQSize final : public QtScriptBaseClassPrototype<QSize, false>
 {
 	Q_OBJECT
 
@@ -1079,10 +1082,10 @@ public:
 	Q_INVOKABLE void inc(const QSize& arg0);
 };
 
-Q_DECLARE_METATYPE(QSize)
 Q_DECLARE_METATYPE(QSize *)
+Q_DECLARE_METATYPE(const QSize *)
 
-class QtScriptQSizeF final : public QtScriptBaseClassPrototype<QSizeF>
+class QtScriptQSizeF final : public QtScriptBaseClassPrototype<QSizeF, false>
 {
 	Q_OBJECT
 
@@ -1123,10 +1126,10 @@ public:
 	Q_INVOKABLE void inc(const QSizeF& arg0);
 };
 
-Q_DECLARE_METATYPE(QSizeF)
 Q_DECLARE_METATYPE(QSizeF *)
+Q_DECLARE_METATYPE(const QSizeF *)
 
-class QtScriptQRect final : public QtScriptBaseClassPrototype<QRect>
+class QtScriptQRect final : public QtScriptBaseClassPrototype<QRect, false>
 {
 	Q_OBJECT
 
@@ -1217,10 +1220,10 @@ public:
 	int left();
 };
 
-Q_DECLARE_METATYPE(QRect)
 Q_DECLARE_METATYPE(QRect *)
+Q_DECLARE_METATYPE(const QRect *)
 
-class QtScriptQRectF final : public QtScriptBaseClassPrototype<QRectF>
+class QtScriptQRectF final : public QtScriptBaseClassPrototype<QRectF, false>
 {
 	Q_OBJECT
 
@@ -1312,8 +1315,8 @@ public:
 	qreal left();
 };
 
-Q_DECLARE_METATYPE(QRectF)
 Q_DECLARE_METATYPE(QRectF *)
+Q_DECLARE_METATYPE(const QRectF *)
 
 class QtScriptQSaveFile : public QtScriptQFileDevice
 {
@@ -1339,6 +1342,7 @@ public:
 };
 
 Q_DECLARE_METATYPE(QSaveFile *)
+Q_DECLARE_METATYPE(const QSaveFile *)
 
 class QtScriptQSequentialAnimationGroup : public QtScriptQAnimationGroup
 {
@@ -1358,11 +1362,11 @@ public:
 	Q_INVOKABLE int duration();
 	Q_INVOKABLE QPauseAnimation* addPause(int msecs);
 	Q_INVOKABLE QPauseAnimation* insertPause(int index, int msecs);
-	Q_INVOKABLE void currentAnimationChanged(QAbstractAnimation* current);
 	Q_INVOKABLE QAbstractAnimation* currentAnimation();
 };
 
 Q_DECLARE_METATYPE(QSequentialAnimationGroup *)
+Q_DECLARE_METATYPE(const QSequentialAnimationGroup *)
 
 class QtScriptQSettings : public QtScriptQObject
 {
@@ -1406,6 +1410,7 @@ public:
 	QTextCodec* iniCodec();
 	Q_INVOKABLE QString organizationName();
 	Q_INVOKABLE void clear();
+	Q_INVOKABLE QVariant value(const QString& key);
 	Q_INVOKABLE QVariant value(const QString& key, const QVariant& defaultValue);
 	Q_INVOKABLE int beginReadArray(const QString& prefix);
 	Q_INVOKABLE void endArray();
@@ -1417,8 +1422,9 @@ public:
 };
 
 Q_DECLARE_METATYPE(QSettings *)
+Q_DECLARE_METATYPE(const QSettings *)
 
-class QtScriptQStandardPaths : public QtScriptBaseClassPrototype<QStandardPaths *>
+class QtScriptQStandardPaths : public QtScriptBaseClassPrototype<QStandardPaths *, true>
 {
 	Q_OBJECT
 
@@ -1445,8 +1451,9 @@ public:
 };
 
 Q_DECLARE_METATYPE(QStandardPaths *)
+Q_DECLARE_METATYPE(const QStandardPaths *)
 
-class QtScriptQTemporaryDir : public QtScriptBaseClassPrototype<QTemporaryDir *>
+class QtScriptQTemporaryDir : public QtScriptBaseClassPrototype<QTemporaryDir *, false>
 {
 	Q_OBJECT
 
@@ -1471,7 +1478,9 @@ public:
 	Q_INVOKABLE QString path();
 };
 
+Q_DECLARE_METATYPE(QtScriptQTemporaryDir::StorageType)
 Q_DECLARE_METATYPE(QTemporaryDir *)
+Q_DECLARE_METATYPE(const QTemporaryDir *)
 
 class QtScriptQTemporaryFile : public QtScriptQFile
 {
@@ -1500,8 +1509,9 @@ public:
 };
 
 Q_DECLARE_METATYPE(QTemporaryFile *)
+Q_DECLARE_METATYPE(const QTemporaryFile *)
 
-class QtScriptQTextCodec : public QtScriptBaseClassPrototype<QTextCodec *>
+class QtScriptQTextCodec : public QtScriptBaseClassPrototype<QTextCodec *, true>
 {
 	Q_OBJECT
 
@@ -1535,8 +1545,9 @@ public:
 };
 
 Q_DECLARE_METATYPE(QTextCodec *)
+Q_DECLARE_METATYPE(const QTextCodec *)
 
-class QtScriptQTextEncoder : public QtScriptBaseClassPrototype<QTextEncoder *>
+class QtScriptQTextEncoder : public QtScriptBaseClassPrototype<QTextEncoder *, false>
 {
 	Q_OBJECT
 
@@ -1555,9 +1566,11 @@ public:
 	Q_INVOKABLE bool hasFailure();
 };
 
+Q_DECLARE_METATYPE(QtScriptQTextEncoder::StorageType)
 Q_DECLARE_METATYPE(QTextEncoder *)
+Q_DECLARE_METATYPE(const QTextEncoder *)
 
-class QtScriptQTextDecoder : public QtScriptBaseClassPrototype<QTextDecoder *>
+class QtScriptQTextDecoder : public QtScriptBaseClassPrototype<QTextDecoder *, false>
 {
 	Q_OBJECT
 
@@ -1576,7 +1589,9 @@ public:
 	Q_INVOKABLE QString toUnicode(const QByteArray& ba);
 };
 
+Q_DECLARE_METATYPE(QtScriptQTextDecoder::StorageType)
 Q_DECLARE_METATYPE(QTextDecoder *)
+Q_DECLARE_METATYPE(const QTextDecoder *)
 
 class QtScriptQTimeLine : public QtScriptQObject
 {
@@ -1605,24 +1620,20 @@ public:
 	Q_INVOKABLE void toggleDirection();
 	void setCurveShape(int shape);
 	Q_INVOKABLE qreal currentValue();
-	Q_INVOKABLE void stateChanged(int newState, QTimeLine::QPrivateSignal arg0);
 	void setEasingCurve(const QEasingCurve& curve);
 	void setCurrentTime(int msec);
 	Q_INVOKABLE void setFrameRange(int startFrame, int endFrame);
 	int duration();
-	Q_INVOKABLE void frameChanged(int arg0, QTimeLine::QPrivateSignal arg1);
 	int loopCount();
 	void setDirection(int direction);
 	Q_INVOKABLE qreal valueForTime(int msec);
 	Q_INVOKABLE void start();
 	Q_INVOKABLE int state();
-	Q_INVOKABLE void valueChanged(qreal x, QTimeLine::QPrivateSignal arg0);
 	int direction();
 	void setLoopCount(int count);
 	Q_INVOKABLE int frameForTime(int msec);
 	int endFrame();
 	Q_INVOKABLE void stop();
-	Q_INVOKABLE void finished(QTimeLine::QPrivateSignal arg0);
 	int startFrame();
 	int updateInterval();
 	Q_INVOKABLE int currentFrame();
@@ -1638,8 +1649,9 @@ public:
 };
 
 Q_DECLARE_METATYPE(QTimeLine *)
+Q_DECLARE_METATYPE(const QTimeLine *)
 
-class QtScriptQUrl final : public QtScriptBaseClassPrototype<QUrl>
+class QtScriptQUrl final : public QtScriptBaseClassPrototype<QUrl, false>
 {
 	Q_OBJECT
 
@@ -1665,12 +1677,11 @@ public:
 	Q_PROPERTY(QString query READ query WRITE setQuery)
 	Q_PROPERTY(QString userInfo READ userInfo WRITE setUserInfo)
 	Q_PROPERTY(int port READ port WRITE setPort)
-	Q_INVOKABLE bool isDetached();
-	Q_INVOKABLE QUrl adjusted(QUrlTwoFlags<QUrl::UrlFormattingOption, QUrl::ComponentFormattingOption> options);
-	Q_INVOKABLE void set(const QUrl& copy);
 	Q_INVOKABLE bool notEquals(const QUrl& url);
+	Q_INVOKABLE QUrl adjusted(int options);
+	Q_INVOKABLE void set(const QUrl& copy);
 	Q_INVOKABLE bool isRelative();
-	Q_INVOKABLE bool matches(const QUrl& url, QUrlTwoFlags<QUrl::UrlFormattingOption, QUrl::ComponentFormattingOption> options);
+	Q_INVOKABLE bool matches(const QUrl& url, int options);
 	QString authority();
 	QString authority(int options);
 	Q_INVOKABLE bool equals(const QUrl& url);
@@ -1680,7 +1691,7 @@ public:
 	QString query();
 	QString query(int arg0);
 	Q_INVOKABLE QString toDisplayString();
-	Q_INVOKABLE QString toDisplayString(QUrlTwoFlags<QUrl::UrlFormattingOption, QUrl::ComponentFormattingOption> options);
+	Q_INVOKABLE QString toDisplayString(int options);
 	int port();
 	int port(int defaultPort);
 	Q_INVOKABLE QString topLevelDomain();
@@ -1690,7 +1701,7 @@ public:
 	void setHost(const QString& host);
 	void setHost(const QString& host, int mode);
 	Q_INVOKABLE QString toString();
-	Q_INVOKABLE QString toString(QUrlTwoFlags<QUrl::UrlFormattingOption, QUrl::ComponentFormattingOption> options);
+	Q_INVOKABLE QString toString(int options);
 	Q_INVOKABLE void swap(QUrl& other);
 	void setPassword(const QString& password);
 	void setPassword(const QString& password, int mode);
@@ -1719,12 +1730,11 @@ public:
 	QString password(int arg0);
 	Q_INVOKABLE bool hasQuery();
 	Q_INVOKABLE QByteArray toEncoded();
-	Q_INVOKABLE QByteArray toEncoded(QUrlTwoFlags<QUrl::UrlFormattingOption, QUrl::ComponentFormattingOption> options);
+	Q_INVOKABLE QByteArray toEncoded(int options);
 	QString userName();
 	QString userName(int options);
-	Q_INVOKABLE QUrlPrivate* data_ptr();
 	QString url();
-	QString url(QUrlTwoFlags<QUrl::UrlFormattingOption, QUrl::ComponentFormattingOption> options);
+	QString url(int options);
 	Q_INVOKABLE void clear();
 	void setAuthority(const QString& authority);
 	void setAuthority(const QString& authority, int mode);
@@ -1750,10 +1760,10 @@ public:
 	static QScriptValue idnWhitelist(QScriptContext *context, QScriptEngine* engine);
 };
 
-Q_DECLARE_METATYPE(QUrl)
 Q_DECLARE_METATYPE(QUrl *)
+Q_DECLARE_METATYPE(const QUrl *)
 
-class QtScriptQUrlQuery final : public QtScriptBaseClassPrototype<QUrlQuery>
+class QtScriptQUrlQuery final : public QtScriptBaseClassPrototype<QUrlQuery, false>
 {
 	Q_OBJECT
 
@@ -1768,39 +1778,34 @@ public:
 	explicit QtScriptQUrlQuery(QScriptEngine *engine);
 	static void Register(const QScriptValue &targetNamespace);
 
-	Q_PROPERTY(QList<QPair<QString, QString>> queryItems READ queryItems WRITE setQueryItems)
 	Q_PROPERTY(QString query READ query WRITE setQuery)
 	Q_INVOKABLE bool notEquals(const QUrlQuery& other);
 	Q_INVOKABLE void addQueryItem(const QString& key, const QString& value);
 	Q_INVOKABLE void set(const QUrlQuery& other);
-	void setQueryItems(const QList<QPair<QString, QString>>& query);
-	Q_INVOKABLE bool hasQueryItem(const QString& key);
-	QString query();
-	QString query(int encoding);
-	Q_INVOKABLE QChar queryValueDelimiter();
-	Q_INVOKABLE void removeAllQueryItems(const QString& key);
-	Q_INVOKABLE bool isEmpty();
-	Q_INVOKABLE void swap(QUrlQuery& other);
-	Q_INVOKABLE QString toString();
-	Q_INVOKABLE QString toString(int encoding);
-	Q_INVOKABLE QSharedDataPointer<QUrlQueryPrivate> data_ptr();
-	Q_INVOKABLE bool isDetached();
+	void setQuery(const QString& queryString);
 	Q_INVOKABLE QString queryItemValue(const QString& key);
 	Q_INVOKABLE QString queryItemValue(const QString& key, int encoding);
-	Q_INVOKABLE bool equals(const QUrlQuery& other);
-	Q_INVOKABLE void setQueryDelimiters(QChar valueDelimiter, QChar pairDelimiter);
-	QList<QPair<QString, QString>> queryItems();
-	QList<QPair<QString, QString>> queryItems(int encoding);
 	Q_INVOKABLE void clear();
+	Q_INVOKABLE bool equals(const QUrlQuery& other);
+	Q_INVOKABLE bool hasQueryItem(const QString& key);
+	Q_INVOKABLE void removeAllQueryItems(const QString& key);
 	Q_INVOKABLE QChar queryPairDelimiter();
 	Q_INVOKABLE QStringList allQueryItemValues(const QString& key);
 	Q_INVOKABLE QStringList allQueryItemValues(const QString& key, int encoding);
-	void setQuery(const QString& queryString);
+	Q_INVOKABLE bool isEmpty();
+	Q_INVOKABLE void swap(QUrlQuery& other);
+	QString query();
+	QString query(int encoding);
+	Q_INVOKABLE QString toString();
+	Q_INVOKABLE QString toString(int encoding);
+	Q_INVOKABLE void setQueryDelimiters(QChar valueDelimiter, QChar pairDelimiter);
 	Q_INVOKABLE void removeQueryItem(const QString& key);
+	Q_INVOKABLE QChar queryValueDelimiter();
 	static QScriptValue defaultQueryValueDelimiter(QScriptContext *context, QScriptEngine* engine);
 	static QScriptValue defaultQueryPairDelimiter(QScriptContext *context, QScriptEngine* engine);
 };
 
 Q_DECLARE_METATYPE(QUrlQuery)
 Q_DECLARE_METATYPE(QUrlQuery *)
+Q_DECLARE_METATYPE(const QUrlQuery *)
 

@@ -2,6 +2,9 @@
 
 #include "QtScriptBaseClassPrototype.h"
 
+Q_DECLARE_METATYPE(QByteArray *)
+Q_DECLARE_METATYPE(const QByteArray *)
+
 class QtScriptQByteArray final : public QtScriptBaseClassPrototype<QByteArray>
 {
 	Q_OBJECT
@@ -92,10 +95,6 @@ protected:
 		QScriptContext *context, QByteArray &out) override;
 
 	static void fromScriptValue(const QScriptValue &value, QByteArray &out);
-	static void ptrFromScriptValue(const QScriptValue &value, QByteArray *&out);
-
-	static QScriptValue ptrToScriptValue(
-		QScriptEngine *engine, QByteArray *const &object);
 
 	static QScriptValue toScriptValue(
 		QScriptEngine *engine, const QByteArray &object);

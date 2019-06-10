@@ -54,9 +54,6 @@ void QtScriptQByteArray::Register(const QScriptValue &targetNamespace)
 
 	qScriptRegisterMetaType<QByteArray>(engine,
 		QtScriptQByteArray::toScriptValue, QtScriptQByteArray::fromScriptValue);
-	qScriptRegisterMetaType<QByteArray *>(engine,
-		QtScriptQByteArray::ptrToScriptValue,
-		QtScriptQByteArray::ptrFromScriptValue);
 }
 
 void QtScriptQByteArray::fromScriptValue(
@@ -83,21 +80,6 @@ void QtScriptQByteArray::fromScriptValue(
 		else
 			out = tempBa;
 	}
-}
-
-void QtScriptQByteArray::ptrFromScriptValue(
-	const QScriptValue &value, QByteArray *&out)
-{
-	out = getByteArrayPtr(value);
-}
-
-QScriptValue QtScriptQByteArray::ptrToScriptValue(
-	QScriptEngine *engine, QByteArray *const &object)
-{
-	if (object)
-		return toScriptValue(engine, *object);
-
-	return engine->nullValue();
 }
 
 QScriptValue QtScriptQByteArray::toScriptValue(
@@ -386,9 +368,9 @@ QString QtScriptQByteArray::toString() const
 {
 	auto ba = thisByteArray();
 	if (nullptr == ba)
-		return name();
+		return mClassName;
 
-	return QStringLiteral("%1(length=%2)").arg(name()).arg(ba->size());
+	return QStringLiteral("%1(length=%2)").arg(mClassName).arg(ba->size());
 }
 
 QString QtScriptQByteArray::toStringLatin() const
@@ -456,7 +438,7 @@ QString QtScriptQByteArray::join(const QString &separator) const
 	{
 		for (char c : *ba)
 		{
-			if (not result.isEmpty())
+			if (!result.isEmpty())
 				result += separator;
 			result += QString::number(int(c));
 		}
@@ -543,7 +525,7 @@ QScriptValue QtScriptQByteArray::sort(QScriptValue compareFn)
 	{
 		if (compareFn.isValid())
 		{
-			if (not compareFn.isFunction())
+			if (!compareFn.isFunction())
 			{
 				return QtScriptUtils::badArgumentsException(
 					context(), QBSTRKEY(qt.ByteArray.sort));
@@ -631,7 +613,7 @@ bool QtScriptQByteArray::every(
 	if (nullptr == ba)
 		return false;
 
-	if (not callback.isFunction())
+	if (!callback.isFunction())
 	{
 		QtScriptUtils::badArgumentsException(
 			context(), QBSTRKEY(qt.ByteArray.every));
@@ -674,7 +656,7 @@ bool QtScriptQByteArray::some(
 		return false;
 
 	auto engine = this->engine();
-	if (not callback.isFunction())
+	if (!callback.isFunction())
 	{
 		QtScriptUtils::badArgumentsException(
 			context(), QBSTRKEY(qt.ByteArray.some));
@@ -709,7 +691,7 @@ void QtScriptQByteArray::forEach(
 		return;
 
 	auto engine = this->engine();
-	if (not callback.isFunction())
+	if (!callback.isFunction())
 	{
 		QtScriptUtils::badArgumentsException(
 			context(), QBSTRKEY(qt.ByteArray.forEach));
@@ -739,7 +721,7 @@ QScriptValue QtScriptQByteArray::map(
 		return QScriptValue();
 
 	auto engine = this->engine();
-	if (not callback.isFunction())
+	if (!callback.isFunction())
 	{
 		return QtScriptUtils::badArgumentsException(
 			context(), QBSTRKEY(qt.ByteArray.map));
@@ -772,7 +754,7 @@ QByteArray QtScriptQByteArray::mapBytes(
 		return QByteArray();
 
 	auto engine = this->engine();
-	if (not callback.isFunction())
+	if (!callback.isFunction())
 	{
 		QtScriptUtils::badArgumentsException(
 			context(), QBSTRKEY(qt.ByteArray.mapBytes));
@@ -809,7 +791,7 @@ QByteArray QtScriptQByteArray::filter(
 		return result;
 
 	auto engine = this->engine();
-	if (not callback.isFunction())
+	if (!callback.isFunction())
 	{
 		QtScriptUtils::badArgumentsException(
 			context(), QBSTRKEY(qt.ByteArray.filter));
@@ -848,7 +830,7 @@ QScriptValue QtScriptQByteArray::reduce(
 
 	auto engine = this->engine();
 
-	if (not callback.isFunction())
+	if (!callback.isFunction())
 	{
 		return QtScriptUtils::badArgumentsException(
 			context(), QBSTRKEY(qt.ByteArray.reduce));
@@ -882,7 +864,7 @@ QScriptValue QtScriptQByteArray::reduceRight(
 		return QScriptValue();
 
 	auto engine = this->engine();
-	if (not callback.isFunction())
+	if (!callback.isFunction())
 	{
 		return QtScriptUtils::badArgumentsException(
 			context(), QBSTRKEY(qt.ByteArray.reduceRight));
@@ -925,10 +907,7 @@ bool QtScriptQByteArray::constructObject(
 	switch (argc)
 	{
 		case 0:
-		{
-			out = QByteArray();
 			return true;
-		}
 
 		case 1:
 		case 2:

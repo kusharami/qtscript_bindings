@@ -26,5 +26,18 @@ public:
 	static bool checkArgumentCount(
 		QScriptContext *context, int minArgs, int maxArgs);
 	static QScriptValue getNamespaceObject(
-		QScriptEngine *engine, std::initializer_list<const char *> ns_list);
+		QScriptEngine *engine, const QByteArray &nslist);
+
+	template <typename ENUM_T>
+	static QScriptValue enumToScriptValue(
+		QScriptEngine *engine, const ENUM_T &in)
+	{
+		return QScriptValue(engine, qint32(in));
+	}
+
+	template <typename ENUM_T>
+	static void enumFromScriptValue(const QScriptValue &object, ENUM_T &out)
+	{
+		out = ENUM_T(object.toInt32());
+	}
 };

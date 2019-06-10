@@ -1,4 +1,6 @@
 #include "qtscript_core.hpp"
+#include "QtScriptUtils.h"
+#include "QtScriptQByteArray.h"
 
 QtScriptQAbstractAnimation::QtScriptQAbstractAnimation(QScriptEngine *engine, const QByteArray &className)
 	: QtScriptQObject(engine, className)
@@ -65,15 +67,6 @@ QAnimationGroup* QtScriptQAbstractAnimation::group()
 	return nullptr;
 }
 
-void QtScriptQAbstractAnimation::stateChanged(int newState, int oldState)
-{
-	auto __o = this->thiz<QAbstractAnimation *>();
-	if (__o)
-	{
-		__o->stateChanged(int(newState), int(oldState));
-	}
-}
-
 int QtScriptQAbstractAnimation::loopCount()
 {
 	auto __o = this->thiz<QAbstractAnimation *>();
@@ -104,30 +97,21 @@ int QtScriptQAbstractAnimation::currentLoopTime()
 	return 0;
 }
 
-void QtScriptQAbstractAnimation::directionChanged(int arg0)
-{
-	auto __o = this->thiz<QAbstractAnimation *>();
-	if (__o)
-	{
-		__o->directionChanged(int(arg0));
-	}
-}
-
 void QtScriptQAbstractAnimation::setDirection(int direction)
 {
 	auto __o = this->thiz<QAbstractAnimation *>();
 	if (__o)
 	{
-		__o->setDirection(int(direction));
+		__o->setDirection(QAbstractAnimation::Direction(direction));
 	}
 }
 
-void QtScriptQAbstractAnimation::finished()
+void QtScriptQAbstractAnimation::stop()
 {
 	auto __o = this->thiz<QAbstractAnimation *>();
 	if (__o)
 	{
-		__o->finished();
+		__o->stop();
 	}
 }
 
@@ -150,15 +134,6 @@ void QtScriptQAbstractAnimation::resume()
 	}
 }
 
-void QtScriptQAbstractAnimation::stop()
-{
-	auto __o = this->thiz<QAbstractAnimation *>();
-	if (__o)
-	{
-		__o->stop();
-	}
-}
-
 void QtScriptQAbstractAnimation::start()
 {
 	auto __o = this->thiz<QAbstractAnimation *>();
@@ -173,7 +148,7 @@ void QtScriptQAbstractAnimation::start(int policy)
 	auto __o = this->thiz<QAbstractAnimation *>();
 	if (__o)
 	{
-		__o->start(int(policy));
+		__o->start(QAbstractAnimation::DeletionPolicy(policy));
 	}
 }
 
@@ -205,15 +180,6 @@ void QtScriptQAbstractAnimation::setCurrentTime(int msecs)
 	}
 }
 
-void QtScriptQAbstractAnimation::currentLoopChanged(int currentLoop)
-{
-	auto __o = this->thiz<QAbstractAnimation *>();
-	if (__o)
-	{
-		__o->currentLoopChanged(currentLoop);
-	}
-}
-
 void QtScriptQAbstractAnimation::setPaused(bool arg0)
 {
 	auto __o = this->thiz<QAbstractAnimation *>();
@@ -234,7 +200,7 @@ int QtScriptQAbstractAnimation::totalDuration()
 }
 
 QtScriptQPoint::QtScriptQPoint(QScriptEngine *engine, const QByteArray &className)
-	: QtScriptBaseClassPrototype<QPoint>(engine, className)
+	: QtScriptBaseClassPrototype<QPoint, false>(engine, className)
 {
 }
 
@@ -411,7 +377,6 @@ bool QtScriptQPoint::constructObject(QScriptContext *context, NativeObjectType &
 	{
 		case 0:
 		{
-			out = QPoint();
 			ok = true;
 			break;
 		}
@@ -438,7 +403,7 @@ bool QtScriptQPoint::constructObject(QScriptContext *context, NativeObjectType &
 }
 
 QtScriptQPointF::QtScriptQPointF(QScriptEngine *engine, const QByteArray &className)
-	: QtScriptBaseClassPrototype<QPointF>(engine, className)
+	: QtScriptBaseClassPrototype<QPointF, false>(engine, className)
 {
 }
 
@@ -625,7 +590,6 @@ bool QtScriptQPointF::constructObject(QScriptContext *context, NativeObjectType 
 	{
 		case 0:
 		{
-			out = QPointF();
 			ok = true;
 			break;
 		}
@@ -811,15 +775,6 @@ void QtScriptQIODevice::setCurrentWriteChannel(int channel)
 	}
 }
 
-void QtScriptQIODevice::channelBytesWritten(int channel, qint64 bytes)
-{
-	auto __o = this->thiz<QIODevice *>();
-	if (__o)
-	{
-		__o->channelBytesWritten(channel, bytes);
-	}
-}
-
 qint64 QtScriptQIODevice::bytesAvailable()
 {
 	auto __o = this->thiz<QIODevice *>();
@@ -847,15 +802,6 @@ qint64 QtScriptQIODevice::pos()
 		return __o->pos();
 	}
 	return static_cast<qint64>(0);
-}
-
-void QtScriptQIODevice::channelReadyRead(int channel)
-{
-	auto __o = this->thiz<QIODevice *>();
-	if (__o)
-	{
-		__o->channelReadyRead(channel);
-	}
 }
 
 qint64 QtScriptQIODevice::bytesToWrite()
@@ -925,15 +871,6 @@ qint64 QtScriptQIODevice::size()
 	return static_cast<qint64>(0);
 }
 
-void QtScriptQIODevice::readyRead()
-{
-	auto __o = this->thiz<QIODevice *>();
-	if (__o)
-	{
-		__o->readyRead();
-	}
-}
-
 bool QtScriptQIODevice::canReadLine()
 {
 	auto __o = this->thiz<QIODevice *>();
@@ -979,7 +916,7 @@ bool QtScriptQIODevice::open(int mode)
 	auto __o = this->thiz<QIODevice *>();
 	if (__o)
 	{
-		return __o->open(mode);
+		return __o->open(QFlags<QIODevice::OpenModeFlag>(mode));
 	}
 	return false;
 }
@@ -1012,15 +949,6 @@ qint64 QtScriptQIODevice::write(const QByteArray& data, qint64 len)
 		return __o->write(data.data(), len);
 	}
 	return static_cast<qint64>(0);
-}
-
-void QtScriptQIODevice::readChannelFinished()
-{
-	auto __o = this->thiz<QIODevice *>();
-	if (__o)
-	{
-		__o->readChannelFinished();
-	}
 }
 
 int QtScriptQIODevice::currentReadChannel()
@@ -1201,24 +1129,6 @@ bool QtScriptQIODevice::waitForReadyRead(int msecs)
 	return false;
 }
 
-void QtScriptQIODevice::bytesWritten(qint64 bytes)
-{
-	auto __o = this->thiz<QIODevice *>();
-	if (__o)
-	{
-		__o->bytesWritten(bytes);
-	}
-}
-
-void QtScriptQIODevice::aboutToClose()
-{
-	auto __o = this->thiz<QIODevice *>();
-	if (__o)
-	{
-		__o->aboutToClose();
-	}
-}
-
 int QtScriptQIODevice::writeChannelCount()
 {
 	auto __o = this->thiz<QIODevice *>();
@@ -1393,7 +1303,7 @@ bool QtScriptQBuffer::constructObject(QScriptContext *context, NativeObjectType 
 }
 
 QtScriptQLocale::QtScriptQLocale(QScriptEngine *engine, const QByteArray &className)
-	: QtScriptBaseClassPrototype<QLocale>(engine, className)
+	: QtScriptBaseClassPrototype<QLocale, false>(engine, className)
 {
 }
 
@@ -1453,24 +1363,24 @@ bool QtScriptQLocale::notEquals(const QLocale& other)
 	return false;
 }
 
-unsigned short QtScriptQLocale::toUShort(const QString& s)
+ushort QtScriptQLocale::toUShort(const QString& s)
 {
 	auto __o = this->thiz<QLocale *>();
 	if (__o)
 	{
 		return __o->toUShort(s);
 	}
-	return static_cast<unsigned short>(0);
+	return static_cast<ushort>(0);
 }
 
-unsigned short QtScriptQLocale::toUShort(const QString& s, bool* ok)
+ushort QtScriptQLocale::toUShort(const QString& s, bool* ok)
 {
 	auto __o = this->thiz<QLocale *>();
 	if (__o)
 	{
 		return __o->toUShort(s, ok);
 	}
-	return static_cast<unsigned short>(0);
+	return static_cast<ushort>(0);
 }
 
 void QtScriptQLocale::set(const QLocale& other)
@@ -1492,24 +1402,24 @@ QStringList QtScriptQLocale::uiLanguages()
 	return QStringList();
 }
 
-unsigned int QtScriptQLocale::toUInt(const QString& s)
+uint QtScriptQLocale::toUInt(const QString& s)
 {
 	auto __o = this->thiz<QLocale *>();
 	if (__o)
 	{
 		return __o->toUInt(s);
 	}
-	return static_cast<unsigned int>(0);
+	return static_cast<uint>(0);
 }
 
-unsigned int QtScriptQLocale::toUInt(const QString& s, bool* ok)
+uint QtScriptQLocale::toUInt(const QString& s, bool* ok)
 {
 	auto __o = this->thiz<QLocale *>();
 	if (__o)
 	{
 		return __o->toUInt(s, ok);
 	}
-	return static_cast<unsigned int>(0);
+	return static_cast<uint>(0);
 }
 
 QString QtScriptQLocale::currencySymbol()
@@ -1527,7 +1437,7 @@ QString QtScriptQLocale::currencySymbol(int arg0)
 	auto __o = this->thiz<QLocale *>();
 	if (__o)
 	{
-		return __o->currencySymbol(int(arg0));
+		return __o->currencySymbol(QLocale::CurrencySymbolFormat(arg0));
 	}
 	return QString();
 }
@@ -1567,7 +1477,7 @@ QString QtScriptQLocale::dayName(int arg0, int format)
 	auto __o = this->thiz<QLocale *>();
 	if (__o)
 	{
-		return __o->dayName(arg0, int(format));
+		return __o->dayName(arg0, QLocale::FormatType(format));
 	}
 	return QString();
 }
@@ -1587,7 +1497,7 @@ QString QtScriptQLocale::dateTimeFormat(int format)
 	auto __o = this->thiz<QLocale *>();
 	if (__o)
 	{
-		return __o->dateTimeFormat(int(format));
+		return __o->dateTimeFormat(QLocale::FormatType(format));
 	}
 	return QString();
 }
@@ -1627,7 +1537,7 @@ QDate QtScriptQLocale::toDate(const QString& string, int arg0)
 	auto __o = this->thiz<QLocale *>();
 	if (__o)
 	{
-		return __o->toDate(string, int(arg0));
+		return __o->toDate(string, QLocale::FormatType(arg0));
 	}
 	return QDate();
 }
@@ -1687,7 +1597,7 @@ QString QtScriptQLocale::standaloneMonthName(int arg0, int format)
 	auto __o = this->thiz<QLocale *>();
 	if (__o)
 	{
-		return __o->standaloneMonthName(arg0, int(format));
+		return __o->standaloneMonthName(arg0, QLocale::FormatType(format));
 	}
 	return QString();
 }
@@ -1712,24 +1622,24 @@ QList<Qt::DayOfWeek> QtScriptQLocale::weekdays()
 	return QList<Qt::DayOfWeek>();
 }
 
-long long QtScriptQLocale::toLongLong(const QString& s)
+qlonglong QtScriptQLocale::toLongLong(const QString& s)
 {
 	auto __o = this->thiz<QLocale *>();
 	if (__o)
 	{
 		return __o->toLongLong(s);
 	}
-	return static_cast<long long>(0);
+	return static_cast<qlonglong>(0);
 }
 
-long long QtScriptQLocale::toLongLong(const QString& s, bool* ok)
+qlonglong QtScriptQLocale::toLongLong(const QString& s, bool* ok)
 {
 	auto __o = this->thiz<QLocale *>();
 	if (__o)
 	{
 		return __o->toLongLong(s, ok);
 	}
-	return static_cast<long long>(0);
+	return static_cast<qlonglong>(0);
 }
 
 QChar QtScriptQLocale::negativeSign()
@@ -1742,7 +1652,7 @@ QChar QtScriptQLocale::negativeSign()
 	return QChar();
 }
 
-QString QtScriptQLocale::toString(long long i)
+QString QtScriptQLocale::toString(qlonglong i)
 {
 	auto __o = this->thiz<QLocale *>();
 	if (__o)
@@ -1796,7 +1706,7 @@ QString QtScriptQLocale::monthName(int arg0, int format)
 	auto __o = this->thiz<QLocale *>();
 	if (__o)
 	{
-		return __o->monthName(arg0, int(format));
+		return __o->monthName(arg0, QLocale::FormatType(format));
 	}
 	return QString();
 }
@@ -1816,7 +1726,7 @@ QString QtScriptQLocale::standaloneDayName(int arg0, int format)
 	auto __o = this->thiz<QLocale *>();
 	if (__o)
 	{
-		return __o->standaloneDayName(arg0, int(format));
+		return __o->standaloneDayName(arg0, QLocale::FormatType(format));
 	}
 	return QString();
 }
@@ -1866,7 +1776,7 @@ QDateTime QtScriptQLocale::toDateTime(const QString& string, int format)
 	auto __o = this->thiz<QLocale *>();
 	if (__o)
 	{
-		return __o->toDateTime(string, int(format));
+		return __o->toDateTime(string, QLocale::FormatType(format));
 	}
 	return QDateTime();
 }
@@ -1916,7 +1826,7 @@ QString QtScriptQLocale::dateFormat(int format)
 	auto __o = this->thiz<QLocale *>();
 	if (__o)
 	{
-		return __o->dateFormat(int(format));
+		return __o->dateFormat(QLocale::FormatType(format));
 	}
 	return QString();
 }
@@ -1931,7 +1841,17 @@ bool QtScriptQLocale::equals(const QLocale& other)
 	return false;
 }
 
-QString QtScriptQLocale::toCurrencyString(long long arg0, const QString& symbol)
+QString QtScriptQLocale::toCurrencyString(qlonglong arg0)
+{
+	auto __o = this->thiz<QLocale *>();
+	if (__o)
+	{
+		return __o->toCurrencyString(arg0);
+	}
+	return QString();
+}
+
+QString QtScriptQLocale::toCurrencyString(qlonglong arg0, const QString& symbol)
 {
 	auto __o = this->thiz<QLocale *>();
 	if (__o)
@@ -1976,7 +1896,7 @@ QString QtScriptQLocale::timeFormat(int format)
 	auto __o = this->thiz<QLocale *>();
 	if (__o)
 	{
-		return __o->timeFormat(int(format));
+		return __o->timeFormat(QLocale::FormatType(format));
 	}
 	return QString();
 }
@@ -1996,7 +1916,7 @@ QString QtScriptQLocale::quoteString(const QString& str, int style)
 	auto __o = this->thiz<QLocale *>();
 	if (__o)
 	{
-		return __o->quoteString(str, int(style));
+		return __o->quoteString(str, QLocale::QuotationStyle(style));
 	}
 	return QString();
 }
@@ -2011,24 +1931,24 @@ int QtScriptQLocale::numberOptions()
 	return 0;
 }
 
-unsigned long long QtScriptQLocale::toULongLong(const QString& s)
+qulonglong QtScriptQLocale::toULongLong(const QString& s)
 {
 	auto __o = this->thiz<QLocale *>();
 	if (__o)
 	{
 		return __o->toULongLong(s);
 	}
-	return static_cast<unsigned long long>(0);
+	return static_cast<qulonglong>(0);
 }
 
-unsigned long long QtScriptQLocale::toULongLong(const QString& s, bool* ok)
+qulonglong QtScriptQLocale::toULongLong(const QString& s, bool* ok)
 {
 	auto __o = this->thiz<QLocale *>();
 	if (__o)
 	{
 		return __o->toULongLong(s, ok);
 	}
-	return static_cast<unsigned long long>(0);
+	return static_cast<qulonglong>(0);
 }
 
 void QtScriptQLocale::setNumberOptions(int options)
@@ -2036,7 +1956,7 @@ void QtScriptQLocale::setNumberOptions(int options)
 	auto __o = this->thiz<QLocale *>();
 	if (__o)
 	{
-		__o->setNumberOptions(options);
+		__o->setNumberOptions(QFlags<QLocale::NumberOption>(options));
 	}
 }
 
@@ -2145,7 +2065,7 @@ QTime QtScriptQLocale::toTime(const QString& string, int arg0)
 	auto __o = this->thiz<QLocale *>();
 	if (__o)
 	{
-		return __o->toTime(string, int(arg0));
+		return __o->toTime(string, QLocale::FormatType(arg0));
 	}
 	return QTime();
 }
@@ -2202,7 +2122,7 @@ QScriptValue QtScriptQLocale::countryToString(QScriptContext *context, QScriptEn
 		case 1:
 		{
 			auto tmp_0 = qscriptvalue_cast<int>(context->argument(0));
-			auto arg0 = int(tmp_0);
+			auto arg0 = QLocale::Country(tmp_0);
 			return __e->toScriptValue(QLocale::countryToString(arg0));
 		}
 	}
@@ -2266,7 +2186,7 @@ QScriptValue QtScriptQLocale::scriptToString(QScriptContext *context, QScriptEng
 		case 1:
 		{
 			auto tmp_0 = qscriptvalue_cast<int>(context->argument(0));
-			auto arg0 = int(tmp_0);
+			auto arg0 = QLocale::Script(tmp_0);
 			return __e->toScriptValue(QLocale::scriptToString(arg0));
 		}
 	}
@@ -2308,11 +2228,11 @@ QScriptValue QtScriptQLocale::matchingLocales(QScriptContext *context, QScriptEn
 		case 3:
 		{
 			auto tmp_0 = qscriptvalue_cast<int>(context->argument(0));
-			auto arg0 = int(tmp_0);
+			auto arg0 = QLocale::Language(tmp_0);
 			auto tmp_1 = qscriptvalue_cast<int>(context->argument(1));
-			auto arg1 = int(tmp_1);
+			auto arg1 = QLocale::Script(tmp_1);
 			auto tmp_2 = qscriptvalue_cast<int>(context->argument(2));
-			auto arg2 = int(tmp_2);
+			auto arg2 = QLocale::Country(tmp_2);
 			return __e->toScriptValue(QLocale::matchingLocales(arg0, arg1, arg2));
 		}
 	}
@@ -2334,7 +2254,7 @@ QScriptValue QtScriptQLocale::countriesForLanguage(QScriptContext *context, QScr
 		case 1:
 		{
 			auto tmp_0 = qscriptvalue_cast<int>(context->argument(0));
-			auto arg0 = int(tmp_0);
+			auto arg0 = QLocale::Language(tmp_0);
 			return __e->toScriptValue(QLocale::countriesForLanguage(arg0));
 		}
 	}
@@ -2356,7 +2276,7 @@ QScriptValue QtScriptQLocale::languageToString(QScriptContext *context, QScriptE
 		case 1:
 		{
 			auto tmp_0 = qscriptvalue_cast<int>(context->argument(0));
-			auto arg0 = int(tmp_0);
+			auto arg0 = QLocale::Language(tmp_0);
 			return __e->toScriptValue(QLocale::languageToString(arg0));
 		}
 	}
@@ -2385,7 +2305,6 @@ bool QtScriptQLocale::constructObject(QScriptContext *context, NativeObjectType 
 	{
 		case 0:
 		{
-			out = QLocale();
 			ok = true;
 			break;
 		}
@@ -2399,9 +2318,9 @@ bool QtScriptQLocale::constructObject(QScriptContext *context, NativeObjectType 
 		case 2:
 		{
 			auto tmp_0 = qscriptvalue_cast<int>(context->argument(0));
-			auto arg0 = int(tmp_0);
+			auto arg0 = QLocale::Language(tmp_0);
 			auto tmp_1 = qscriptvalue_cast<int>(context->argument(1));
-			auto arg1 = int(tmp_1);
+			auto arg1 = QLocale::Country(tmp_1);
 			out = QLocale(arg0, arg1);
 			ok = true;
 			break;
@@ -2409,11 +2328,11 @@ bool QtScriptQLocale::constructObject(QScriptContext *context, NativeObjectType 
 		case 3:
 		{
 			auto tmp_0 = qscriptvalue_cast<int>(context->argument(0));
-			auto arg0 = int(tmp_0);
+			auto arg0 = QLocale::Language(tmp_0);
 			auto tmp_1 = qscriptvalue_cast<int>(context->argument(1));
-			auto arg1 = int(tmp_1);
+			auto arg1 = QLocale::Script(tmp_1);
 			auto tmp_2 = qscriptvalue_cast<int>(context->argument(2));
-			auto arg2 = int(tmp_2);
+			auto arg2 = QLocale::Country(tmp_2);
 			out = QLocale(arg0, arg1, arg2);
 			ok = true;
 			break;
@@ -2429,7 +2348,7 @@ bool QtScriptQLocale::constructObject(QScriptContext *context, NativeObjectType 
 }
 
 QtScriptQTime::QtScriptQTime(QScriptEngine *engine, const QByteArray &className)
-	: QtScriptBaseClassPrototype<QTime>(engine, className)
+	: QtScriptBaseClassPrototype<QTime, false>(engine, className)
 {
 }
 
@@ -2557,7 +2476,7 @@ QString QtScriptQTime::toString(int f)
 	auto __o = this->thiz<QTime *>();
 	if (__o)
 	{
-		return __o->toString(int(f));
+		return __o->toString(Qt::DateFormat(f));
 	}
 	return QString();
 }
@@ -2720,7 +2639,7 @@ QScriptValue QtScriptQTime::fromString(QScriptContext *context, QScriptEngine* _
 		{
 			auto arg0 = qscriptvalue_cast<QString>(context->argument(0));
 			auto tmp_1 = qscriptvalue_cast<int>(context->argument(1));
-			auto arg1 = int(tmp_1);
+			auto arg1 = Qt::DateFormat(tmp_1);
 			return __e->toScriptValue(QTime::fromString(arg0, arg1));
 		}
 	}
@@ -2821,7 +2740,6 @@ bool QtScriptQTime::constructObject(QScriptContext *context, NativeObjectType &o
 	{
 		case 0:
 		{
-			out = QTime();
 			ok = true;
 			break;
 		}
@@ -2867,7 +2785,7 @@ bool QtScriptQTime::constructObject(QScriptContext *context, NativeObjectType &o
 }
 
 QtScriptQTextStream::QtScriptQTextStream(QScriptEngine *engine, const QByteArray &className)
-	: QtScriptBaseClassPrototype<QTextStream *>(engine, className)
+	: QtScriptBaseClassPrototype<QTextStream *, false>(engine, className)
 {
 }
 
@@ -2956,7 +2874,7 @@ void QtScriptQTextStream::setNumberFlags(int flags)
 	auto __o = this->thiz<QTextStream *>();
 	if (__o)
 	{
-		__o->setNumberFlags(flags);
+		__o->setNumberFlags(QFlags<QTextStream::NumberFlag>(flags));
 	}
 }
 
@@ -3031,7 +2949,7 @@ void QtScriptQTextStream::setStatus(int status)
 	auto __o = this->thiz<QTextStream *>();
 	if (__o)
 	{
-		__o->setStatus(int(status));
+		__o->setStatus(QTextStream::Status(status));
 	}
 }
 
@@ -3050,7 +2968,7 @@ void QtScriptQTextStream::setRealNumberNotation(int notation)
 	auto __o = this->thiz<QTextStream *>();
 	if (__o)
 	{
-		__o->setRealNumberNotation(int(notation));
+		__o->setRealNumberNotation(QTextStream::RealNumberNotation(notation));
 	}
 }
 
@@ -3156,7 +3074,7 @@ void QtScriptQTextStream::setFieldAlignment(int alignment)
 	auto __o = this->thiz<QTextStream *>();
 	if (__o)
 	{
-		__o->setFieldAlignment(int(alignment));
+		__o->setFieldAlignment(QTextStream::FieldAlignment(alignment));
 	}
 }
 
@@ -3254,7 +3172,7 @@ int QtScriptQTextStream::constructorArgumentCountMin() const
 
 int QtScriptQTextStream::constructorArgumentCountMax() const
 {
-	return 2;
+	return 1;
 }
 
 bool QtScriptQTextStream::constructObject(QScriptContext *context, NativeObjectType &out)
@@ -3274,14 +3192,6 @@ bool QtScriptQTextStream::constructObject(QScriptContext *context, NativeObjectT
 		{
 			auto arg0 = qscriptvalue_cast<QIODevice*>(context->argument(0));
 			out = new QTextStream(arg0);
-			ok = true;
-			break;
-		}
-		case 2:
-		{
-			auto arg0 = qscriptvalue_cast<_iobuf*>(context->argument(0));
-			auto arg1 = qscriptvalue_cast<int>(context->argument(1));
-			out = new QTextStream(arg0, arg1);
 			ok = true;
 			break;
 		}
@@ -3385,7 +3295,7 @@ bool QtScriptQFileDevice::setPermissions(int permissionSpec)
 	auto __o = this->thiz<QFileDevice *>();
 	if (__o)
 	{
-		return __o->setPermissions(permissionSpec);
+		return __o->setPermissions(QFlags<QFileDevice::Permission>(permissionSpec));
 	}
 	return false;
 }
@@ -3552,26 +3462,6 @@ bool QtScriptQFile::copy(const QString& newName)
 	if (__o)
 	{
 		return __o->copy(newName);
-	}
-	return false;
-}
-
-bool QtScriptQFile::open(_iobuf* f, int ioFlags)
-{
-	auto __o = this->thiz<QFile *>();
-	if (__o)
-	{
-		return __o->open(f, ioFlags);
-	}
-	return false;
-}
-
-bool QtScriptQFile::open(_iobuf* f, int ioFlags, int handleFlags)
-{
-	auto __o = this->thiz<QFile *>();
-	if (__o)
-	{
-		return __o->open(f, ioFlags, handleFlags);
 	}
 	return false;
 }
@@ -3758,7 +3648,8 @@ QScriptValue QtScriptQFile::setPermissions(QScriptContext *context, QScriptEngin
 		case 2:
 		{
 			auto arg0 = qscriptvalue_cast<QString>(context->argument(0));
-			auto arg1 = qscriptvalue_cast<int>(context->argument(1));
+			auto tmp_1 = qscriptvalue_cast<int>(context->argument(1));
+			auto arg1 = QFlags<QFileDevice::Permission>(tmp_1);
 			return __e->toScriptValue(QFile::setPermissions(arg0, arg1));
 		}
 	}
@@ -3882,7 +3773,7 @@ bool QtScriptQFile::constructObject(QScriptContext *context, NativeObjectType &o
 }
 
 QtScriptQFileInfo::QtScriptQFileInfo(QScriptEngine *engine, const QByteArray &className)
-	: QtScriptBaseClassPrototype<QFileInfo>(engine, className)
+	: QtScriptBaseClassPrototype<QFileInfo, false>(engine, className)
 {
 }
 
@@ -4211,14 +4102,14 @@ QString QtScriptQFileInfo::path()
 	return QString();
 }
 
-unsigned int QtScriptQFileInfo::groupId()
+uint QtScriptQFileInfo::groupId()
 {
 	auto __o = this->thiz<QFileInfo *>();
 	if (__o)
 	{
 		return __o->groupId();
 	}
-	return static_cast<unsigned int>(0);
+	return static_cast<uint>(0);
 }
 
 int QtScriptQFileInfo::permissions()
@@ -4338,14 +4229,14 @@ bool QtScriptQFileInfo::caching()
 	return false;
 }
 
-unsigned int QtScriptQFileInfo::ownerId()
+uint QtScriptQFileInfo::ownerId()
 {
 	auto __o = this->thiz<QFileInfo *>();
 	if (__o)
 	{
 		return __o->ownerId();
 	}
-	return static_cast<unsigned int>(0);
+	return static_cast<uint>(0);
 }
 
 bool QtScriptQFileInfo::permission(int permissions)
@@ -4353,7 +4244,7 @@ bool QtScriptQFileInfo::permission(int permissions)
 	auto __o = this->thiz<QFileInfo *>();
 	if (__o)
 	{
-		return __o->permission(permissions);
+		return __o->permission(QFlags<QFileDevice::Permission>(permissions));
 	}
 	return false;
 }
@@ -4428,7 +4319,6 @@ bool QtScriptQFileInfo::constructObject(QScriptContext *context, NativeObjectTyp
 	{
 		case 0:
 		{
-			out = QFileInfo();
 			ok = true;
 			break;
 		}
@@ -4458,7 +4348,7 @@ bool QtScriptQFileInfo::constructObject(QScriptContext *context, NativeObjectTyp
 }
 
 QtScriptQDir::QtScriptQDir(QScriptEngine *engine, const QByteArray &className)
-	: QtScriptBaseClassPrototype<QDir *>(engine, className)
+	: QtScriptBaseClassPrototype<QDir, false>(engine, className)
 {
 }
 
@@ -4690,7 +4580,7 @@ QStringList QtScriptQDir::entryList(int filters)
 	auto __o = this->thiz<QDir *>();
 	if (__o)
 	{
-		return __o->entryList(filters);
+		return __o->entryList(QFlags<QDir::Filter>(filters));
 	}
 	return QStringList();
 }
@@ -4700,7 +4590,7 @@ QStringList QtScriptQDir::entryList(int filters, int sort)
 	auto __o = this->thiz<QDir *>();
 	if (__o)
 	{
-		return __o->entryList(filters, sort);
+		return __o->entryList(QFlags<QDir::Filter>(filters), QFlags<QDir::SortFlag>(sort));
 	}
 	return QStringList();
 }
@@ -4710,7 +4600,7 @@ QStringList QtScriptQDir::entryList(const QStringList& nameFilters, int filters,
 	auto __o = this->thiz<QDir *>();
 	if (__o)
 	{
-		return __o->entryList(nameFilters, filters, sort);
+		return __o->entryList(nameFilters, QFlags<QDir::Filter>(filters), QFlags<QDir::SortFlag>(sort));
 	}
 	return QStringList();
 }
@@ -4740,7 +4630,7 @@ bool QtScriptQDir::isEmpty(int filters)
 	auto __o = this->thiz<QDir *>();
 	if (__o)
 	{
-		return __o->isEmpty(filters);
+		return __o->isEmpty(QFlags<QDir::Filter>(filters));
 	}
 	return false;
 }
@@ -4848,7 +4738,7 @@ void QtScriptQDir::setSorting(int sort)
 	auto __o = this->thiz<QDir *>();
 	if (__o)
 	{
-		__o->setSorting(sort);
+		__o->setSorting(QFlags<QDir::SortFlag>(sort));
 	}
 }
 
@@ -4877,18 +4767,18 @@ void QtScriptQDir::setFilter(int filter)
 	auto __o = this->thiz<QDir *>();
 	if (__o)
 	{
-		__o->setFilter(filter);
+		__o->setFilter(QFlags<QDir::Filter>(filter));
 	}
 }
 
-unsigned int QtScriptQDir::count()
+uint QtScriptQDir::count()
 {
 	auto __o = this->thiz<QDir *>();
 	if (__o)
 	{
 		return __o->count();
 	}
-	return static_cast<unsigned int>(0);
+	return static_cast<uint>(0);
 }
 
 bool QtScriptQDir::cdUp()
@@ -4996,7 +4886,7 @@ QList<QFileInfo> QtScriptQDir::entryInfoList(int filters)
 	auto __o = this->thiz<QDir *>();
 	if (__o)
 	{
-		return __o->entryInfoList(filters);
+		return __o->entryInfoList(QFlags<QDir::Filter>(filters));
 	}
 	return QList<QFileInfo>();
 }
@@ -5006,7 +4896,7 @@ QList<QFileInfo> QtScriptQDir::entryInfoList(int filters, int sort)
 	auto __o = this->thiz<QDir *>();
 	if (__o)
 	{
-		return __o->entryInfoList(filters, sort);
+		return __o->entryInfoList(QFlags<QDir::Filter>(filters), QFlags<QDir::SortFlag>(sort));
 	}
 	return QList<QFileInfo>();
 }
@@ -5016,7 +4906,7 @@ QList<QFileInfo> QtScriptQDir::entryInfoList(const QStringList& nameFilters, int
 	auto __o = this->thiz<QDir *>();
 	if (__o)
 	{
-		return __o->entryInfoList(nameFilters, filters, sort);
+		return __o->entryInfoList(nameFilters, QFlags<QDir::Filter>(filters), QFlags<QDir::SortFlag>(sort));
 	}
 	return QList<QFileInfo>();
 }
@@ -5511,7 +5401,7 @@ QScriptValue QtScriptQDir::root(QScriptContext *context, QScriptEngine* __e)
 
 int QtScriptQDir::constructorArgumentCountMin() const
 {
-	return 1;
+	return 0;
 }
 
 int QtScriptQDir::constructorArgumentCountMax() const
@@ -5526,10 +5416,15 @@ bool QtScriptQDir::constructObject(QScriptContext *context, NativeObjectType &ou
 	bool ok = false;
 	switch (context->argumentCount())
 	{
+		case 0:
+		{
+			ok = true;
+			break;
+		}
 		case 1:
 		{
 			auto arg0 = qscriptvalue_cast<QDir>(context->argument(0));
-			out = new QDir(arg0);
+			out = QDir(arg0);
 			ok = true;
 			break;
 		}
@@ -5537,7 +5432,7 @@ bool QtScriptQDir::constructObject(QScriptContext *context, NativeObjectType &ou
 		{
 			auto arg0 = qscriptvalue_cast<QString>(context->argument(0));
 			auto arg1 = qscriptvalue_cast<QString>(context->argument(1));
-			out = new QDir(arg0, arg1);
+			out = QDir(arg0, arg1);
 			ok = true;
 			break;
 		}
@@ -5545,8 +5440,9 @@ bool QtScriptQDir::constructObject(QScriptContext *context, NativeObjectType &ou
 		{
 			auto arg0 = qscriptvalue_cast<QString>(context->argument(0));
 			auto arg1 = qscriptvalue_cast<QString>(context->argument(1));
-			auto arg2 = qscriptvalue_cast<int>(context->argument(2));
-			out = new QDir(arg0, arg1, arg2);
+			auto tmp_2 = qscriptvalue_cast<int>(context->argument(2));
+			auto arg2 = QFlags<QDir::SortFlag>(tmp_2);
+			out = QDir(arg0, arg1, arg2);
 			ok = true;
 			break;
 		}
@@ -5554,9 +5450,11 @@ bool QtScriptQDir::constructObject(QScriptContext *context, NativeObjectType &ou
 		{
 			auto arg0 = qscriptvalue_cast<QString>(context->argument(0));
 			auto arg1 = qscriptvalue_cast<QString>(context->argument(1));
-			auto arg2 = qscriptvalue_cast<int>(context->argument(2));
-			auto arg3 = qscriptvalue_cast<int>(context->argument(3));
-			out = new QDir(arg0, arg1, arg2, arg3);
+			auto tmp_2 = qscriptvalue_cast<int>(context->argument(2));
+			auto arg2 = QFlags<QDir::SortFlag>(tmp_2);
+			auto tmp_3 = qscriptvalue_cast<int>(context->argument(3));
+			auto arg3 = QFlags<QDir::Filter>(tmp_3);
+			out = QDir(arg0, arg1, arg2, arg3);
 			ok = true;
 			break;
 		}
@@ -5571,7 +5469,7 @@ bool QtScriptQDir::constructObject(QScriptContext *context, NativeObjectType &ou
 }
 
 QtScriptQDirIterator::QtScriptQDirIterator(QScriptEngine *engine, const QByteArray &className)
-	: QtScriptBaseClassPrototype<QDirIterator *>(engine, className)
+	: QtScriptBaseClassPrototype<QDirIterator *, false>(engine, className)
 {
 }
 
@@ -5676,7 +5574,8 @@ bool QtScriptQDirIterator::constructObject(QScriptContext *context, NativeObject
 		case 2:
 		{
 			auto arg0 = qscriptvalue_cast<QDir>(context->argument(0));
-			auto arg1 = qscriptvalue_cast<int>(context->argument(1));
+			auto tmp_1 = qscriptvalue_cast<int>(context->argument(1));
+			auto arg1 = QFlags<QDirIterator::IteratorFlag>(tmp_1);
 			out = new QDirIterator(arg0, arg1);
 			ok = true;
 			break;
@@ -5684,8 +5583,10 @@ bool QtScriptQDirIterator::constructObject(QScriptContext *context, NativeObject
 		case 3:
 		{
 			auto arg0 = qscriptvalue_cast<QString>(context->argument(0));
-			auto arg1 = qscriptvalue_cast<int>(context->argument(1));
-			auto arg2 = qscriptvalue_cast<int>(context->argument(2));
+			auto tmp_1 = qscriptvalue_cast<int>(context->argument(1));
+			auto arg1 = QFlags<QDir::Filter>(tmp_1);
+			auto tmp_2 = qscriptvalue_cast<int>(context->argument(2));
+			auto arg2 = QFlags<QDirIterator::IteratorFlag>(tmp_2);
 			out = new QDirIterator(arg0, arg1, arg2);
 			ok = true;
 			break;
@@ -5694,8 +5595,10 @@ bool QtScriptQDirIterator::constructObject(QScriptContext *context, NativeObject
 		{
 			auto arg0 = qscriptvalue_cast<QString>(context->argument(0));
 			auto arg1 = qscriptvalue_cast<QStringList>(context->argument(1));
-			auto arg2 = qscriptvalue_cast<int>(context->argument(2));
-			auto arg3 = qscriptvalue_cast<int>(context->argument(3));
+			auto tmp_2 = qscriptvalue_cast<int>(context->argument(2));
+			auto arg2 = QFlags<QDir::Filter>(tmp_2);
+			auto tmp_3 = qscriptvalue_cast<int>(context->argument(3));
+			auto arg3 = QFlags<QDirIterator::IteratorFlag>(tmp_3);
 			out = new QDirIterator(arg0, arg1, arg2, arg3);
 			ok = true;
 			break;
@@ -5711,7 +5614,7 @@ bool QtScriptQDirIterator::constructObject(QScriptContext *context, NativeObject
 }
 
 QtScriptQEasingCurve::QtScriptQEasingCurve(QScriptEngine *engine, const QByteArray &className)
-	: QtScriptBaseClassPrototype<QEasingCurve>(engine, className)
+	: QtScriptBaseClassPrototype<QEasingCurve, false>(engine, className)
 {
 }
 
@@ -5810,7 +5713,7 @@ void QtScriptQEasingCurve::setType(int type)
 	auto __o = this->thiz<QEasingCurve *>();
 	if (__o)
 	{
-		__o->setType(int(type));
+		__o->setType(QEasingCurve::Type(type));
 	}
 }
 
@@ -5900,14 +5803,13 @@ bool QtScriptQEasingCurve::constructObject(QScriptContext *context, NativeObject
 	{
 		case 0:
 		{
-			out = QEasingCurve();
 			ok = true;
 			break;
 		}
 		case 1:
 		{
 			auto tmp_0 = qscriptvalue_cast<int>(context->argument(0));
-			auto arg0 = int(tmp_0);
+			auto arg0 = QEasingCurve::Type(tmp_0);
 			out = QEasingCurve(arg0);
 			ok = true;
 			break;
@@ -5923,7 +5825,7 @@ bool QtScriptQEasingCurve::constructObject(QScriptContext *context, NativeObject
 }
 
 QtScriptQLine::QtScriptQLine(QScriptEngine *engine, const QByteArray &className)
-	: QtScriptBaseClassPrototype<QLine>(engine, className)
+	: QtScriptBaseClassPrototype<QLine, false>(engine, className)
 {
 }
 
@@ -6154,7 +6056,6 @@ bool QtScriptQLine::constructObject(QScriptContext *context, NativeObjectType &o
 	{
 		case 0:
 		{
-			out = QLine();
 			ok = true;
 			break;
 		}
@@ -6195,7 +6096,7 @@ bool QtScriptQLine::constructObject(QScriptContext *context, NativeObjectType &o
 }
 
 QtScriptQLineF::QtScriptQLineF(QScriptEngine *engine, const QByteArray &className)
-	: QtScriptBaseClassPrototype<QLineF>(engine, className)
+	: QtScriptBaseClassPrototype<QLineF, false>(engine, className)
 {
 }
 
@@ -6560,7 +6461,6 @@ bool QtScriptQLineF::constructObject(QScriptContext *context, NativeObjectType &
 	{
 		case 0:
 		{
-			out = QLineF();
 			ok = true;
 			break;
 		}
@@ -6604,7 +6504,7 @@ bool QtScriptQLineF::constructObject(QScriptContext *context, NativeObjectType &
 }
 
 QtScriptQMargins::QtScriptQMargins(QScriptEngine *engine, const QByteArray &className)
-	: QtScriptBaseClassPrototype<QMargins>(engine, className)
+	: QtScriptBaseClassPrototype<QMargins, false>(engine, className)
 {
 }
 
@@ -6763,7 +6663,6 @@ bool QtScriptQMargins::constructObject(QScriptContext *context, NativeObjectType
 	{
 		case 0:
 		{
-			out = QMargins();
 			ok = true;
 			break;
 		}
@@ -6800,7 +6699,7 @@ bool QtScriptQMargins::constructObject(QScriptContext *context, NativeObjectType
 }
 
 QtScriptQMarginsF::QtScriptQMarginsF(QScriptEngine *engine, const QByteArray &className)
-	: QtScriptBaseClassPrototype<QMarginsF>(engine, className)
+	: QtScriptBaseClassPrototype<QMarginsF, false>(engine, className)
 {
 }
 
@@ -6969,7 +6868,6 @@ bool QtScriptQMarginsF::constructObject(QScriptContext *context, NativeObjectTyp
 	{
 		case 0:
 		{
-			out = QMarginsF();
 			ok = true;
 			break;
 		}
@@ -7220,25 +7118,6 @@ void QtScriptQVariantAnimation::setEasingCurve(const QEasingCurve& easing)
 	}
 }
 
-void QtScriptQVariantAnimation::setKeyValues(const QVector<QPair<double, QVariant>>& values)
-{
-	auto __o = this->thiz<QVariantAnimation *>();
-	if (__o)
-	{
-		__o->setKeyValues(values);
-	}
-}
-
-QVector<QPair<double, QVariant>> QtScriptQVariantAnimation::keyValues()
-{
-	auto __o = this->thiz<QVariantAnimation *>();
-	if (__o)
-	{
-		return __o->keyValues();
-	}
-	return QVector<QPair<double, QVariant>>();
-}
-
 QEasingCurve QtScriptQVariantAnimation::easingCurve()
 {
 	auto __o = this->thiz<QVariantAnimation *>();
@@ -7276,15 +7155,6 @@ int QtScriptQVariantAnimation::duration()
 		return __o->duration();
 	}
 	return 0;
-}
-
-void QtScriptQVariantAnimation::valueChanged(const QVariant& value)
-{
-	auto __o = this->thiz<QVariantAnimation *>();
-	if (__o)
-	{
-		__o->valueChanged(value);
-	}
 }
 
 void QtScriptQVariantAnimation::setStartValue(const QVariant& value)
@@ -7470,7 +7340,7 @@ bool QtScriptQPropertyAnimation::constructObject(QScriptContext *context, Native
 }
 
 QtScriptQSize::QtScriptQSize(QScriptEngine *engine, const QByteArray &className)
-	: QtScriptBaseClassPrototype<QSize>(engine, className)
+	: QtScriptBaseClassPrototype<QSize, false>(engine, className)
 {
 }
 
@@ -7512,7 +7382,7 @@ void QtScriptQSize::scale(const QSize& s, int mode)
 	auto __o = this->thiz<QSize *>();
 	if (__o)
 	{
-		__o->scale(s, int(mode));
+		__o->scale(s, Qt::AspectRatioMode(mode));
 	}
 }
 
@@ -7521,7 +7391,7 @@ void QtScriptQSize::scale(int w, int h, int mode)
 	auto __o = this->thiz<QSize *>();
 	if (__o)
 	{
-		__o->scale(w, h, int(mode));
+		__o->scale(w, h, Qt::AspectRatioMode(mode));
 	}
 }
 
@@ -7597,7 +7467,7 @@ QSize QtScriptQSize::scaled(const QSize& s, int mode)
 	auto __o = this->thiz<QSize *>();
 	if (__o)
 	{
-		return __o->scaled(s, int(mode));
+		return __o->scaled(s, Qt::AspectRatioMode(mode));
 	}
 	return QSize();
 }
@@ -7607,7 +7477,7 @@ QSize QtScriptQSize::scaled(int w, int h, int mode)
 	auto __o = this->thiz<QSize *>();
 	if (__o)
 	{
-		return __o->scaled(w, h, int(mode));
+		return __o->scaled(w, h, Qt::AspectRatioMode(mode));
 	}
 	return QSize();
 }
@@ -7708,7 +7578,6 @@ bool QtScriptQSize::constructObject(QScriptContext *context, NativeObjectType &o
 	{
 		case 0:
 		{
-			out = QSize();
 			ok = true;
 			break;
 		}
@@ -7735,7 +7604,7 @@ bool QtScriptQSize::constructObject(QScriptContext *context, NativeObjectType &o
 }
 
 QtScriptQSizeF::QtScriptQSizeF(QScriptEngine *engine, const QByteArray &className)
-	: QtScriptBaseClassPrototype<QSizeF>(engine, className)
+	: QtScriptBaseClassPrototype<QSizeF, false>(engine, className)
 {
 }
 
@@ -7777,7 +7646,7 @@ void QtScriptQSizeF::scale(const QSizeF& s, int mode)
 	auto __o = this->thiz<QSizeF *>();
 	if (__o)
 	{
-		__o->scale(s, int(mode));
+		__o->scale(s, Qt::AspectRatioMode(mode));
 	}
 }
 
@@ -7786,7 +7655,7 @@ void QtScriptQSizeF::scale(qreal w, qreal h, int mode)
 	auto __o = this->thiz<QSizeF *>();
 	if (__o)
 	{
-		__o->scale(w, h, int(mode));
+		__o->scale(w, h, Qt::AspectRatioMode(mode));
 	}
 }
 
@@ -7862,7 +7731,7 @@ QSizeF QtScriptQSizeF::scaled(const QSizeF& s, int mode)
 	auto __o = this->thiz<QSizeF *>();
 	if (__o)
 	{
-		return __o->scaled(s, int(mode));
+		return __o->scaled(s, Qt::AspectRatioMode(mode));
 	}
 	return QSizeF();
 }
@@ -7872,7 +7741,7 @@ QSizeF QtScriptQSizeF::scaled(qreal w, qreal h, int mode)
 	auto __o = this->thiz<QSizeF *>();
 	if (__o)
 	{
-		return __o->scaled(w, h, int(mode));
+		return __o->scaled(w, h, Qt::AspectRatioMode(mode));
 	}
 	return QSizeF();
 }
@@ -7983,7 +7852,6 @@ bool QtScriptQSizeF::constructObject(QScriptContext *context, NativeObjectType &
 	{
 		case 0:
 		{
-			out = QSizeF();
 			ok = true;
 			break;
 		}
@@ -8013,7 +7881,7 @@ bool QtScriptQSizeF::constructObject(QScriptContext *context, NativeObjectType &
 }
 
 QtScriptQRect::QtScriptQRect(QScriptEngine *engine, const QByteArray &className)
-	: QtScriptBaseClassPrototype<QRect>(engine, className)
+	: QtScriptBaseClassPrototype<QRect, false>(engine, className)
 {
 }
 
@@ -8629,7 +8497,6 @@ bool QtScriptQRect::constructObject(QScriptContext *context, NativeObjectType &o
 	{
 		case 0:
 		{
-			out = QRect();
 			ok = true;
 			break;
 		}
@@ -8670,7 +8537,7 @@ bool QtScriptQRect::constructObject(QScriptContext *context, NativeObjectType &o
 }
 
 QtScriptQRectF::QtScriptQRectF(QScriptEngine *engine, const QByteArray &className)
-	: QtScriptBaseClassPrototype<QRectF>(engine, className)
+	: QtScriptBaseClassPrototype<QRectF, false>(engine, className)
 {
 }
 
@@ -9296,7 +9163,6 @@ bool QtScriptQRectF::constructObject(QScriptContext *context, NativeObjectType &
 	{
 		case 0:
 		{
-			out = QRectF();
 			ok = true;
 			break;
 		}
@@ -9500,15 +9366,6 @@ QPauseAnimation* QtScriptQSequentialAnimationGroup::insertPause(int index, int m
 		return __o->insertPause(index, msecs);
 	}
 	return nullptr;
-}
-
-void QtScriptQSequentialAnimationGroup::currentAnimationChanged(QAbstractAnimation* current)
-{
-	auto __o = this->thiz<QSequentialAnimationGroup *>();
-	if (__o)
-	{
-		__o->currentAnimationChanged(current);
-	}
 }
 
 QAbstractAnimation* QtScriptQSequentialAnimationGroup::currentAnimation()
@@ -9839,6 +9696,16 @@ void QtScriptQSettings::clear()
 	}
 }
 
+QVariant QtScriptQSettings::value(const QString& key)
+{
+	auto __o = this->thiz<QSettings *>();
+	if (__o)
+	{
+		return __o->value(key);
+	}
+	return QVariant();
+}
+
 QVariant QtScriptQSettings::value(const QString& key, const QVariant& defaultValue)
 {
 	auto __o = this->thiz<QSettings *>();
@@ -9944,7 +9811,7 @@ QScriptValue QtScriptQSettings::setDefaultFormat(QScriptContext *context, QScrip
 		case 1:
 		{
 			auto tmp_0 = qscriptvalue_cast<int>(context->argument(0));
-			auto arg0 = int(tmp_0);
+			auto arg0 = QSettings::Format(tmp_0);
 			QSettings::setDefaultFormat(arg0);
 			return __e->undefinedValue();
 		}
@@ -9967,9 +9834,9 @@ QScriptValue QtScriptQSettings::setPath(QScriptContext *context, QScriptEngine* 
 		case 3:
 		{
 			auto tmp_0 = qscriptvalue_cast<int>(context->argument(0));
-			auto arg0 = int(tmp_0);
+			auto arg0 = QSettings::Format(tmp_0);
 			auto tmp_1 = qscriptvalue_cast<int>(context->argument(1));
-			auto arg1 = int(tmp_1);
+			auto arg1 = QSettings::Scope(tmp_1);
 			auto arg2 = qscriptvalue_cast<QString>(context->argument(2));
 			QSettings::setPath(arg0, arg1, arg2);
 			return __e->undefinedValue();
@@ -10006,7 +9873,7 @@ bool QtScriptQSettings::constructObject(QScriptContext *context, NativeObjectTyp
 		}
 		case 1:
 		{
-			auto arg0 = qscriptvalue_cast<QObject*>(context->argument(0));
+			auto arg0 = qscriptvalue_cast<QString>(context->argument(0));
 			out = new QSettings(arg0);
 			ok = true;
 			break;
@@ -10031,7 +9898,7 @@ bool QtScriptQSettings::constructObject(QScriptContext *context, NativeObjectTyp
 		case 4:
 		{
 			auto tmp_0 = qscriptvalue_cast<int>(context->argument(0));
-			auto arg0 = int(tmp_0);
+			auto arg0 = QSettings::Scope(tmp_0);
 			auto arg1 = qscriptvalue_cast<QString>(context->argument(1));
 			auto arg2 = qscriptvalue_cast<QString>(context->argument(2));
 			auto arg3 = qscriptvalue_cast<QObject*>(context->argument(3));
@@ -10042,9 +9909,9 @@ bool QtScriptQSettings::constructObject(QScriptContext *context, NativeObjectTyp
 		case 5:
 		{
 			auto tmp_0 = qscriptvalue_cast<int>(context->argument(0));
-			auto arg0 = int(tmp_0);
+			auto arg0 = QSettings::Format(tmp_0);
 			auto tmp_1 = qscriptvalue_cast<int>(context->argument(1));
-			auto arg1 = int(tmp_1);
+			auto arg1 = QSettings::Scope(tmp_1);
 			auto arg2 = qscriptvalue_cast<QString>(context->argument(2));
 			auto arg3 = qscriptvalue_cast<QString>(context->argument(3));
 			auto arg4 = qscriptvalue_cast<QObject*>(context->argument(4));
@@ -10063,7 +9930,7 @@ bool QtScriptQSettings::constructObject(QScriptContext *context, NativeObjectTyp
 }
 
 QtScriptQStandardPaths::QtScriptQStandardPaths(QScriptEngine *engine, const QByteArray &className)
-	: QtScriptBaseClassPrototype<QStandardPaths *>(engine, className)
+	: QtScriptBaseClassPrototype<QStandardPaths *, true>(engine, className)
 {
 }
 
@@ -10146,16 +10013,17 @@ QScriptValue QtScriptQStandardPaths::locate(QScriptContext *context, QScriptEngi
 		case 2:
 		{
 			auto tmp_0 = qscriptvalue_cast<int>(context->argument(0));
-			auto arg0 = int(tmp_0);
+			auto arg0 = QStandardPaths::StandardLocation(tmp_0);
 			auto arg1 = qscriptvalue_cast<QString>(context->argument(1));
 			return __e->toScriptValue(QStandardPaths::locate(arg0, arg1));
 		}
 		case 3:
 		{
 			auto tmp_0 = qscriptvalue_cast<int>(context->argument(0));
-			auto arg0 = int(tmp_0);
+			auto arg0 = QStandardPaths::StandardLocation(tmp_0);
 			auto arg1 = qscriptvalue_cast<QString>(context->argument(1));
-			auto arg2 = qscriptvalue_cast<int>(context->argument(2));
+			auto tmp_2 = qscriptvalue_cast<int>(context->argument(2));
+			auto arg2 = QFlags<QStandardPaths::LocateOption>(tmp_2);
 			return __e->toScriptValue(QStandardPaths::locate(arg0, arg1, arg2));
 		}
 	}
@@ -10177,7 +10045,7 @@ QScriptValue QtScriptQStandardPaths::displayName(QScriptContext *context, QScrip
 		case 1:
 		{
 			auto tmp_0 = qscriptvalue_cast<int>(context->argument(0));
-			auto arg0 = int(tmp_0);
+			auto arg0 = QStandardPaths::StandardLocation(tmp_0);
 			return __e->toScriptValue(QStandardPaths::displayName(arg0));
 		}
 	}
@@ -10243,7 +10111,7 @@ QScriptValue QtScriptQStandardPaths::writableLocation(QScriptContext *context, Q
 		case 1:
 		{
 			auto tmp_0 = qscriptvalue_cast<int>(context->argument(0));
-			auto arg0 = int(tmp_0);
+			auto arg0 = QStandardPaths::StandardLocation(tmp_0);
 			return __e->toScriptValue(QStandardPaths::writableLocation(arg0));
 		}
 	}
@@ -10255,13 +10123,18 @@ QScriptValue QtScriptQStandardPaths::writableLocation(QScriptContext *context, Q
 
 QScriptValue QtScriptQStandardPaths::findExecutable(QScriptContext *context, QScriptEngine* __e)
 {
-	if (!QtScriptUtils::checkArgumentCount(context, 2, 2))
+	if (!QtScriptUtils::checkArgumentCount(context, 1, 2))
 	{
 		return __e->uncaughtException();
 	}
 
 	switch (context->argumentCount())
 	{
+		case 1:
+		{
+			auto arg0 = qscriptvalue_cast<QString>(context->argument(0));
+			return __e->toScriptValue(QStandardPaths::findExecutable(arg0));
+		}
 		case 2:
 		{
 			auto arg0 = qscriptvalue_cast<QString>(context->argument(0));
@@ -10287,7 +10160,7 @@ QScriptValue QtScriptQStandardPaths::standardLocations(QScriptContext *context, 
 		case 1:
 		{
 			auto tmp_0 = qscriptvalue_cast<int>(context->argument(0));
-			auto arg0 = int(tmp_0);
+			auto arg0 = QStandardPaths::StandardLocation(tmp_0);
 			return __e->toScriptValue(QStandardPaths::standardLocations(arg0));
 		}
 	}
@@ -10309,16 +10182,17 @@ QScriptValue QtScriptQStandardPaths::locateAll(QScriptContext *context, QScriptE
 		case 2:
 		{
 			auto tmp_0 = qscriptvalue_cast<int>(context->argument(0));
-			auto arg0 = int(tmp_0);
+			auto arg0 = QStandardPaths::StandardLocation(tmp_0);
 			auto arg1 = qscriptvalue_cast<QString>(context->argument(1));
 			return __e->toScriptValue(QStandardPaths::locateAll(arg0, arg1));
 		}
 		case 3:
 		{
 			auto tmp_0 = qscriptvalue_cast<int>(context->argument(0));
-			auto arg0 = int(tmp_0);
+			auto arg0 = QStandardPaths::StandardLocation(tmp_0);
 			auto arg1 = qscriptvalue_cast<QString>(context->argument(1));
-			auto arg2 = qscriptvalue_cast<int>(context->argument(2));
+			auto tmp_2 = qscriptvalue_cast<int>(context->argument(2));
+			auto arg2 = QFlags<QStandardPaths::LocateOption>(tmp_2);
 			return __e->toScriptValue(QStandardPaths::locateAll(arg0, arg1, arg2));
 		}
 	}
@@ -10349,7 +10223,7 @@ QScriptValue QtScriptQStandardPaths::isTestModeEnabled(QScriptContext *context, 
 }
 
 QtScriptQTemporaryDir::QtScriptQTemporaryDir(QScriptEngine *engine, const QByteArray &className)
-	: QtScriptBaseClassPrototype<QTemporaryDir *>(engine, className)
+	: QtScriptBaseClassPrototype<QTemporaryDir *, false>(engine, className)
 {
 }
 
@@ -10642,7 +10516,7 @@ bool QtScriptQTemporaryFile::constructObject(QScriptContext *context, NativeObje
 }
 
 QtScriptQTextCodec::QtScriptQTextCodec(QScriptEngine *engine, const QByteArray &className)
-	: QtScriptBaseClassPrototype<QTextCodec *>(engine, className)
+	: QtScriptBaseClassPrototype<QTextCodec *, true>(engine, className)
 {
 }
 
@@ -10734,7 +10608,7 @@ QTextDecoder* QtScriptQTextCodec::makeDecoder(int flags)
 	auto __o = this->thiz<QTextCodec *>();
 	if (__o)
 	{
-		return __o->makeDecoder(flags);
+		return __o->makeDecoder(QFlags<QTextCodec::ConversionFlag>(flags));
 	}
 	return nullptr;
 }
@@ -10764,7 +10638,7 @@ QTextEncoder* QtScriptQTextCodec::makeEncoder(int flags)
 	auto __o = this->thiz<QTextCodec *>();
 	if (__o)
 	{
-		return __o->makeEncoder(flags);
+		return __o->makeEncoder(QFlags<QTextCodec::ConversionFlag>(flags));
 	}
 	return nullptr;
 }
@@ -10968,7 +10842,7 @@ QScriptValue QtScriptQTextCodec::availableCodecs(QScriptContext *context, QScrip
 }
 
 QtScriptQTextEncoder::QtScriptQTextEncoder(QScriptEngine *engine, const QByteArray &className)
-	: QtScriptBaseClassPrototype<QTextEncoder *>(engine, className)
+	: QtScriptBaseClassPrototype<QTextEncoder *, false>(engine, className)
 {
 }
 
@@ -11033,7 +10907,8 @@ bool QtScriptQTextEncoder::constructObject(QScriptContext *context, NativeObject
 		case 2:
 		{
 			auto arg0 = qscriptvalue_cast<const QTextCodec*>(context->argument(0));
-			auto arg1 = qscriptvalue_cast<int>(context->argument(1));
+			auto tmp_1 = qscriptvalue_cast<int>(context->argument(1));
+			auto arg1 = QFlags<QTextCodec::ConversionFlag>(tmp_1);
 			out = new QTextEncoder(arg0, arg1);
 			ok = true;
 			break;
@@ -11049,7 +10924,7 @@ bool QtScriptQTextEncoder::constructObject(QScriptContext *context, NativeObject
 }
 
 QtScriptQTextDecoder::QtScriptQTextDecoder(QScriptEngine *engine, const QByteArray &className)
-	: QtScriptBaseClassPrototype<QTextDecoder *>(engine, className)
+	: QtScriptBaseClassPrototype<QTextDecoder *, false>(engine, className)
 {
 }
 
@@ -11114,7 +10989,8 @@ bool QtScriptQTextDecoder::constructObject(QScriptContext *context, NativeObject
 		case 2:
 		{
 			auto arg0 = qscriptvalue_cast<const QTextCodec*>(context->argument(0));
-			auto arg1 = qscriptvalue_cast<int>(context->argument(1));
+			auto tmp_1 = qscriptvalue_cast<int>(context->argument(1));
+			auto arg1 = QFlags<QTextCodec::ConversionFlag>(tmp_1);
 			out = new QTextDecoder(arg0, arg1);
 			ok = true;
 			break;
@@ -11162,7 +11038,7 @@ void QtScriptQTimeLine::setCurveShape(int shape)
 	auto __o = this->thiz<QTimeLine *>();
 	if (__o)
 	{
-		__o->setCurveShape(int(shape));
+		__o->setCurveShape(QTimeLine::CurveShape(shape));
 	}
 }
 
@@ -11174,15 +11050,6 @@ qreal QtScriptQTimeLine::currentValue()
 		return __o->currentValue();
 	}
 	return static_cast<qreal>(0);
-}
-
-void QtScriptQTimeLine::stateChanged(int newState, QTimeLine::QPrivateSignal arg0)
-{
-	auto __o = this->thiz<QTimeLine *>();
-	if (__o)
-	{
-		__o->stateChanged(int(newState), arg0);
-	}
 }
 
 void QtScriptQTimeLine::setEasingCurve(const QEasingCurve& curve)
@@ -11222,15 +11089,6 @@ int QtScriptQTimeLine::duration()
 	return 0;
 }
 
-void QtScriptQTimeLine::frameChanged(int arg0, QTimeLine::QPrivateSignal arg1)
-{
-	auto __o = this->thiz<QTimeLine *>();
-	if (__o)
-	{
-		__o->frameChanged(arg0, arg1);
-	}
-}
-
 int QtScriptQTimeLine::loopCount()
 {
 	auto __o = this->thiz<QTimeLine *>();
@@ -11246,7 +11104,7 @@ void QtScriptQTimeLine::setDirection(int direction)
 	auto __o = this->thiz<QTimeLine *>();
 	if (__o)
 	{
-		__o->setDirection(int(direction));
+		__o->setDirection(QTimeLine::Direction(direction));
 	}
 }
 
@@ -11277,15 +11135,6 @@ int QtScriptQTimeLine::state()
 		return int(__o->state());
 	}
 	return 0;
-}
-
-void QtScriptQTimeLine::valueChanged(qreal x, QTimeLine::QPrivateSignal arg0)
-{
-	auto __o = this->thiz<QTimeLine *>();
-	if (__o)
-	{
-		__o->valueChanged(x, arg0);
-	}
 }
 
 int QtScriptQTimeLine::direction()
@@ -11333,15 +11182,6 @@ void QtScriptQTimeLine::stop()
 	if (__o)
 	{
 		__o->stop();
-	}
-}
-
-void QtScriptQTimeLine::finished(QTimeLine::QPrivateSignal arg0)
-{
-	auto __o = this->thiz<QTimeLine *>();
-	if (__o)
-	{
-		__o->finished(arg0);
 	}
 }
 
@@ -11508,7 +11348,7 @@ bool QtScriptQTimeLine::constructObject(QScriptContext *context, NativeObjectTyp
 }
 
 QtScriptQUrl::QtScriptQUrl(QScriptEngine *engine, const QByteArray &className)
-	: QtScriptBaseClassPrototype<QUrl>(engine, className)
+	: QtScriptBaseClassPrototype<QUrl, false>(engine, className)
 {
 }
 
@@ -11570,22 +11410,22 @@ void QtScriptQUrl::Register(const QScriptValue &targetNamespace)
 			QScriptValue::ReadOnly | QScriptValue::Undeletable);
 }
 
-bool QtScriptQUrl::isDetached()
+bool QtScriptQUrl::notEquals(const QUrl& url)
 {
 	auto __o = this->thiz<QUrl *>();
 	if (__o)
 	{
-		return __o->isDetached();
+		return __o->operator!=(url);
 	}
 	return false;
 }
 
-QUrl QtScriptQUrl::adjusted(QUrlTwoFlags<QUrl::UrlFormattingOption, QUrl::ComponentFormattingOption> options)
+QUrl QtScriptQUrl::adjusted(int options)
 {
 	auto __o = this->thiz<QUrl *>();
 	if (__o)
 	{
-		return __o->adjusted(options);
+		return __o->adjusted(QUrlTwoFlags<QUrl::UrlFormattingOption, QUrl::ComponentFormattingOption>(options));
 	}
 	return QUrl();
 }
@@ -11599,16 +11439,6 @@ void QtScriptQUrl::set(const QUrl& copy)
 	}
 }
 
-bool QtScriptQUrl::notEquals(const QUrl& url)
-{
-	auto __o = this->thiz<QUrl *>();
-	if (__o)
-	{
-		return __o->operator!=(url);
-	}
-	return false;
-}
-
 bool QtScriptQUrl::isRelative()
 {
 	auto __o = this->thiz<QUrl *>();
@@ -11619,12 +11449,12 @@ bool QtScriptQUrl::isRelative()
 	return false;
 }
 
-bool QtScriptQUrl::matches(const QUrl& url, QUrlTwoFlags<QUrl::UrlFormattingOption, QUrl::ComponentFormattingOption> options)
+bool QtScriptQUrl::matches(const QUrl& url, int options)
 {
 	auto __o = this->thiz<QUrl *>();
 	if (__o)
 	{
-		return __o->matches(url, options);
+		return __o->matches(url, QUrlTwoFlags<QUrl::UrlFormattingOption, QUrl::ComponentFormattingOption>(options));
 	}
 	return false;
 }
@@ -11644,7 +11474,7 @@ QString QtScriptQUrl::authority(int options)
 	auto __o = this->thiz<QUrl *>();
 	if (__o)
 	{
-		return __o->authority(options);
+		return __o->authority(QFlags<QUrl::ComponentFormattingOption>(options));
 	}
 	return QString();
 }
@@ -11673,7 +11503,7 @@ void QtScriptQUrl::setUserName(const QString& userName, int mode)
 	auto __o = this->thiz<QUrl *>();
 	if (__o)
 	{
-		__o->setUserName(userName, int(mode));
+		__o->setUserName(userName, QUrl::ParsingMode(mode));
 	}
 }
 
@@ -11701,7 +11531,7 @@ QString QtScriptQUrl::query(int arg0)
 	auto __o = this->thiz<QUrl *>();
 	if (__o)
 	{
-		return __o->query(arg0);
+		return __o->query(QFlags<QUrl::ComponentFormattingOption>(arg0));
 	}
 	return QString();
 }
@@ -11716,12 +11546,12 @@ QString QtScriptQUrl::toDisplayString()
 	return QString();
 }
 
-QString QtScriptQUrl::toDisplayString(QUrlTwoFlags<QUrl::UrlFormattingOption, QUrl::ComponentFormattingOption> options)
+QString QtScriptQUrl::toDisplayString(int options)
 {
 	auto __o = this->thiz<QUrl *>();
 	if (__o)
 	{
-		return __o->toDisplayString(options);
+		return __o->toDisplayString(QUrlTwoFlags<QUrl::UrlFormattingOption, QUrl::ComponentFormattingOption>(options));
 	}
 	return QString();
 }
@@ -11761,7 +11591,7 @@ QString QtScriptQUrl::topLevelDomain(int options)
 	auto __o = this->thiz<QUrl *>();
 	if (__o)
 	{
-		return __o->topLevelDomain(options);
+		return __o->topLevelDomain(QFlags<QUrl::ComponentFormattingOption>(options));
 	}
 	return QString();
 }
@@ -11780,7 +11610,7 @@ void QtScriptQUrl::setFragment(const QString& fragment, int mode)
 	auto __o = this->thiz<QUrl *>();
 	if (__o)
 	{
-		__o->setFragment(fragment, int(mode));
+		__o->setFragment(fragment, QUrl::ParsingMode(mode));
 	}
 }
 
@@ -11798,7 +11628,7 @@ void QtScriptQUrl::setHost(const QString& host, int mode)
 	auto __o = this->thiz<QUrl *>();
 	if (__o)
 	{
-		__o->setHost(host, int(mode));
+		__o->setHost(host, QUrl::ParsingMode(mode));
 	}
 }
 
@@ -11812,12 +11642,12 @@ QString QtScriptQUrl::toString()
 	return QString();
 }
 
-QString QtScriptQUrl::toString(QUrlTwoFlags<QUrl::UrlFormattingOption, QUrl::ComponentFormattingOption> options)
+QString QtScriptQUrl::toString(int options)
 {
 	auto __o = this->thiz<QUrl *>();
 	if (__o)
 	{
-		return __o->toString(options);
+		return __o->toString(QUrlTwoFlags<QUrl::UrlFormattingOption, QUrl::ComponentFormattingOption>(options));
 	}
 	return QString();
 }
@@ -11845,7 +11675,7 @@ void QtScriptQUrl::setPassword(const QString& password, int mode)
 	auto __o = this->thiz<QUrl *>();
 	if (__o)
 	{
-		__o->setPassword(password, int(mode));
+		__o->setPassword(password, QUrl::ParsingMode(mode));
 	}
 }
 
@@ -11873,7 +11703,7 @@ void QtScriptQUrl::setPath(const QString& path, int mode)
 	auto __o = this->thiz<QUrl *>();
 	if (__o)
 	{
-		__o->setPath(path, int(mode));
+		__o->setPath(path, QUrl::ParsingMode(mode));
 	}
 }
 
@@ -11931,7 +11761,7 @@ QString QtScriptQUrl::fragment(int options)
 	auto __o = this->thiz<QUrl *>();
 	if (__o)
 	{
-		return __o->fragment(options);
+		return __o->fragment(QFlags<QUrl::ComponentFormattingOption>(options));
 	}
 	return QString();
 }
@@ -11960,7 +11790,7 @@ void QtScriptQUrl::setUrl(const QString& url, int mode)
 	auto __o = this->thiz<QUrl *>();
 	if (__o)
 	{
-		__o->setUrl(url, int(mode));
+		__o->setUrl(url, QUrl::ParsingMode(mode));
 	}
 }
 
@@ -11979,7 +11809,7 @@ QString QtScriptQUrl::fileName(int options)
 	auto __o = this->thiz<QUrl *>();
 	if (__o)
 	{
-		return __o->fileName(options);
+		return __o->fileName(QFlags<QUrl::ComponentFormattingOption>(options));
 	}
 	return QString();
 }
@@ -11999,7 +11829,7 @@ QString QtScriptQUrl::host(int arg0)
 	auto __o = this->thiz<QUrl *>();
 	if (__o)
 	{
-		return __o->host(arg0);
+		return __o->host(QFlags<QUrl::ComponentFormattingOption>(arg0));
 	}
 	return QString();
 }
@@ -12019,7 +11849,7 @@ QString QtScriptQUrl::userInfo(int options)
 	auto __o = this->thiz<QUrl *>();
 	if (__o)
 	{
-		return __o->userInfo(options);
+		return __o->userInfo(QFlags<QUrl::ComponentFormattingOption>(options));
 	}
 	return QString();
 }
@@ -12049,7 +11879,7 @@ QString QtScriptQUrl::path(int options)
 	auto __o = this->thiz<QUrl *>();
 	if (__o)
 	{
-		return __o->path(options);
+		return __o->path(QFlags<QUrl::ComponentFormattingOption>(options));
 	}
 	return QString();
 }
@@ -12069,7 +11899,7 @@ QString QtScriptQUrl::password(int arg0)
 	auto __o = this->thiz<QUrl *>();
 	if (__o)
 	{
-		return __o->password(arg0);
+		return __o->password(QFlags<QUrl::ComponentFormattingOption>(arg0));
 	}
 	return QString();
 }
@@ -12094,12 +11924,12 @@ QByteArray QtScriptQUrl::toEncoded()
 	return QByteArray();
 }
 
-QByteArray QtScriptQUrl::toEncoded(QUrlTwoFlags<QUrl::UrlFormattingOption, QUrl::ComponentFormattingOption> options)
+QByteArray QtScriptQUrl::toEncoded(int options)
 {
 	auto __o = this->thiz<QUrl *>();
 	if (__o)
 	{
-		return __o->toEncoded(options);
+		return __o->toEncoded(QUrlTwoFlags<QUrl::UrlFormattingOption, QUrl::ComponentFormattingOption>(options));
 	}
 	return QByteArray();
 }
@@ -12119,19 +11949,9 @@ QString QtScriptQUrl::userName(int options)
 	auto __o = this->thiz<QUrl *>();
 	if (__o)
 	{
-		return __o->userName(options);
+		return __o->userName(QFlags<QUrl::ComponentFormattingOption>(options));
 	}
 	return QString();
-}
-
-QUrlPrivate* QtScriptQUrl::data_ptr()
-{
-	auto __o = this->thiz<QUrl *>();
-	if (__o)
-	{
-		return __o->data_ptr();
-	}
-	return nullptr;
 }
 
 QString QtScriptQUrl::url()
@@ -12144,12 +11964,12 @@ QString QtScriptQUrl::url()
 	return QString();
 }
 
-QString QtScriptQUrl::url(QUrlTwoFlags<QUrl::UrlFormattingOption, QUrl::ComponentFormattingOption> options)
+QString QtScriptQUrl::url(int options)
 {
 	auto __o = this->thiz<QUrl *>();
 	if (__o)
 	{
-		return __o->url(options);
+		return __o->url(QUrlTwoFlags<QUrl::UrlFormattingOption, QUrl::ComponentFormattingOption>(options));
 	}
 	return QString();
 }
@@ -12177,7 +11997,7 @@ void QtScriptQUrl::setAuthority(const QString& authority, int mode)
 	auto __o = this->thiz<QUrl *>();
 	if (__o)
 	{
-		__o->setAuthority(authority, int(mode));
+		__o->setAuthority(authority, QUrl::ParsingMode(mode));
 	}
 }
 
@@ -12215,7 +12035,7 @@ void QtScriptQUrl::setQuery(const QString& query, int mode)
 	auto __o = this->thiz<QUrl *>();
 	if (__o)
 	{
-		__o->setQuery(query, int(mode));
+		__o->setQuery(query, QUrl::ParsingMode(mode));
 	}
 }
 
@@ -12233,7 +12053,7 @@ void QtScriptQUrl::setUserInfo(const QString& userInfo, int mode)
 	auto __o = this->thiz<QUrl *>();
 	if (__o)
 	{
-		__o->setUserInfo(userInfo, int(mode));
+		__o->setUserInfo(userInfo, QUrl::ParsingMode(mode));
 	}
 }
 
@@ -12325,7 +12145,8 @@ QScriptValue QtScriptQUrl::toStringList(QScriptContext *context, QScriptEngine* 
 		case 2:
 		{
 			auto arg0 = qscriptvalue_cast<QList<QUrl>>(context->argument(0));
-			auto arg1 = qscriptvalue_cast<QUrlTwoFlags<QUrl::UrlFormattingOption, QUrl::ComponentFormattingOption>>(context->argument(1));
+			auto tmp_1 = qscriptvalue_cast<int>(context->argument(1));
+			auto arg1 = QUrlTwoFlags<QUrl::UrlFormattingOption, QUrl::ComponentFormattingOption>(tmp_1);
 			return __e->toScriptValue(QUrl::toStringList(arg0, arg1));
 		}
 	}
@@ -12353,7 +12174,7 @@ QScriptValue QtScriptQUrl::fromEncoded(QScriptContext *context, QScriptEngine* _
 		{
 			auto arg0 = qscriptvalue_cast<QByteArray>(context->argument(0));
 			auto tmp_1 = qscriptvalue_cast<int>(context->argument(1));
-			auto arg1 = int(tmp_1);
+			auto arg1 = QUrl::ParsingMode(tmp_1);
 			return __e->toScriptValue(QUrl::fromEncoded(arg0, arg1));
 		}
 	}
@@ -12387,7 +12208,8 @@ QScriptValue QtScriptQUrl::fromUserInput(QScriptContext *context, QScriptEngine*
 		{
 			auto arg0 = qscriptvalue_cast<QString>(context->argument(0));
 			auto arg1 = qscriptvalue_cast<QString>(context->argument(1));
-			auto arg2 = qscriptvalue_cast<int>(context->argument(2));
+			auto tmp_2 = qscriptvalue_cast<int>(context->argument(2));
+			auto arg2 = QFlags<QUrl::UserInputResolutionOption>(tmp_2);
 			return __e->toScriptValue(QUrl::fromUserInput(arg0, arg1, arg2));
 		}
 	}
@@ -12436,7 +12258,7 @@ QScriptValue QtScriptQUrl::fromStringList(QScriptContext *context, QScriptEngine
 		{
 			auto arg0 = qscriptvalue_cast<QStringList>(context->argument(0));
 			auto tmp_1 = qscriptvalue_cast<int>(context->argument(1));
-			auto arg1 = int(tmp_1);
+			auto arg1 = QUrl::ParsingMode(tmp_1);
 			return __e->toScriptValue(QUrl::fromStringList(arg0, arg1));
 		}
 	}
@@ -12469,13 +12291,24 @@ QScriptValue QtScriptQUrl::fromLocalFile(QScriptContext *context, QScriptEngine*
 
 QScriptValue QtScriptQUrl::toPercentEncoding(QScriptContext *context, QScriptEngine* __e)
 {
-	if (!QtScriptUtils::checkArgumentCount(context, 3, 3))
+	if (!QtScriptUtils::checkArgumentCount(context, 1, 3))
 	{
 		return __e->uncaughtException();
 	}
 
 	switch (context->argumentCount())
 	{
+		case 1:
+		{
+			auto arg0 = qscriptvalue_cast<QString>(context->argument(0));
+			return __e->toScriptValue(QUrl::toPercentEncoding(arg0));
+		}
+		case 2:
+		{
+			auto arg0 = qscriptvalue_cast<QString>(context->argument(0));
+			auto arg1 = qscriptvalue_cast<QByteArray>(context->argument(1));
+			return __e->toScriptValue(QUrl::toPercentEncoding(arg0, arg1));
+		}
 		case 3:
 		{
 			auto arg0 = qscriptvalue_cast<QString>(context->argument(0));
@@ -12551,7 +12384,6 @@ bool QtScriptQUrl::constructObject(QScriptContext *context, NativeObjectType &ou
 	{
 		case 0:
 		{
-			out = QUrl();
 			ok = true;
 			break;
 		}
@@ -12566,7 +12398,7 @@ bool QtScriptQUrl::constructObject(QScriptContext *context, NativeObjectType &ou
 		{
 			auto arg0 = qscriptvalue_cast<QString>(context->argument(0));
 			auto tmp_1 = qscriptvalue_cast<int>(context->argument(1));
-			auto arg1 = int(tmp_1);
+			auto arg1 = QUrl::ParsingMode(tmp_1);
 			out = QUrl(arg0, arg1);
 			ok = true;
 			break;
@@ -12582,7 +12414,7 @@ bool QtScriptQUrl::constructObject(QScriptContext *context, NativeObjectType &ou
 }
 
 QtScriptQUrlQuery::QtScriptQUrlQuery(QScriptEngine *engine, const QByteArray &className)
-	: QtScriptBaseClassPrototype<QUrlQuery>(engine, className)
+	: QtScriptBaseClassPrototype<QUrlQuery, false>(engine, className)
 {
 }
 
@@ -12636,121 +12468,13 @@ void QtScriptQUrlQuery::set(const QUrlQuery& other)
 	}
 }
 
-void QtScriptQUrlQuery::setQueryItems(const QList<QPair<QString, QString>>& query)
+void QtScriptQUrlQuery::setQuery(const QString& queryString)
 {
 	auto __o = this->thiz<QUrlQuery *>();
 	if (__o)
 	{
-		__o->setQueryItems(query);
+		__o->setQuery(queryString);
 	}
-}
-
-bool QtScriptQUrlQuery::hasQueryItem(const QString& key)
-{
-	auto __o = this->thiz<QUrlQuery *>();
-	if (__o)
-	{
-		return __o->hasQueryItem(key);
-	}
-	return false;
-}
-
-QString QtScriptQUrlQuery::query()
-{
-	auto __o = this->thiz<QUrlQuery *>();
-	if (__o)
-	{
-		return __o->query();
-	}
-	return QString();
-}
-
-QString QtScriptQUrlQuery::query(int encoding)
-{
-	auto __o = this->thiz<QUrlQuery *>();
-	if (__o)
-	{
-		return __o->query(encoding);
-	}
-	return QString();
-}
-
-QChar QtScriptQUrlQuery::queryValueDelimiter()
-{
-	auto __o = this->thiz<QUrlQuery *>();
-	if (__o)
-	{
-		return __o->queryValueDelimiter();
-	}
-	return QChar();
-}
-
-void QtScriptQUrlQuery::removeAllQueryItems(const QString& key)
-{
-	auto __o = this->thiz<QUrlQuery *>();
-	if (__o)
-	{
-		__o->removeAllQueryItems(key);
-	}
-}
-
-bool QtScriptQUrlQuery::isEmpty()
-{
-	auto __o = this->thiz<QUrlQuery *>();
-	if (__o)
-	{
-		return __o->isEmpty();
-	}
-	return false;
-}
-
-void QtScriptQUrlQuery::swap(QUrlQuery& other)
-{
-	auto __o = this->thiz<QUrlQuery *>();
-	if (__o)
-	{
-		__o->swap(other);
-	}
-}
-
-QString QtScriptQUrlQuery::toString()
-{
-	auto __o = this->thiz<QUrlQuery *>();
-	if (__o)
-	{
-		return __o->toString();
-	}
-	return QString();
-}
-
-QString QtScriptQUrlQuery::toString(int encoding)
-{
-	auto __o = this->thiz<QUrlQuery *>();
-	if (__o)
-	{
-		return __o->toString(encoding);
-	}
-	return QString();
-}
-
-QSharedDataPointer<QUrlQueryPrivate> QtScriptQUrlQuery::data_ptr()
-{
-	auto __o = this->thiz<QUrlQuery *>();
-	if (__o)
-	{
-		return __o->data_ptr();
-	}
-	return QSharedDataPointer<QUrlQueryPrivate>();
-}
-
-bool QtScriptQUrlQuery::isDetached()
-{
-	auto __o = this->thiz<QUrlQuery *>();
-	if (__o)
-	{
-		return __o->isDetached();
-	}
-	return false;
 }
 
 QString QtScriptQUrlQuery::queryItemValue(const QString& key)
@@ -12768,9 +12492,18 @@ QString QtScriptQUrlQuery::queryItemValue(const QString& key, int encoding)
 	auto __o = this->thiz<QUrlQuery *>();
 	if (__o)
 	{
-		return __o->queryItemValue(key, encoding);
+		return __o->queryItemValue(key, QFlags<QUrl::ComponentFormattingOption>(encoding));
 	}
 	return QString();
+}
+
+void QtScriptQUrlQuery::clear()
+{
+	auto __o = this->thiz<QUrlQuery *>();
+	if (__o)
+	{
+		__o->clear();
+	}
 }
 
 bool QtScriptQUrlQuery::equals(const QUrlQuery& other)
@@ -12783,41 +12516,22 @@ bool QtScriptQUrlQuery::equals(const QUrlQuery& other)
 	return false;
 }
 
-void QtScriptQUrlQuery::setQueryDelimiters(QChar valueDelimiter, QChar pairDelimiter)
+bool QtScriptQUrlQuery::hasQueryItem(const QString& key)
 {
 	auto __o = this->thiz<QUrlQuery *>();
 	if (__o)
 	{
-		__o->setQueryDelimiters(valueDelimiter, pairDelimiter);
+		return __o->hasQueryItem(key);
 	}
+	return false;
 }
 
-QList<QPair<QString, QString>> QtScriptQUrlQuery::queryItems()
+void QtScriptQUrlQuery::removeAllQueryItems(const QString& key)
 {
 	auto __o = this->thiz<QUrlQuery *>();
 	if (__o)
 	{
-		return __o->queryItems();
-	}
-	return QList<QPair<QString, QString>>();
-}
-
-QList<QPair<QString, QString>> QtScriptQUrlQuery::queryItems(int encoding)
-{
-	auto __o = this->thiz<QUrlQuery *>();
-	if (__o)
-	{
-		return __o->queryItems(encoding);
-	}
-	return QList<QPair<QString, QString>>();
-}
-
-void QtScriptQUrlQuery::clear()
-{
-	auto __o = this->thiz<QUrlQuery *>();
-	if (__o)
-	{
-		__o->clear();
+		__o->removeAllQueryItems(key);
 	}
 }
 
@@ -12846,17 +12560,76 @@ QStringList QtScriptQUrlQuery::allQueryItemValues(const QString& key, int encodi
 	auto __o = this->thiz<QUrlQuery *>();
 	if (__o)
 	{
-		return __o->allQueryItemValues(key, encoding);
+		return __o->allQueryItemValues(key, QFlags<QUrl::ComponentFormattingOption>(encoding));
 	}
 	return QStringList();
 }
 
-void QtScriptQUrlQuery::setQuery(const QString& queryString)
+bool QtScriptQUrlQuery::isEmpty()
 {
 	auto __o = this->thiz<QUrlQuery *>();
 	if (__o)
 	{
-		__o->setQuery(queryString);
+		return __o->isEmpty();
+	}
+	return false;
+}
+
+void QtScriptQUrlQuery::swap(QUrlQuery& other)
+{
+	auto __o = this->thiz<QUrlQuery *>();
+	if (__o)
+	{
+		__o->swap(other);
+	}
+}
+
+QString QtScriptQUrlQuery::query()
+{
+	auto __o = this->thiz<QUrlQuery *>();
+	if (__o)
+	{
+		return __o->query();
+	}
+	return QString();
+}
+
+QString QtScriptQUrlQuery::query(int encoding)
+{
+	auto __o = this->thiz<QUrlQuery *>();
+	if (__o)
+	{
+		return __o->query(QFlags<QUrl::ComponentFormattingOption>(encoding));
+	}
+	return QString();
+}
+
+QString QtScriptQUrlQuery::toString()
+{
+	auto __o = this->thiz<QUrlQuery *>();
+	if (__o)
+	{
+		return __o->toString();
+	}
+	return QString();
+}
+
+QString QtScriptQUrlQuery::toString(int encoding)
+{
+	auto __o = this->thiz<QUrlQuery *>();
+	if (__o)
+	{
+		return __o->toString(QFlags<QUrl::ComponentFormattingOption>(encoding));
+	}
+	return QString();
+}
+
+void QtScriptQUrlQuery::setQueryDelimiters(QChar valueDelimiter, QChar pairDelimiter)
+{
+	auto __o = this->thiz<QUrlQuery *>();
+	if (__o)
+	{
+		__o->setQueryDelimiters(valueDelimiter, pairDelimiter);
 	}
 }
 
@@ -12867,6 +12640,16 @@ void QtScriptQUrlQuery::removeQueryItem(const QString& key)
 	{
 		__o->removeQueryItem(key);
 	}
+}
+
+QChar QtScriptQUrlQuery::queryValueDelimiter()
+{
+	auto __o = this->thiz<QUrlQuery *>();
+	if (__o)
+	{
+		return __o->queryValueDelimiter();
+	}
+	return QChar();
 }
 
 QScriptValue QtScriptQUrlQuery::defaultQueryValueDelimiter(QScriptContext *context, QScriptEngine* __e)
@@ -12928,7 +12711,6 @@ bool QtScriptQUrlQuery::constructObject(QScriptContext *context, NativeObjectTyp
 	{
 		case 0:
 		{
-			out = QUrlQuery();
 			ok = true;
 			break;
 		}

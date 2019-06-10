@@ -38,7 +38,7 @@ protected:
 		return cls->tryConstructObject(ctx);
 	}
 
-private:
+protected:
 	QScriptValue mProto;
 	QString mClassName;
 };

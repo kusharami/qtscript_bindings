@@ -68,12 +68,13 @@ bool QtScriptUtils::checkArgumentCount(
 }
 
 QScriptValue QtScriptUtils::getNamespaceObject(
-	QScriptEngine *engine, std::initializer_list<const char *> ns_list)
+	QScriptEngine *engine, const QByteArray &nslist)
 {
 	auto result = engine->globalObject();
-	for (const char *cns : ns_list)
+
+	for (const auto &cns : nslist.split('.'))
 	{
-		auto ns = engine->toStringHandle(QLatin1String(cns));
+		auto ns = engine->toStringHandle(QString::fromLatin1(cns));
 		auto sv = result.property(ns);
 		if (!sv.isObject())
 		{
