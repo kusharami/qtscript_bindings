@@ -377,6 +377,7 @@ bool QtScriptQPoint::constructObject(QScriptContext *context, NativeObjectType &
 	{
 		case 0:
 		{
+			Q_UNUSED(out);
 			ok = true;
 			break;
 		}
@@ -590,6 +591,7 @@ bool QtScriptQPointF::constructObject(QScriptContext *context, NativeObjectType 
 	{
 		case 0:
 		{
+			Q_UNUSED(out);
 			ok = true;
 			break;
 		}
@@ -2305,6 +2307,7 @@ bool QtScriptQLocale::constructObject(QScriptContext *context, NativeObjectType 
 	{
 		case 0:
 		{
+			Q_UNUSED(out);
 			ok = true;
 			break;
 		}
@@ -2740,6 +2743,7 @@ bool QtScriptQTime::constructObject(QScriptContext *context, NativeObjectType &o
 	{
 		case 0:
 		{
+			Q_UNUSED(out);
 			ok = true;
 			break;
 		}
@@ -4319,6 +4323,7 @@ bool QtScriptQFileInfo::constructObject(QScriptContext *context, NativeObjectTyp
 	{
 		case 0:
 		{
+			Q_UNUSED(out);
 			ok = true;
 			break;
 		}
@@ -5418,6 +5423,7 @@ bool QtScriptQDir::constructObject(QScriptContext *context, NativeObjectType &ou
 	{
 		case 0:
 		{
+			Q_UNUSED(out);
 			ok = true;
 			break;
 		}
@@ -5803,6 +5809,7 @@ bool QtScriptQEasingCurve::constructObject(QScriptContext *context, NativeObject
 	{
 		case 0:
 		{
+			Q_UNUSED(out);
 			ok = true;
 			break;
 		}
@@ -6056,6 +6063,7 @@ bool QtScriptQLine::constructObject(QScriptContext *context, NativeObjectType &o
 	{
 		case 0:
 		{
+			Q_UNUSED(out);
 			ok = true;
 			break;
 		}
@@ -6461,6 +6469,7 @@ bool QtScriptQLineF::constructObject(QScriptContext *context, NativeObjectType &
 	{
 		case 0:
 		{
+			Q_UNUSED(out);
 			ok = true;
 			break;
 		}
@@ -6663,6 +6672,7 @@ bool QtScriptQMargins::constructObject(QScriptContext *context, NativeObjectType
 	{
 		case 0:
 		{
+			Q_UNUSED(out);
 			ok = true;
 			break;
 		}
@@ -6868,6 +6878,7 @@ bool QtScriptQMarginsF::constructObject(QScriptContext *context, NativeObjectTyp
 	{
 		case 0:
 		{
+			Q_UNUSED(out);
 			ok = true;
 			break;
 		}
@@ -7578,6 +7589,7 @@ bool QtScriptQSize::constructObject(QScriptContext *context, NativeObjectType &o
 	{
 		case 0:
 		{
+			Q_UNUSED(out);
 			ok = true;
 			break;
 		}
@@ -7852,6 +7864,7 @@ bool QtScriptQSizeF::constructObject(QScriptContext *context, NativeObjectType &
 	{
 		case 0:
 		{
+			Q_UNUSED(out);
 			ok = true;
 			break;
 		}
@@ -8497,6 +8510,7 @@ bool QtScriptQRect::constructObject(QScriptContext *context, NativeObjectType &o
 	{
 		case 0:
 		{
+			Q_UNUSED(out);
 			ok = true;
 			break;
 		}
@@ -9163,6 +9177,7 @@ bool QtScriptQRectF::constructObject(QScriptContext *context, NativeObjectType &
 	{
 		case 0:
 		{
+			Q_UNUSED(out);
 			ok = true;
 			break;
 		}
@@ -12384,6 +12399,7 @@ bool QtScriptQUrl::constructObject(QScriptContext *context, NativeObjectType &ou
 	{
 		case 0:
 		{
+			Q_UNUSED(out);
 			ok = true;
 			break;
 		}
@@ -12711,6 +12727,7 @@ bool QtScriptQUrlQuery::constructObject(QScriptContext *context, NativeObjectTyp
 	{
 		case 0:
 		{
+			Q_UNUSED(out);
 			ok = true;
 			break;
 		}

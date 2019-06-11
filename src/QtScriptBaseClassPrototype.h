@@ -51,66 +51,6 @@ public:
 	using PointerType =
 		typename qtscript_proto_ptr_type_t<T, hasPrivateDestructor>::ptr_type;
 
-protected:
-	inline explicit QtScriptBaseClassPrototype(
-		QScriptEngine *engine, const QByteArray &className)
-		: QtScriptAbstractClass(engine, className)
-	{
-	}
-
-	template <typename TT,
-		typename std::enable_if<std::is_pointer<TT>::value &&
-			std::is_base_of<QObject, typename std::remove_pointer<TT>::type>::
-				value>::type * = nullptr>
-	QScriptValue newInstance(TT obj, bool construct = false)
-	{
-		Q_ASSERT(obj);
-		QScriptEngine *engine = this->engine();
-		QScriptEngine::QObjectWrapOptions wrapOptions(
-			QScriptEngine::ExcludeDeleteLater |
-			QScriptEngine::SkipMethodsInEnumeration |
-			QScriptEngine::ExcludeSuperClassContents);
-
-		if (!construct)
-			wrapOptions |= QScriptEngine::PreferExistingWrapperObject;
-
-		return engine->newQObject(obj, QScriptEngine::QtOwnership,
-			QScriptEngine::ExcludeDeleteLater |
-				QScriptEngine::SkipMethodsInEnumeration |
-				QScriptEngine::ExcludeSuperClassContents);
-	}
-
-	template <typename TT,
-		typename std::enable_if<std::is_pointer<TT>::value &&
-			!std::is_same<StorageType, T>::value &&
-			!std::is_base_of<QObject, typename std::remove_pointer<TT>::type>::
-				value>::type * = nullptr>
-	QScriptValue newInstance(TT obj, bool construct = false)
-	{
-		QScriptEngine *engine = this->engine();
-
-		QVariant v = construct ? QVariant::fromValue(StorageType(obj))
-							   : QVariant::fromValue(static_cast<T>(obj));
-		QScriptValue result = engine->newVariant(v);
-		result.setScriptClass(this);
-		return result;
-	}
-
-	template <typename TT,
-		typename std::enable_if<!std::is_pointer<TT>::value ||
-			(std::is_same<StorageType, T>::value &&
-				!std::is_base_of<QObject,
-					typename std::remove_pointer<TT>::type>::value)>::type * =
-			nullptr>
-	QScriptValue newInstance(TT const &obj, bool construct = false)
-	{
-		Q_UNUSED(construct);
-		QScriptEngine *engine = this->engine();
-		QScriptValue result = engine->newVariant(QVariant::fromValue(obj));
-		result.setScriptClass(this);
-		return result;
-	}
-
 	template <typename CLS_T, typename TT,
 		typename std::enable_if<!std::is_pointer<TT>::value ||
 			std::is_pointer<T>::value>::type * = nullptr>
@@ -219,6 +159,66 @@ protected:
 			return;
 
 		out = v.value<TT>();
+	}
+
+protected:
+	inline explicit QtScriptBaseClassPrototype(
+		QScriptEngine *engine, const QByteArray &className)
+		: QtScriptAbstractClass(engine, className)
+	{
+	}
+
+	template <typename TT,
+		typename std::enable_if<std::is_pointer<TT>::value &&
+			std::is_base_of<QObject, typename std::remove_pointer<TT>::type>::
+				value>::type * = nullptr>
+	QScriptValue newInstance(TT obj, bool construct = false)
+	{
+		Q_ASSERT(obj);
+		QScriptEngine *engine = this->engine();
+		QScriptEngine::QObjectWrapOptions wrapOptions(
+			QScriptEngine::ExcludeDeleteLater |
+			QScriptEngine::SkipMethodsInEnumeration |
+			QScriptEngine::ExcludeSuperClassContents);
+
+		if (!construct)
+			wrapOptions |= QScriptEngine::PreferExistingWrapperObject;
+
+		return engine->newQObject(obj, QScriptEngine::QtOwnership,
+			QScriptEngine::ExcludeDeleteLater |
+				QScriptEngine::SkipMethodsInEnumeration |
+				QScriptEngine::ExcludeSuperClassContents);
+	}
+
+	template <typename TT,
+		typename std::enable_if<std::is_pointer<TT>::value &&
+			!std::is_same<StorageType, T>::value &&
+			!std::is_base_of<QObject, typename std::remove_pointer<TT>::type>::
+				value>::type * = nullptr>
+	QScriptValue newInstance(TT obj, bool construct = false)
+	{
+		QScriptEngine *engine = this->engine();
+
+		QVariant v = construct ? QVariant::fromValue(StorageType(obj))
+							   : QVariant::fromValue(static_cast<T>(obj));
+		QScriptValue result = engine->newVariant(v);
+		result.setScriptClass(this);
+		return result;
+	}
+
+	template <typename TT,
+		typename std::enable_if<!std::is_pointer<TT>::value ||
+			(std::is_same<StorageType, T>::value &&
+				!std::is_base_of<QObject,
+					typename std::remove_pointer<TT>::type>::value)>::type * =
+			nullptr>
+	QScriptValue newInstance(TT const &obj, bool construct = false)
+	{
+		Q_UNUSED(construct);
+		QScriptEngine *engine = this->engine();
+		QScriptValue result = engine->newVariant(QVariant::fromValue(obj));
+		result.setScriptClass(this);
+		return result;
 	}
 
 	template <typename TT>
