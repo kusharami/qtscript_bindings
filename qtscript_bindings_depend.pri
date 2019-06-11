@@ -18,3 +18,8 @@ CONFIG(debug, debug|release) {
 } 
 
 LIBS += -L$$QTSCRIPT_BINDINGS_LIB
+
+INCLUDEPATH += \
+    $$PWD/manual \
+    $$PWD/generated \
+    $$PWD/src

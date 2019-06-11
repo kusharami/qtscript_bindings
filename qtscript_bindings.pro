@@ -4,14 +4,9 @@ TARGET = qtscript_bindings
 TEMPLATE = lib
 CONFIG += staticlib
 
-include(qtscript_bindings_dest.pri)
+include(qtscript_bindings_depend.pri)
 
 DESTDIR = $$QTSCRIPT_BINDINGS_LIB
-
-INCLUDEPATH += \
-    manual \
-    generated \
-    src
 
 HEADERS += \
     manual/QtScriptBool.h \
@@ -23,6 +18,7 @@ HEADERS += \
     src/QtScriptInstall.h \
     src/QtScriptUtils.h \
     generated/qtscript_core.hpp
+
 SOURCES += \
     manual/QtScriptBool.cpp \
     manual/QtScriptQByteArray.cpp \
