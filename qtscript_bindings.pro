@@ -4,6 +4,10 @@ TARGET = qtscript_bindings
 TEMPLATE = lib
 CONFIG += staticlib
 
+include(qtscript_bindings_dest.pri)
+
+DESTDIR = $$QTSCRIPT_BINDINGS_LIB
+
 INCLUDEPATH += \
     manual \
     generated \

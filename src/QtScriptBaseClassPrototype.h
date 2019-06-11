@@ -1,6 +1,7 @@
 #pragma once
 
 #include "QtScriptAbstractClass.h"
+
 #include <QScriptEngine>
 
 #include <memory>
@@ -188,7 +189,7 @@ protected:
 			return;
 		}
 
-		PointerType obj;
+		PointerType obj = nullptr;
 		auto v = value.toVariant();
 		int userType = v.userType();
 		if (userType == qMetaTypeId<T>())
@@ -251,7 +252,8 @@ protected:
 	}
 
 	template <typename SELF_T, typename TT, typename CLS_T,
-		typename std::enable_if<std::is_pointer<SELF_T>::value>::type * = 0>
+		typename std::enable_if<std::is_pointer<SELF_T>::value>::type * =
+			nullptr>
 	static void registerMetaType(
 		QScriptEngine *engine, const QScriptValue &proto)
 	{
@@ -263,7 +265,8 @@ protected:
 	}
 
 	template <typename SELF_T, typename TT, typename CLS_T,
-		typename std::enable_if<!std::is_pointer<SELF_T>::value>::type * = 0>
+		typename std::enable_if<!std::is_pointer<SELF_T>::value>::type * =
+			nullptr>
 	static void registerMetaType(
 		QScriptEngine *engine, const QScriptValue &proto)
 	{

@@ -364,6 +364,11 @@ QByteArray QtScriptQByteArray::replace(
 	return ba->replace(index, len, scriptValueToByteArray(to));
 }
 
+QString QtScriptQByteArray::valueOf() const
+{
+	return join();
+}
+
 QString QtScriptQByteArray::toString() const
 {
 	auto ba = thisByteArray();

@@ -52,7 +52,7 @@ public slots:
 	QByteArray replace(const QScriptValue &what, const QScriptValue &to) const;
 	QByteArray replace(int index, int len, const QScriptValue &to) const;
 
-	inline QString valueOf() const;
+	QString valueOf() const;
 	QString toString() const;
 	QString toStringLatin() const;
 	QString toStringLocal() const;
