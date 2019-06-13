@@ -155,7 +155,7 @@ public:
 			return;
 		}
 		auto v = value.toVariant();
-		if (v.userType() != qMetaTypeId<TT>())
+		if (!v.canConvert(qMetaTypeId<TT>()))
 			return;
 
 		out = v.value<TT>();
