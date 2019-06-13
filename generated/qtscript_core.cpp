@@ -1684,15 +1684,6 @@ QString QtScriptQLocale::toString(double i, char f, int prec)
 	return QString();
 }
 
-void QtScriptQLocale::swap(QLocale& other)
-{
-	auto __o = this->thiz<QLocale *>();
-	if (__o)
-	{
-		__o->swap(other);
-	}
-}
-
 QString QtScriptQLocale::monthName(int arg0)
 {
 	auto __o = this->thiz<QLocale *>();
@@ -3968,15 +3959,6 @@ QString QtScriptQFileInfo::absolutePath()
 	return QString();
 }
 
-void QtScriptQFileInfo::swap(QFileInfo& other)
-{
-	auto __o = this->thiz<QFileInfo *>();
-	if (__o)
-	{
-		__o->swap(other);
-	}
-}
-
 QString QtScriptQFileInfo::canonicalPath()
 {
 	auto __o = this->thiz<QFileInfo *>();
@@ -4640,13 +4622,14 @@ bool QtScriptQDir::isEmpty(int filters)
 	return false;
 }
 
-void QtScriptQDir::swap(QDir& other)
+bool QtScriptQDir::rmdir(const QString& dirName)
 {
 	auto __o = this->thiz<QDir *>();
 	if (__o)
 	{
-		__o->swap(other);
+		return __o->rmdir(dirName);
 	}
+	return false;
 }
 
 QString QtScriptQDir::canonicalPath()
@@ -4686,16 +4669,6 @@ QString QtScriptQDir::dirName()
 		return __o->dirName();
 	}
 	return QString();
-}
-
-bool QtScriptQDir::rmdir(const QString& dirName)
-{
-	auto __o = this->thiz<QDir *>();
-	if (__o)
-	{
-		return __o->rmdir(dirName);
-	}
-	return false;
 }
 
 bool QtScriptQDir::isRoot()
@@ -5714,15 +5687,6 @@ qreal QtScriptQEasingCurve::period()
 	return static_cast<qreal>(0);
 }
 
-void QtScriptQEasingCurve::setType(int type)
-{
-	auto __o = this->thiz<QEasingCurve *>();
-	if (__o)
-	{
-		__o->setType(QEasingCurve::Type(type));
-	}
-}
-
 void QtScriptQEasingCurve::setAmplitude(qreal amplitude)
 {
 	auto __o = this->thiz<QEasingCurve *>();
@@ -5742,13 +5706,14 @@ qreal QtScriptQEasingCurve::valueForProgress(qreal progress)
 	return static_cast<qreal>(0);
 }
 
-void QtScriptQEasingCurve::swap(QEasingCurve& other)
+QVector<QPointF> QtScriptQEasingCurve::toCubicSpline()
 {
 	auto __o = this->thiz<QEasingCurve *>();
 	if (__o)
 	{
-		__o->swap(other);
+		return __o->toCubicSpline();
 	}
+	return QVector<QPointF>();
 }
 
 qreal QtScriptQEasingCurve::amplitude()
@@ -5780,14 +5745,13 @@ int QtScriptQEasingCurve::type()
 	return 0;
 }
 
-QVector<QPointF> QtScriptQEasingCurve::toCubicSpline()
+void QtScriptQEasingCurve::setType(int type)
 {
 	auto __o = this->thiz<QEasingCurve *>();
 	if (__o)
 	{
-		return __o->toCubicSpline();
+		__o->setType(QEasingCurve::Type(type));
 	}
-	return QVector<QPointF>();
 }
 
 int QtScriptQEasingCurve::constructorArgumentCountMin() const
@@ -11667,15 +11631,6 @@ QString QtScriptQUrl::toString(int options)
 	return QString();
 }
 
-void QtScriptQUrl::swap(QUrl& other)
-{
-	auto __o = this->thiz<QUrl *>();
-	if (__o)
-	{
-		__o->swap(other);
-	}
-}
-
 void QtScriptQUrl::setPassword(const QString& password)
 {
 	auto __o = this->thiz<QUrl *>();
@@ -12589,15 +12544,6 @@ bool QtScriptQUrlQuery::isEmpty()
 		return __o->isEmpty();
 	}
 	return false;
-}
-
-void QtScriptQUrlQuery::swap(QUrlQuery& other)
-{
-	auto __o = this->thiz<QUrlQuery *>();
-	if (__o)
-	{
-		__o->swap(other);
-	}
 }
 
 QString QtScriptQUrlQuery::query()

@@ -22,7 +22,8 @@ HEADERS += \
     src/QtScriptBaseClassPrototype.h \
     src/QtScriptInstall.h \
     src/QtScriptUtils.h \
-    generated/qtscript_core.hpp
+    generated/qtscript_core.hpp \
+    generated/qtscript_network.hpp
 
 SOURCES += \
     manual/QtScriptBool.cpp \
@@ -32,9 +33,11 @@ SOURCES += \
     src/QtScriptAbstractClass.cpp \
     src/QtScriptInstall.cpp \
     src/QtScriptUtils.cpp \
-    generated/qtscript_core.cpp
+    generated/qtscript_core.cpp \
+    generated/qtscript_network.cpp
 
 OTHER_FILES += \
-    generated/bindings.ini \
+    generated/core_bindings.ini \
+    generated/network_bindings.ini \
     generated/win32/userconf.ini \
     generated/mac/userconf.ini

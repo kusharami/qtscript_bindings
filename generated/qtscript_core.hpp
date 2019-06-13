@@ -285,7 +285,6 @@ public:
 	Q_INVOKABLE QString toString(qlonglong i);
 	Q_INVOKABLE QString toString(double i, char f);
 	Q_INVOKABLE QString toString(double i, char f, int prec);
-	Q_INVOKABLE void swap(QLocale& other);
 	Q_INVOKABLE QString monthName(int arg0);
 	Q_INVOKABLE QString monthName(int arg0, int format);
 	Q_INVOKABLE QString standaloneDayName(int arg0);
@@ -562,7 +561,6 @@ public:
 	Q_INVOKABLE bool isWritable();
 	Q_INVOKABLE QString filePath();
 	Q_INVOKABLE QString absolutePath();
-	Q_INVOKABLE void swap(QFileInfo& other);
 	Q_INVOKABLE QString canonicalPath();
 	Q_INVOKABLE bool isBundle();
 	Q_INVOKABLE bool isHidden();
@@ -637,12 +635,11 @@ public:
 	Q_INVOKABLE QString absolutePath();
 	Q_INVOKABLE bool isEmpty();
 	Q_INVOKABLE bool isEmpty(int filters);
-	Q_INVOKABLE void swap(QDir& other);
+	Q_INVOKABLE bool rmdir(const QString& dirName);
 	Q_INVOKABLE QString canonicalPath();
 	Q_INVOKABLE bool removeRecursively();
 	void setPath(const QString& path);
 	Q_INVOKABLE QString dirName();
-	Q_INVOKABLE bool rmdir(const QString& dirName);
 	Q_INVOKABLE bool isRoot();
 	Q_INVOKABLE QString filePath(const QString& fileName);
 	Q_INVOKABLE QString absoluteFilePath(const QString& fileName);
@@ -738,9 +735,9 @@ public:
 	static void Register(const QScriptValue &targetNamespace);
 
 	Q_PROPERTY(qreal period READ period WRITE setPeriod)
-	Q_PROPERTY(int type READ type WRITE setType)
 	Q_PROPERTY(qreal amplitude READ amplitude WRITE setAmplitude)
 	Q_PROPERTY(qreal overshoot READ overshoot WRITE setOvershoot)
+	Q_PROPERTY(int type READ type WRITE setType)
 	Q_INVOKABLE bool notEquals(const QEasingCurve& other);
 	void setPeriod(qreal period);
 	Q_INVOKABLE void set(const QEasingCurve& other);
@@ -749,14 +746,13 @@ public:
 	qreal overshoot();
 	Q_INVOKABLE bool equals(const QEasingCurve& other);
 	qreal period();
-	void setType(int type);
 	void setAmplitude(qreal amplitude);
 	Q_INVOKABLE qreal valueForProgress(qreal progress);
-	Q_INVOKABLE void swap(QEasingCurve& other);
+	Q_INVOKABLE QVector<QPointF> toCubicSpline();
 	qreal amplitude();
 	void setOvershoot(qreal overshoot);
 	int type();
-	Q_INVOKABLE QVector<QPointF> toCubicSpline();
+	void setType(int type);
 };
 
 Q_DECLARE_METATYPE(QEasingCurve *)
@@ -1702,7 +1698,6 @@ public:
 	void setHost(const QString& host, int mode);
 	Q_INVOKABLE QString toString();
 	Q_INVOKABLE QString toString(int options);
-	Q_INVOKABLE void swap(QUrl& other);
 	void setPassword(const QString& password);
 	void setPassword(const QString& password, int mode);
 	Q_INVOKABLE bool isEmpty();
@@ -1793,7 +1788,6 @@ public:
 	Q_INVOKABLE QStringList allQueryItemValues(const QString& key);
 	Q_INVOKABLE QStringList allQueryItemValues(const QString& key, int encoding);
 	Q_INVOKABLE bool isEmpty();
-	Q_INVOKABLE void swap(QUrlQuery& other);
 	QString query();
 	QString query(int encoding);
 	Q_INVOKABLE QString toString();
