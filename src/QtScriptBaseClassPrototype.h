@@ -96,12 +96,23 @@ public:
 						  typename std::remove_pointer<TT>::type>::value,
 			"Wrong type");
 		out = nullptr;
-		if (!value.isVariant())
+		QScriptValue data;
+		if (value.isVariant())
+		{
+			data = value;
+		} else if (value.isObject())
+		{
+			data = value.data();
+		} else
+		{
+			return;
+		}
+		if (!data.isVariant())
 		{
 			return;
 		}
 
-		auto v = value.toVariant();
+		auto v = data.toVariant();
 		if (v.userType() != qMetaTypeId<T>())
 			return;
 
@@ -120,13 +131,23 @@ public:
 						  typename std::remove_pointer<TT>::type>::value,
 			"Wrong type");
 		out = nullptr;
-		if (!value.isVariant())
+		QScriptValue data;
+		if (value.isVariant())
+		{
+			data = value;
+		} else if (value.isObject())
+		{
+			data = value.data();
+		} else
 		{
 			return;
 		}
-
+		if (!data.isVariant())
+		{
+			return;
+		}
 		PointerType obj = nullptr;
-		auto v = value.toVariant();
+		auto v = data.toVariant();
 		int userType = v.userType();
 		if (userType == qMetaTypeId<T>())
 		{
@@ -144,11 +165,23 @@ public:
 	static void fromScriptValue(const QScriptValue &value, TT &out)
 	{
 		static_assert(std::is_same<T, TT>::value, "Wrong type");
-		if (!value.isVariant())
+		QScriptValue data;
+		if (value.isVariant())
+		{
+			data = value;
+		} else if (value.isObject())
+		{
+			data = value.data();
+		} else
 		{
 			return;
 		}
-		auto v = value.toVariant();
+		if (!data.isVariant())
+		{
+			return;
+		}
+
+		auto v = data.toVariant();
 		if (!v.canConvert(qMetaTypeId<TT>()))
 			return;
 
@@ -195,7 +228,8 @@ protected:
 
 		QVariant v = construct ? QVariant::fromValue(StorageType(obj))
 							   : QVariant::fromValue(static_cast<T>(obj));
-		QScriptValue result = engine->newVariant(v);
+		QScriptValue result = engine->newObject();
+		result.setData(engine->newVariant(v));
 		result.setScriptClass(this);
 		return result;
 	}
@@ -210,7 +244,8 @@ protected:
 	{
 		Q_UNUSED(construct);
 		QScriptEngine *engine = this->engine();
-		QScriptValue result = engine->newVariant(QVariant::fromValue(obj));
+		QScriptValue result = engine->newObject();
+		result.setData(engine->newVariant(QVariant::fromValue(obj)));
 		result.setScriptClass(this);
 		return result;
 	}

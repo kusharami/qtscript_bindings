@@ -569,7 +569,8 @@ QScriptValue QtScriptQDataStream::ptrToScriptValue(
 {
 	if (object)
 	{
-		engine->toScriptValue(QtScriptQDataStreamContainer(object->device()));
+		return toScriptValue<QtScriptQDataStream>(
+			engine, QtScriptQDataStreamContainer(object->device()));
 	}
 
 	return engine->nullValue();
