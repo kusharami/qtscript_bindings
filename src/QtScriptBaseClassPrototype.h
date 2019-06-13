@@ -82,9 +82,7 @@ public:
 	static void fromScriptValue(const QScriptValue &value, TT &out)
 	{
 		auto obj = value.toQObject();
-		if (obj)
-			Q_ASSERT(dynamic_cast<TT>(obj) != nullptr);
-		out = static_cast<TT>(obj);
+		out = qobject_cast<TT>(obj);
 	}
 
 	template <typename TT,
@@ -108,9 +106,7 @@ public:
 			return;
 
 		auto obj = v.value<PointerType>();
-		if (obj)
-			Q_ASSERT(dynamic_cast<TT>(obj) != nullptr);
-		out = static_cast<TT>(obj);
+		out = dynamic_cast<TT>(obj);
 	}
 
 	template <typename TT,
@@ -140,9 +136,7 @@ public:
 			obj = v.value<StorageType>().get();
 		}
 
-		if (obj)
-			Q_ASSERT(dynamic_cast<TT>(obj) != nullptr);
-		out = static_cast<TT>(obj);
+		out = dynamic_cast<TT>(obj);
 	}
 
 	template <typename TT,
