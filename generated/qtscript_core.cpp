@@ -2791,8 +2791,6 @@ QtScriptQTextStream::QtScriptQTextStream(QScriptEngine *engine)
 
 void QtScriptQTextStream::Register(const QScriptValue &targetNamespace)
 {
-	auto engine = targetNamespace.engine();
-	Q_ASSERT(engine);
 	QScriptValue inherit;
 	auto ctor = RegisterT<QTextStream, QtScriptQTextStream>(targetNamespace, inherit);
 	Q_ASSERT(ctor.isFunction());
@@ -5459,8 +5457,6 @@ QtScriptQDirIterator::QtScriptQDirIterator(QScriptEngine *engine)
 
 void QtScriptQDirIterator::Register(const QScriptValue &targetNamespace)
 {
-	auto engine = targetNamespace.engine();
-	Q_ASSERT(engine);
 	QScriptValue inherit;
 	auto ctor = RegisterT<QDirIterator, QtScriptQDirIterator>(targetNamespace, inherit);
 	Q_ASSERT(ctor.isFunction());
@@ -5604,8 +5600,6 @@ QtScriptQEasingCurve::QtScriptQEasingCurve(QScriptEngine *engine)
 
 void QtScriptQEasingCurve::Register(const QScriptValue &targetNamespace)
 {
-	auto engine = targetNamespace.engine();
-	Q_ASSERT(engine);
 	QScriptValue inherit;
 	auto ctor = RegisterT<QEasingCurve, QtScriptQEasingCurve>(targetNamespace, inherit);
 	Q_ASSERT(ctor.isFunction());
@@ -5807,8 +5801,6 @@ QtScriptQLine::QtScriptQLine(QScriptEngine *engine)
 
 void QtScriptQLine::Register(const QScriptValue &targetNamespace)
 {
-	auto engine = targetNamespace.engine();
-	Q_ASSERT(engine);
 	QScriptValue inherit;
 	auto ctor = RegisterT<QLine, QtScriptQLine>(targetNamespace, inherit);
 	Q_ASSERT(ctor.isFunction());
@@ -6488,8 +6480,6 @@ QtScriptQMargins::QtScriptQMargins(QScriptEngine *engine)
 
 void QtScriptQMargins::Register(const QScriptValue &targetNamespace)
 {
-	auto engine = targetNamespace.engine();
-	Q_ASSERT(engine);
 	QScriptValue inherit;
 	auto ctor = RegisterT<QMargins, QtScriptQMargins>(targetNamespace, inherit);
 	Q_ASSERT(ctor.isFunction());
@@ -6684,8 +6674,6 @@ QtScriptQMarginsF::QtScriptQMarginsF(QScriptEngine *engine)
 
 void QtScriptQMarginsF::Register(const QScriptValue &targetNamespace)
 {
-	auto engine = targetNamespace.engine();
-	Q_ASSERT(engine);
 	QScriptValue inherit;
 	auto ctor = RegisterT<QMarginsF, QtScriptQMarginsF>(targetNamespace, inherit);
 	Q_ASSERT(ctor.isFunction());
@@ -7326,8 +7314,6 @@ QtScriptQSize::QtScriptQSize(QScriptEngine *engine)
 
 void QtScriptQSize::Register(const QScriptValue &targetNamespace)
 {
-	auto engine = targetNamespace.engine();
-	Q_ASSERT(engine);
 	QScriptValue inherit;
 	auto ctor = RegisterT<QSize, QtScriptQSize>(targetNamespace, inherit);
 	Q_ASSERT(ctor.isFunction());
@@ -7591,8 +7577,6 @@ QtScriptQSizeF::QtScriptQSizeF(QScriptEngine *engine)
 
 void QtScriptQSizeF::Register(const QScriptValue &targetNamespace)
 {
-	auto engine = targetNamespace.engine();
-	Q_ASSERT(engine);
 	QScriptValue inherit;
 	auto ctor = RegisterT<QSizeF, QtScriptQSizeF>(targetNamespace, inherit);
 	Q_ASSERT(ctor.isFunction());
@@ -7869,8 +7853,6 @@ QtScriptQRect::QtScriptQRect(QScriptEngine *engine)
 
 void QtScriptQRect::Register(const QScriptValue &targetNamespace)
 {
-	auto engine = targetNamespace.engine();
-	Q_ASSERT(engine);
 	QScriptValue inherit;
 	auto ctor = RegisterT<QRect, QtScriptQRect>(targetNamespace, inherit);
 	Q_ASSERT(ctor.isFunction());
@@ -8526,8 +8508,6 @@ QtScriptQRectF::QtScriptQRectF(QScriptEngine *engine)
 
 void QtScriptQRectF::Register(const QScriptValue &targetNamespace)
 {
-	auto engine = targetNamespace.engine();
-	Q_ASSERT(engine);
 	QScriptValue inherit;
 	auto ctor = RegisterT<QRectF, QtScriptQRectF>(targetNamespace, inherit);
 	Q_ASSERT(ctor.isFunction());
@@ -10213,8 +10193,6 @@ QtScriptQTemporaryDir::QtScriptQTemporaryDir(QScriptEngine *engine)
 
 void QtScriptQTemporaryDir::Register(const QScriptValue &targetNamespace)
 {
-	auto engine = targetNamespace.engine();
-	Q_ASSERT(engine);
 	QScriptValue inherit;
 	auto ctor = RegisterT<QTemporaryDir, QtScriptQTemporaryDir>(targetNamespace, inherit);
 	Q_ASSERT(ctor.isFunction());
@@ -10832,8 +10810,6 @@ QtScriptQTextEncoder::QtScriptQTextEncoder(QScriptEngine *engine)
 
 void QtScriptQTextEncoder::Register(const QScriptValue &targetNamespace)
 {
-	auto engine = targetNamespace.engine();
-	Q_ASSERT(engine);
 	QScriptValue inherit;
 	auto ctor = RegisterT<QTextEncoder, QtScriptQTextEncoder>(targetNamespace, inherit);
 	Q_ASSERT(ctor.isFunction());
@@ -10914,8 +10890,6 @@ QtScriptQTextDecoder::QtScriptQTextDecoder(QScriptEngine *engine)
 
 void QtScriptQTextDecoder::Register(const QScriptValue &targetNamespace)
 {
-	auto engine = targetNamespace.engine();
-	Q_ASSERT(engine);
 	QScriptValue inherit;
 	auto ctor = RegisterT<QTextDecoder, QtScriptQTextDecoder>(targetNamespace, inherit);
 	Q_ASSERT(ctor.isFunction());

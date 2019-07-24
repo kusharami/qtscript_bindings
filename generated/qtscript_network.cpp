@@ -14,8 +14,6 @@ QtScriptQNetworkRequest::QtScriptQNetworkRequest(QScriptEngine *engine)
 
 void QtScriptQNetworkRequest::Register(const QScriptValue &targetNamespace)
 {
-	auto engine = targetNamespace.engine();
-	Q_ASSERT(engine);
 	QScriptValue inherit;
 	auto ctor = RegisterT<QNetworkRequest, QtScriptQNetworkRequest>(targetNamespace, inherit);
 	Q_ASSERT(ctor.isFunction());
