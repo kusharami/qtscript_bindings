@@ -28,6 +28,9 @@ public:
 	static QScriptValue getNamespaceObject(
 		QScriptEngine *engine, const QByteArray &nslist);
 
+	static QScriptValue variantToScriptValue(
+		const QVariant &variant, QScriptEngine *engine);
+
 	template <typename ENUM_T>
 	static QScriptValue enumToScriptValue(
 		QScriptEngine *engine, const ENUM_T &in)
