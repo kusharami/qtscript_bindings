@@ -53,7 +53,10 @@ public:
 		auto v = scriptValueVariantData(value);
 
 		if (v.userType() == qMetaTypeId<TT>())
-			return reinterpret_cast<TT *>(v.data());
+		{
+			return const_cast<TT *>(
+				reinterpret_cast<const TT *>(v.constData()));
+		}
 
 		if (v.userType() == qMetaTypeId<TT *>())
 			return v.value<TT *>();
