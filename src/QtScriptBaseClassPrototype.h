@@ -1,7 +1,7 @@
 #pragma once
 
 #include "QtScriptAbstractClass.h"
-
+#include "QtScriptUtils.h"
 #include <QScriptEngine>
 
 #include <memory>
@@ -81,12 +81,26 @@ public:
 				value>::type * = nullptr>
 	static void fromScriptValue(const QScriptValue &value, TT &out)
 	{
-		auto obj = value.toQObject();
-		out = qobject_cast<TT>(obj);
+		out = qobject_cast<TT>(value.toQObject());
 	}
 
 	template <typename TT,
 		typename std::enable_if<std::is_pointer<TT>::value &&
+			!std::is_same<T, PointerType>::value &&
+			std::is_same<T, StorageType>::value &&
+			!std::is_base_of<QObject, typename std::remove_pointer<TT>::type>::
+				value>::type * = nullptr>
+	static void fromScriptValue(const QScriptValue &value, TT &out)
+	{
+		static_assert(
+			std::is_base_of<T, typename std::remove_pointer<TT>::type>::value,
+			"Wrong type");
+		out = dynamic_cast<TT>(QtScriptUtils::scriptValueData<T>(value));
+	}
+
+	template <typename TT,
+		typename std::enable_if<std::is_pointer<TT>::value &&
+			std::is_same<T, PointerType>::value &&
 			std::is_same<T, StorageType>::value &&
 			!std::is_base_of<QObject, typename std::remove_pointer<TT>::type>::
 				value>::type * = nullptr>
@@ -96,32 +110,19 @@ public:
 						  typename std::remove_pointer<TT>::type>::value,
 			"Wrong type");
 		out = nullptr;
-		QScriptValue data;
-		if (value.isVariant())
-		{
-			data = value;
-		} else if (value.isObject())
-		{
-			data = value.data();
-		} else
-		{
+		auto v = QtScriptUtils::scriptValueVariantData(value);
+		if (!v.isValid())
 			return;
-		}
-		if (!data.isVariant())
-		{
-			return;
-		}
 
-		auto v = data.toVariant();
 		if (v.userType() != qMetaTypeId<T>())
 			return;
 
-		auto obj = v.value<PointerType>();
-		out = dynamic_cast<TT>(obj);
+		out = dynamic_cast<TT>(v.value<T>());
 	}
 
 	template <typename TT,
 		typename std::enable_if<std::is_pointer<TT>::value &&
+			std::is_same<T, PointerType>::value &&
 			!std::is_same<T, StorageType>::value &&
 			!std::is_base_of<QObject, typename std::remove_pointer<TT>::type>::
 				value>::type * = nullptr>
@@ -131,27 +132,15 @@ public:
 						  typename std::remove_pointer<TT>::type>::value,
 			"Wrong type");
 		out = nullptr;
-		QScriptValue data;
-		if (value.isVariant())
-		{
-			data = value;
-		} else if (value.isObject())
-		{
-			data = value.data();
-		} else
-		{
+		auto v = QtScriptUtils::scriptValueVariantData(value);
+		if (!v.isValid())
 			return;
-		}
-		if (!data.isVariant())
-		{
-			return;
-		}
+
 		PointerType obj = nullptr;
-		auto v = data.toVariant();
 		int userType = v.userType();
 		if (userType == qMetaTypeId<T>())
 		{
-			obj = v.value<PointerType>();
+			obj = v.value<T>();
 		} else if (userType == qMetaTypeId<StorageType>())
 		{
 			obj = v.value<StorageType>().get();
@@ -165,23 +154,10 @@ public:
 	static void fromScriptValue(const QScriptValue &value, TT &out)
 	{
 		static_assert(std::is_same<T, TT>::value, "Wrong type");
-		QScriptValue data;
-		if (value.isVariant())
-		{
-			data = value;
-		} else if (value.isObject())
-		{
-			data = value.data();
-		} else
-		{
+		auto v = QtScriptUtils::scriptValueVariantData(value);
+		if (!v.isValid())
 			return;
-		}
-		if (!data.isVariant())
-		{
-			return;
-		}
 
-		auto v = data.toVariant();
 		if (!v.canConvert(qMetaTypeId<TT>()))
 			return;
 

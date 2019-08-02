@@ -91,11 +91,7 @@ QScriptValue QtScriptQByteArray::toScriptValue(
 
 QByteArray *QtScriptQByteArray::getByteArrayPtr(const QScriptValue &value)
 {
-	auto data = value.data();
-	if (!data.isVariant())
-		return nullptr;
-
-	return data.toVariant().value<QByteArray *>();
+	return QtScriptUtils::scriptValueData<QByteArray>(value);
 }
 
 QScriptClass::QueryFlags QtScriptQByteArray::queryProperty(

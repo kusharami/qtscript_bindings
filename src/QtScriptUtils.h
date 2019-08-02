@@ -2,6 +2,7 @@
 
 #include <QObject>
 #include <QScriptValue>
+#include <QVariant>
 
 #define CSTRKEY(key) #key
 #define WSTRKEY(key) QT_UNICODE_LITERAL(CSTRKEY(key))
@@ -31,6 +32,8 @@ public:
 	static QScriptValue variantToScriptValue(
 		const QVariant &variant, QScriptEngine *engine);
 
+	static QVariant scriptValueVariantData(QScriptValue value);
+
 	template <typename ENUM_T>
 	static QScriptValue enumToScriptValue(
 		QScriptEngine *engine, const ENUM_T &in)
@@ -42,5 +45,19 @@ public:
 	static void enumFromScriptValue(const QScriptValue &object, ENUM_T &out)
 	{
 		out = ENUM_T(object.toInt32());
+	}
+
+	template <typename TT>
+	static TT *scriptValueData(const QScriptValue &value)
+	{
+		auto v = scriptValueVariantData(value);
+
+		if (v.userType() == qMetaTypeId<TT>())
+			return reinterpret_cast<TT *>(v.data());
+
+		if (v.userType() == qMetaTypeId<TT *>())
+			return v.value<TT *>();
+
+		return nullptr;
 	}
 };

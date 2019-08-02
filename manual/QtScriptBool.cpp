@@ -88,11 +88,7 @@ QScriptValue QtScriptBool::ptrToScriptValue(
 
 QtScriptBoolContainer *QtScriptBool::getContainer(const QScriptValue &value)
 {
-	auto data = value.data();
-	if (!data.isVariant())
-		return nullptr;
-
-	return data.toVariant().value<QtScriptBoolContainer *>();
+	return QtScriptUtils::scriptValueData<QtScriptBoolContainer>(value);
 }
 
 QtScriptBoolContainer *QtScriptBool::thisContainer() const

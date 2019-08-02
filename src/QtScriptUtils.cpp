@@ -161,3 +161,14 @@ QScriptValue QtScriptUtils::variantToScriptValue(
 
 	return result;
 }
+
+QVariant QtScriptUtils::scriptValueVariantData(QScriptValue value)
+{
+	if (!value.isVariant() && value.isObject())
+		value = value.data();
+
+	if (value.isVariant())
+		return value.toVariant();
+
+	return QVariant();
+}

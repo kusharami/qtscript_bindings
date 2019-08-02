@@ -587,11 +587,7 @@ QDataStream *QtScriptQDataStream::getDataStream(const QScriptValue &value)
 QtScriptQDataStreamContainer *QtScriptQDataStream::getDataStreamContainer(
 	const QScriptValue &value)
 {
-	auto data = value.data();
-	if (!data.isVariant())
-		return nullptr;
-
-	return data.toVariant().value<QtScriptQDataStreamContainer *>();
+	return QtScriptUtils::scriptValueData<QtScriptQDataStreamContainer>(value);
 }
 
 QDataStream *QtScriptQDataStream::thisDataStream() const
