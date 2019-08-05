@@ -100,7 +100,7 @@ QScriptValue QtScriptUtils::variantToScriptValue(
 
 			result = engine->newObject();
 
-			for (auto it = vmap.begin(); it != vmap.end(); ++it)
+			for (auto it = vmap.cbegin(); it != vmap.cend(); ++it)
 			{
 				auto &key = it.key();
 				auto &value = it.value();
