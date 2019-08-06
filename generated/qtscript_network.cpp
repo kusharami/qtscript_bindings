@@ -513,8 +513,9 @@ int QtScriptQNetworkReply::constructorArgumentCountMax() const
 	return 0;
 }
 
-bool QtScriptQNetworkReply::constructObject(QScriptContext *context, NativeObjectType &)
+bool QtScriptQNetworkReply::constructObject(QScriptContext *context, NativeObjectType &out)
 {
+	Q_UNUSED(out);
 	QtScriptUtils::noPublicConstructorException(context,
 		"QNetworkReply");
 	return false;

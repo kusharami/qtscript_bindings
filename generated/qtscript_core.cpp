@@ -31,8 +31,9 @@ int QtScriptQAbstractAnimation::constructorArgumentCountMax() const
 	return 0;
 }
 
-bool QtScriptQAbstractAnimation::constructObject(QScriptContext *context, NativeObjectType &)
+bool QtScriptQAbstractAnimation::constructObject(QScriptContext *context, NativeObjectType &out)
 {
+	Q_UNUSED(out);
 	QtScriptUtils::noPublicConstructorException(context,
 		"QAbstractAnimation");
 	return false;
@@ -649,8 +650,9 @@ int QtScriptQAnimationGroup::constructorArgumentCountMax() const
 	return 0;
 }
 
-bool QtScriptQAnimationGroup::constructObject(QScriptContext *context, NativeObjectType &)
+bool QtScriptQAnimationGroup::constructObject(QScriptContext *context, NativeObjectType &out)
 {
+	Q_UNUSED(out);
 	QtScriptUtils::noPublicConstructorException(context,
 		"QAnimationGroup");
 	return false;
@@ -761,8 +763,9 @@ int QtScriptQIODevice::constructorArgumentCountMax() const
 	return 0;
 }
 
-bool QtScriptQIODevice::constructObject(QScriptContext *context, NativeObjectType &)
+bool QtScriptQIODevice::constructObject(QScriptContext *context, NativeObjectType &out)
 {
+	Q_UNUSED(out);
 	QtScriptUtils::noPublicConstructorException(context,
 		"QIODevice");
 	return false;
@@ -3227,8 +3230,9 @@ int QtScriptQFileDevice::constructorArgumentCountMax() const
 	return 0;
 }
 
-bool QtScriptQFileDevice::constructObject(QScriptContext *context, NativeObjectType &)
+bool QtScriptQFileDevice::constructObject(QScriptContext *context, NativeObjectType &out)
 {
+	Q_UNUSED(out);
 	QtScriptUtils::noPublicConstructorException(context,
 		"QFileDevice");
 	return false;
@@ -9953,8 +9957,9 @@ int QtScriptQStandardPaths::constructorArgumentCountMax() const
 	return 0;
 }
 
-bool QtScriptQStandardPaths::constructObject(QScriptContext *context, NativeObjectType &)
+bool QtScriptQStandardPaths::constructObject(QScriptContext *context, NativeObjectType &out)
 {
+	Q_UNUSED(out);
 	QtScriptUtils::noPublicConstructorException(context,
 		"QStandardPaths");
 	return false;
@@ -10533,8 +10538,9 @@ int QtScriptQTextCodec::constructorArgumentCountMax() const
 	return 0;
 }
 
-bool QtScriptQTextCodec::constructObject(QScriptContext *context, NativeObjectType &)
+bool QtScriptQTextCodec::constructObject(QScriptContext *context, NativeObjectType &out)
 {
+	Q_UNUSED(out);
 	QtScriptUtils::noPublicConstructorException(context,
 		"QTextCodec");
 	return false;
