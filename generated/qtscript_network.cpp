@@ -416,7 +416,7 @@ void QtScriptQNetworkAccessManager::connectToHost(const QString& hostName)
 	}
 }
 
-void QtScriptQNetworkAccessManager::connectToHost(const QString& hostName, unsigned short port)
+void QtScriptQNetworkAccessManager::connectToHost(const QString& hostName, quint16 port)
 {
 	auto __o = this->thiz<QNetworkAccessManager *>();
 	if (__o)

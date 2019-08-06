@@ -82,7 +82,7 @@ public:
 	Q_INVOKABLE QNetworkReply* put(const QNetworkRequest& request, QIODevice* data);
 	Q_INVOKABLE QNetworkReply* post(const QNetworkRequest& request, QIODevice* data);
 	Q_INVOKABLE void connectToHost(const QString& hostName);
-	Q_INVOKABLE void connectToHost(const QString& hostName, unsigned short port);
+	Q_INVOKABLE void connectToHost(const QString& hostName, quint16 port);
 	Q_INVOKABLE QStringList supportedSchemes();
 	Q_INVOKABLE void clearConnectionCache();
 };
