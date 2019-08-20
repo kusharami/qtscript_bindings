@@ -53,7 +53,8 @@ void QtScriptQByteArray::Register(const QScriptValue &targetNamespace)
 	ctor.setProperty(QSTRKEY(fromHex), engine->newFunction(fromHex));
 
 	qScriptRegisterMetaType<QByteArray>(engine,
-		QtScriptQByteArray::toScriptValue, QtScriptQByteArray::fromScriptValue);
+		QtScriptQByteArray::toScriptValue, QtScriptQByteArray::fromScriptValue,
+		proto);
 }
 
 void QtScriptQByteArray::fromScriptValue(

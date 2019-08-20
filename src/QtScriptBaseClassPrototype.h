@@ -264,9 +264,9 @@ protected:
 	{
 		static_assert(std::is_same<SELF_T, T>::value, "Wrong type");
 
-		engine->setDefaultPrototype(qMetaTypeId<TT *>(), proto);
-
 		registerPointerMetaType<TT, CLS_T>(engine);
+
+		engine->setDefaultPrototype(qMetaTypeId<TT *>(), proto);
 	}
 
 	template <typename SELF_T, typename TT, typename CLS_T,
@@ -278,7 +278,9 @@ protected:
 		static_assert(std::is_same<SELF_T, T>::value, "Wrong type");
 		static_assert(std::is_same<SELF_T, TT>::value, "Non-inheritable class");
 
-		engine->setDefaultPrototype(qMetaTypeId<TT>(), proto);
+		qScriptRegisterMetaType<TT>(engine,
+			QtScriptBaseClassPrototype::toScriptValue<CLS_T, TT>,
+			QtScriptBaseClassPrototype::fromScriptValue<TT>, proto);
 
 		registerPointerMetaType<TT, CLS_T>(engine);
 	}
