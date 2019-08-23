@@ -187,10 +187,7 @@ protected:
 		if (!construct)
 			wrapOptions |= QScriptEngine::PreferExistingWrapperObject;
 
-		return engine->newQObject(obj, QScriptEngine::QtOwnership,
-			QScriptEngine::ExcludeDeleteLater |
-				QScriptEngine::SkipMethodsInEnumeration |
-				QScriptEngine::ExcludeSuperClassContents);
+		return engine->newQObject(obj, QScriptEngine::QtOwnership, wrapOptions);
 	}
 
 	template <typename TT,
