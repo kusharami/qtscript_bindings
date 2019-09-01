@@ -201,10 +201,7 @@ protected:
 
 		QVariant v = construct ? QVariant::fromValue(StorageType(obj))
 							   : QVariant::fromValue(static_cast<T>(obj));
-		QScriptValue result = engine->newObject();
-		result.setData(engine->newVariant(v));
-		result.setScriptClass(this);
-		return result;
+		return engine->newObject(this, engine->newVariant(v));
 	}
 
 	template <typename TT,
@@ -217,10 +214,8 @@ protected:
 	{
 		Q_UNUSED(construct);
 		QScriptEngine *engine = this->engine();
-		QScriptValue result = engine->newObject();
-		result.setData(engine->newVariant(QVariant::fromValue(obj)));
-		result.setScriptClass(this);
-		return result;
+		auto data = engine->newVariant(QVariant::fromValue(obj));
+		return engine->newObject(this, data);
 	}
 
 	template <typename TT>
@@ -233,11 +228,12 @@ protected:
 	}
 
 	template <typename TT, typename CLS_T>
-	static void registerPointerMetaType(QScriptEngine *engine)
+	static void registerPointerMetaType(
+		QScriptEngine *engine, const QScriptValue &proto)
 	{
 		qScriptRegisterMetaType<TT *>(engine,
 			QtScriptBaseClassPrototype::toScriptValue<CLS_T, TT *>,
-			QtScriptBaseClassPrototype::fromScriptValue<TT *>);
+			QtScriptBaseClassPrototype::fromScriptValue<TT *>, proto);
 
 		typedef QScriptValue (*ToScriptValue)(QScriptEngine *, TT *const &);
 		typedef void (*FromScriptValue)(const QScriptValue &, TT *&);
@@ -250,7 +246,8 @@ protected:
 			reinterpret_cast<ConstToScriptValue>(static_cast<ToScriptValue>(
 				&QtScriptBaseClassPrototype::toScriptValue<CLS_T, TT *>)),
 			reinterpret_cast<ConstFromScriptValue>(static_cast<FromScriptValue>(
-				&QtScriptBaseClassPrototype::fromScriptValue<TT *>)));
+				&QtScriptBaseClassPrototype::fromScriptValue<TT *>)),
+			proto);
 	}
 
 	template <typename SELF_T, typename TT, typename CLS_T,
@@ -261,9 +258,7 @@ protected:
 	{
 		static_assert(std::is_same<SELF_T, T>::value, "Wrong type");
 
-		registerPointerMetaType<TT, CLS_T>(engine);
-
-		engine->setDefaultPrototype(qMetaTypeId<TT *>(), proto);
+		registerPointerMetaType<TT, CLS_T>(engine, proto);
 	}
 
 	template <typename SELF_T, typename TT, typename CLS_T,
@@ -279,7 +274,7 @@ protected:
 			QtScriptBaseClassPrototype::toScriptValue<CLS_T, TT>,
 			QtScriptBaseClassPrototype::fromScriptValue<TT>, proto);
 
-		registerPointerMetaType<TT, CLS_T>(engine);
+		registerPointerMetaType<TT, CLS_T>(engine, proto);
 	}
 
 	template <typename TT, typename CLS_T>
@@ -298,11 +293,8 @@ protected:
 				QScriptEngine::ExcludeSlots);
 		obj->mProto = proto;
 
-		proto.setPrototype(inherit.isObject()
-				? inherit
-				: engine->globalObject()
-					  .property(QStringLiteral("Object"))
-					  .property(QStringLiteral("prototype")));
+		if (inherit.isObject())
+			proto.setPrototype(inherit);
 
 		registerMetaType<T, TT, CLS_T>(engine, proto);
 

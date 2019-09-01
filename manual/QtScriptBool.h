@@ -23,9 +23,8 @@ public:
 
 	void setValue(bool v);
 
-public slots:
-	QString toString() const;
-	bool valueOf() const;
+	Q_INVOKABLE QString toString() const;
+	Q_INVOKABLE bool valueOf() const;
 
 protected:
 	virtual int constructorArgumentCountMin() const override;

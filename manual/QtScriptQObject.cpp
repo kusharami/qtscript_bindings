@@ -65,5 +65,6 @@ QScriptValue QtScriptQObject::newScriptObject(QScriptContext *context)
 	return engine->newQObject(newObject, QScriptEngine::AutoOwnership,
 		QScriptEngine::ExcludeDeleteLater |
 			QScriptEngine::SkipMethodsInEnumeration |
-			QScriptEngine::ExcludeSuperClassContents);
+			QScriptEngine::ExcludeSuperClassContents |
+			QScriptEngine::ExcludeSlots);
 }

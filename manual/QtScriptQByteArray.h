@@ -32,60 +32,61 @@ public:
 	virtual QScriptClassPropertyIterator *newIterator(
 		const QScriptValue &object) override;
 
-public slots:
-	void clear();
+	Q_INVOKABLE void clear();
+	Q_INVOKABLE bool equals(const QByteArray &other);
+	Q_INVOKABLE QByteArray left(int len) const;
+	Q_INVOKABLE QByteArray mid(int pos, int len) const;
+	Q_INVOKABLE QByteArray right(int len) const;
+	Q_INVOKABLE QScriptValue remove(int pos, int len);
+	Q_INVOKABLE QByteArray simplified() const;
+	Q_INVOKABLE QByteArray toLower() const;
+	Q_INVOKABLE QByteArray toUpper() const;
+	Q_INVOKABLE QByteArray trimmed() const;
+	Q_INVOKABLE void truncate(int pos);
+	Q_INVOKABLE void chop(int n);
+	Q_INVOKABLE QByteArray repeated(int times) const;
+	Q_INVOKABLE QScriptValue split(const QScriptValue &separator);
 
-	bool equals(const QByteArray &other);
-	QByteArray left(int len) const;
-	QByteArray mid(int pos, int len) const;
-	QByteArray right(int len) const;
-	QScriptValue remove(int pos, int len);
-	QByteArray simplified() const;
-	QByteArray toLower() const;
-	QByteArray toUpper() const;
-	QByteArray trimmed() const;
-	void truncate(int pos);
-	void chop(int n);
-	QByteArray repeated(int times) const;
-	QScriptValue split(const QScriptValue &separator);
+	Q_INVOKABLE QByteArray replace(
+		const QScriptValue &what, const QScriptValue &to) const;
+	Q_INVOKABLE QByteArray replace(
+		int index, int len, const QScriptValue &to) const;
 
-	QByteArray replace(const QScriptValue &what, const QScriptValue &to) const;
-	QByteArray replace(int index, int len, const QScriptValue &to) const;
+	Q_INVOKABLE QString valueOf() const;
+	Q_INVOKABLE QString toString() const;
+	Q_INVOKABLE QString toStringLatin() const;
+	Q_INVOKABLE QString toStringLocal() const;
+	Q_INVOKABLE QString toString(const QByteArray &codecName) const;
+	Q_INVOKABLE QByteArray toBase64() const;
+	Q_INVOKABLE QByteArray toHex() const;
+	Q_INVOKABLE QString toBase64Str() const;
+	Q_INVOKABLE QString toHexStr() const;
 
-	QString valueOf() const;
-	QString toString() const;
-	QString toStringLatin() const;
-	QString toStringLocal() const;
-	QString toString(const QByteArray &codecName) const;
-	QByteArray toBase64() const;
-	QByteArray toHex() const;
-	QString toBase64Str() const;
-	QString toHexStr() const;
-
-	QString join(const QString &separator = QString(',')) const;
-	QScriptValue pop();
-	QScriptValue reverse();
-	QScriptValue shift();
-	QByteArray slice(int start = 0, int end = 0x7FFFFFFF) const;
-	QScriptValue sort(QScriptValue compareFn = QScriptValue());
-	int indexOf(const QScriptValue &search, int fromIndex = 0) const;
-	int lastIndexOf(
+	Q_INVOKABLE QString join(const QString &separator = QString(',')) const;
+	Q_INVOKABLE QScriptValue pop();
+	Q_INVOKABLE QScriptValue reverse();
+	Q_INVOKABLE QScriptValue shift();
+	Q_INVOKABLE QByteArray slice(int start = 0, int end = 0x7FFFFFFF) const;
+	Q_INVOKABLE QScriptValue sort(QScriptValue compareFn = QScriptValue());
+	Q_INVOKABLE int indexOf(
+		const QScriptValue &search, int fromIndex = 0) const;
+	Q_INVOKABLE int lastIndexOf(
 		const QScriptValue &search, int fromIndex = 0x7FFFFFFF) const;
-	bool every(QScriptValue callback,
+	Q_INVOKABLE bool every(QScriptValue callback,
 		const QScriptValue &thisObject = QScriptValue()) const;
-	bool some(QScriptValue callback,
+	Q_INVOKABLE bool some(QScriptValue callback,
 		const QScriptValue &thisObject = QScriptValue()) const;
-	void forEach(QScriptValue callback,
+	Q_INVOKABLE void forEach(QScriptValue callback,
 		const QScriptValue &thisObject = QScriptValue()) const;
-	QScriptValue map(QScriptValue callback,
+	Q_INVOKABLE QScriptValue map(QScriptValue callback,
 		const QScriptValue &thisObject = QScriptValue()) const;
-	QByteArray mapBytes(QScriptValue callback,
+	Q_INVOKABLE QByteArray mapBytes(QScriptValue callback,
 		const QScriptValue &thisObject = QScriptValue()) const;
-	QByteArray filter(QScriptValue callback,
+	Q_INVOKABLE QByteArray filter(QScriptValue callback,
 		const QScriptValue &thisObject = QScriptValue()) const;
-	QScriptValue reduce(QScriptValue callback,
+	Q_INVOKABLE QScriptValue reduce(QScriptValue callback,
 		const QScriptValue &initialValue = QScriptValue()) const;
-	QScriptValue reduceRight(QScriptValue callback,
+	Q_INVOKABLE QScriptValue reduceRight(QScriptValue callback,
 		const QScriptValue &initialValue = QScriptValue()) const;
 
 protected:
@@ -132,8 +133,6 @@ private:
 
 	static char scriptValueToChar(
 		const QScriptValue &value, bool *okPtr = nullptr);
-
-	static QScriptValue construct(QScriptContext *ctx, QScriptEngine *eng);
 
 	void resize(QByteArray &ba, int newSize);
 

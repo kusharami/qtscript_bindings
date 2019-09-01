@@ -14,13 +14,59 @@ class QtScriptQDataStreamContainer
 	bool mDeviceConnected;
 
 public:
-	using Version = QDataStream::Version;
+	enum Version
+	{
+		Qt_1_0 = QDataStream::Qt_1_0,
+		Qt_2_0 = QDataStream::Qt_2_0,
+		Qt_2_1 = QDataStream::Qt_2_1,
+		Qt_3_0 = QDataStream::Qt_3_0,
+		Qt_3_1 = QDataStream::Qt_3_1,
+		Qt_3_3 = QDataStream::Qt_3_3,
+		Qt_4_0 = QDataStream::Qt_4_0,
+		Qt_4_1 = QDataStream::Qt_4_1,
+		Qt_4_2 = QDataStream::Qt_4_2,
+		Qt_4_3 = QDataStream::Qt_4_3,
+		Qt_4_4 = QDataStream::Qt_4_4,
+		Qt_4_5 = QDataStream::Qt_4_5,
+		Qt_4_6 = QDataStream::Qt_4_6,
+		Qt_4_7 = QDataStream::Qt_4_7,
+		Qt_4_8 = QDataStream::Qt_4_8,
+		Qt_4_9 = QDataStream::Qt_4_9,
+		Qt_5_0 = QDataStream::Qt_5_0,
+		Qt_5_1 = QDataStream::Qt_5_1,
+		Qt_5_2 = QDataStream::Qt_5_2,
+		Qt_5_3 = QDataStream::Qt_5_3,
+		Qt_5_4 = QDataStream::Qt_5_4,
+		Qt_5_5 = QDataStream::Qt_5_5,
+		Qt_5_6 = QDataStream::Qt_5_6,
+		Qt_5_7 = QDataStream::Qt_5_7,
+		Qt_5_8 = QDataStream::Qt_5_8,
+		Qt_5_9 = QDataStream::Qt_5_9,
+		Qt_DefaultCompiledVersion = QDataStream::Qt_DefaultCompiledVersion
+	};
 	Q_ENUM(Version)
-	using ByteOrder = QDataStream::ByteOrder;
+
+	enum ByteOrder
+	{
+		BigEndian = QDataStream::BigEndian,
+		LittleEndian = QDataStream::LittleEndian
+	};
 	Q_ENUM(ByteOrder)
-	using Status = QDataStream::Status;
+
+	enum Status
+	{
+		Ok = QDataStream::Ok,
+		ReadPastEnd = QDataStream::ReadPastEnd,
+		ReadCorruptData = QDataStream::ReadCorruptData,
+		WriteFailed = QDataStream::WriteFailed
+	};
 	Q_ENUM(Status)
-	using FloatingPointPrecision = QDataStream::FloatingPointPrecision;
+
+	enum FloatingPointPrecision
+	{
+		SinglePrecision = QDataStream::SinglePrecision,
+		DoublePrecision = QDataStream::DoublePrecision
+	};
 	Q_ENUM(FloatingPointPrecision)
 
 	QtScriptQDataStreamContainer();
@@ -88,54 +134,53 @@ public:
 	int version() const;
 	void setVersion(int ver);
 
-public slots:
-	bool atEnd() const;
-	void resetStatus();
+	Q_INVOKABLE bool atEnd() const;
+	Q_INVOKABLE void resetStatus();
 
-	int readUInt8();
-	void writeUInt8(int u8);
+	Q_INVOKABLE int readUInt8();
+	Q_INVOKABLE void writeUInt8(int u8);
 
-	int readUInt16();
-	void writeUInt16(int u16);
+	Q_INVOKABLE int readUInt16();
+	Q_INVOKABLE void writeUInt16(int u16);
 
-	quint32 readUInt32();
-	void writeUInt32(quint32 u32);
+	Q_INVOKABLE quint32 readUInt32();
+	Q_INVOKABLE void writeUInt32(quint32 u32);
 
-	quint64 readUInt64();
-	void writeUInt64(quint64 u64);
+	Q_INVOKABLE quint64 readUInt64();
+	Q_INVOKABLE void writeUInt64(quint64 u64);
 
-	int readInt8();
-	void writeInt8(int i8);
+	Q_INVOKABLE int readInt8();
+	Q_INVOKABLE void writeInt8(int i8);
 
-	int readInt16();
-	void writeInt16(int i16);
+	Q_INVOKABLE int readInt16();
+	Q_INVOKABLE void writeInt16(int i16);
 
-	qint32 readInt32();
-	void writeInt32(qint32 i32);
+	Q_INVOKABLE qint32 readInt32();
+	Q_INVOKABLE void writeInt32(qint32 i32);
 
-	qint64 readInt64();
-	void writeInt64(qint64 i64);
+	Q_INVOKABLE qint64 readInt64();
+	Q_INVOKABLE void writeInt64(qint64 i64);
 
-	qsreal readFloat();
-	void writeFloat(qsreal flt);
+	Q_INVOKABLE qsreal readFloat();
+	Q_INVOKABLE void writeFloat(qsreal flt);
 
-	bool readBool();
-	void writeBool(bool value);
+	Q_INVOKABLE bool readBool();
+	Q_INVOKABLE void writeBool(bool value);
 
-	QString readString();
-	void writeString(const QString &str);
+	Q_INVOKABLE QString readString();
+	Q_INVOKABLE void writeString(const QString &str);
 
-	QByteArray readBytes();
-	QByteArray readRawData(int length);
-	void writeBytes(const QByteArray &bytes);
-	int writeRawData(const QByteArray &buf);
-	int writeRawData(const QByteArray &buf, int from, int length);
+	Q_INVOKABLE QByteArray readBytes();
+	Q_INVOKABLE QByteArray readRawData(int length);
+	Q_INVOKABLE void writeBytes(const QByteArray &bytes);
+	Q_INVOKABLE int writeRawData(const QByteArray &buf);
+	Q_INVOKABLE int writeRawData(const QByteArray &buf, int from, int length);
 
-	int skipRawData(int len);
-	void startTransaction();
-	bool commitTransaction();
-	void rollbackTransaction();
-	void abortTransaction();
+	Q_INVOKABLE int skipRawData(int len);
+	Q_INVOKABLE void startTransaction();
+	Q_INVOKABLE bool commitTransaction();
+	Q_INVOKABLE void rollbackTransaction();
+	Q_INVOKABLE void abortTransaction();
 
 protected:
 	virtual int constructorArgumentCountMin() const override;
