@@ -6,6 +6,15 @@ CONFIG += staticlib
 
 include(qtscript_bindings_target.pri)
 
+!msvc {
+    clang|gcc {
+        CONFIG += warn_off
+        QMAKE_CXXFLAGS_WARN_OFF -= -w
+        QMAKE_CXXFLAGS += -Wall
+        QMAKE_CXXFLAGS += -Wno-overloaded-virtual
+    }
+}
+
 DESTDIR = $$QTSCRIPT_BINDINGS_LIB
 
 INCLUDEPATH += \
