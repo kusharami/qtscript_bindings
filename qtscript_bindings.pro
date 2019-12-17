@@ -4,6 +4,8 @@ TARGET = qtscript_bindings
 TEMPLATE = lib
 CONFIG += staticlib
 
+DEFINES += QT_NO_DEPRECATED_WARNINGS
+
 include(qtscript_bindings_target.pri)
 
 !msvc {
