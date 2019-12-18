@@ -6,6 +6,10 @@ CONFIG += staticlib
 
 DEFINES += QT_NO_DEPRECATED_WARNINGS
 
+emscripten {
+    DEFINES += QT_FORCE_ASSERTS
+}
+
 include(qtscript_bindings_target.pri)
 
 !msvc {
