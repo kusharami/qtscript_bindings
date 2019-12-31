@@ -508,7 +508,6 @@ public:
 	Q_INVOKABLE QString symLinkTarget();
 	Q_INVOKABLE void setFileName(const QString& name);
 	Q_INVOKABLE bool remove();
-	Q_INVOKABLE QString readLink();
 	Q_INVOKABLE bool link(const QString& newName);
 	Q_INVOKABLE bool copy(const QString& newName);
 	static QScriptValue rename(QScriptContext *context, QScriptEngine* engine);
@@ -517,7 +516,6 @@ public:
 	static QScriptValue symLinkTarget(QScriptContext *context, QScriptEngine* engine);
 	static QScriptValue decodeName(QScriptContext *context, QScriptEngine* engine);
 	static QScriptValue remove(QScriptContext *context, QScriptEngine* engine);
-	static QScriptValue readLink(QScriptContext *context, QScriptEngine* engine);
 	static QScriptValue link(QScriptContext *context, QScriptEngine* engine);
 	static QScriptValue setPermissions(QScriptContext *context, QScriptEngine* engine);
 	static QScriptValue copy(QScriptContext *context, QScriptEngine* engine);
@@ -582,7 +580,6 @@ public:
 	Q_INVOKABLE QDateTime lastModified();
 	Q_INVOKABLE QString baseName();
 	Q_INVOKABLE void refresh();
-	Q_INVOKABLE QString readLink();
 	Q_INVOKABLE void setFile(const QString& file);
 	Q_INVOKABLE void setFile(const QDir& dir, const QString& file);
 	Q_INVOKABLE bool isReadable();
@@ -673,7 +670,6 @@ public:
 	static QScriptValue setCurrent(QScriptContext *context, QScriptEngine* engine);
 	static QScriptValue toNativeSeparators(QScriptContext *context, QScriptEngine* engine);
 	static QScriptValue searchPaths(QScriptContext *context, QScriptEngine* engine);
-	static QScriptValue addResourceSearchPath(QScriptContext *context, QScriptEngine* engine);
 	static QScriptValue current(QScriptContext *context, QScriptEngine* engine);
 	static QScriptValue fromNativeSeparators(QScriptContext *context, QScriptEngine* engine);
 	static QScriptValue isRelativePath(QScriptContext *context, QScriptEngine* engine);
@@ -1410,9 +1406,7 @@ public:
 	Q_INVOKABLE QVariant value(const QString& key, const QVariant& defaultValue);
 	Q_INVOKABLE int beginReadArray(const QString& prefix);
 	Q_INVOKABLE void endArray();
-	static QScriptValue setUserIniPath(QScriptContext *context, QScriptEngine* engine);
 	static QScriptValue defaultFormat(QScriptContext *context, QScriptEngine* engine);
-	static QScriptValue setSystemIniPath(QScriptContext *context, QScriptEngine* engine);
 	static QScriptValue setDefaultFormat(QScriptContext *context, QScriptEngine* engine);
 	static QScriptValue setPath(QScriptContext *context, QScriptEngine* engine);
 };
@@ -1438,7 +1432,6 @@ public:
 	static QScriptValue locate(QScriptContext *context, QScriptEngine* engine);
 	static QScriptValue displayName(QScriptContext *context, QScriptEngine* engine);
 	static QScriptValue setTestModeEnabled(QScriptContext *context, QScriptEngine* engine);
-	static QScriptValue enableTestMode(QScriptContext *context, QScriptEngine* engine);
 	static QScriptValue writableLocation(QScriptContext *context, QScriptEngine* engine);
 	static QScriptValue findExecutable(QScriptContext *context, QScriptEngine* engine);
 	static QScriptValue standardLocations(QScriptContext *context, QScriptEngine* engine);
@@ -1501,7 +1494,6 @@ public:
 	void setFileTemplate(const QString& name);
 	QString fileTemplate();
 	static QScriptValue createNativeFile(QScriptContext *context, QScriptEngine* engine);
-	static QScriptValue createLocalFile(QScriptContext *context, QScriptEngine* engine);
 };
 
 Q_DECLARE_METATYPE(QTemporaryFile *)

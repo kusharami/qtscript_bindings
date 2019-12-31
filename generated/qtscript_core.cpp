@@ -3358,10 +3358,6 @@ void QtScriptQFile::Register(const QScriptValue &targetNamespace)
 		static_cast<QScriptValue (*)(QScriptContext *, QScriptEngine *)>(
 			&QtScriptQFile::remove)),
 			QScriptValue::ReadOnly | QScriptValue::Undeletable);
-	ctor.setProperty("readLink", engine->newFunction(
-		static_cast<QScriptValue (*)(QScriptContext *, QScriptEngine *)>(
-			&QtScriptQFile::readLink)),
-			QScriptValue::ReadOnly | QScriptValue::Undeletable);
 	ctor.setProperty("link", engine->newFunction(
 		static_cast<QScriptValue (*)(QScriptContext *, QScriptEngine *)>(
 			&QtScriptQFile::link)),
@@ -3431,16 +3427,6 @@ bool QtScriptQFile::remove()
 		return __o->remove();
 	}
 	return false;
-}
-
-QString QtScriptQFile::readLink()
-{
-	auto __o = this->thiz<QFile *>();
-	if (__o)
-	{
-		return __o->readLink();
-	}
-	return QString();
 }
 
 bool QtScriptQFile::link(const QString& newName)
@@ -3587,27 +3573,6 @@ QScriptValue QtScriptQFile::remove(QScriptContext *context, QScriptEngine* __e)
 
 	QtScriptUtils::badArgumentsException(context,
 			"QFile::remove");
-	return __e->uncaughtException();
-}
-
-QScriptValue QtScriptQFile::readLink(QScriptContext *context, QScriptEngine* __e)
-{
-	if (!QtScriptUtils::checkArgumentCount(context, 1, 1))
-	{
-		return __e->uncaughtException();
-	}
-
-	switch (context->argumentCount())
-	{
-		case 1:
-		{
-			auto arg0 = qscriptvalue_cast<QString>(context->argument(0));
-			return __e->toScriptValue(QFile::readLink(arg0));
-		}
-	}
-
-	QtScriptUtils::badArgumentsException(context,
-			"QFile::readLink");
 	return __e->uncaughtException();
 }
 
@@ -4169,16 +4134,6 @@ void QtScriptQFileInfo::refresh()
 	}
 }
 
-QString QtScriptQFileInfo::readLink()
-{
-	auto __o = this->thiz<QFileInfo *>();
-	if (__o)
-	{
-		return __o->readLink();
-	}
-	return QString();
-}
-
 void QtScriptQFileInfo::setFile(const QString& file)
 {
 	auto __o = this->thiz<QFileInfo *>();
@@ -4392,10 +4347,6 @@ void QtScriptQDir::Register(const QScriptValue &targetNamespace)
 	ctor.setProperty("searchPaths", engine->newFunction(
 		static_cast<QScriptValue (*)(QScriptContext *, QScriptEngine *)>(
 			&QtScriptQDir::searchPaths)),
-			QScriptValue::ReadOnly | QScriptValue::Undeletable);
-	ctor.setProperty("addResourceSearchPath", engine->newFunction(
-		static_cast<QScriptValue (*)(QScriptContext *, QScriptEngine *)>(
-			&QtScriptQDir::addResourceSearchPath)),
 			QScriptValue::ReadOnly | QScriptValue::Undeletable);
 	ctor.setProperty("current", engine->newFunction(
 		static_cast<QScriptValue (*)(QScriptContext *, QScriptEngine *)>(
@@ -5103,28 +5054,6 @@ QScriptValue QtScriptQDir::searchPaths(QScriptContext *context, QScriptEngine* _
 
 	QtScriptUtils::badArgumentsException(context,
 			"QDir::searchPaths");
-	return __e->uncaughtException();
-}
-
-QScriptValue QtScriptQDir::addResourceSearchPath(QScriptContext *context, QScriptEngine* __e)
-{
-	if (!QtScriptUtils::checkArgumentCount(context, 1, 1))
-	{
-		return __e->uncaughtException();
-	}
-
-	switch (context->argumentCount())
-	{
-		case 1:
-		{
-			auto arg0 = qscriptvalue_cast<QString>(context->argument(0));
-			QDir::addResourceSearchPath(arg0);
-			return __e->undefinedValue();
-		}
-	}
-
-	QtScriptUtils::badArgumentsException(context,
-			"QDir::addResourceSearchPath");
 	return __e->uncaughtException();
 }
 
@@ -9398,17 +9327,9 @@ void QtScriptQSettings::Register(const QScriptValue &targetNamespace)
 	auto inherit = engine->defaultPrototype(qMetaTypeId<QObject *>());
 	auto ctor = RegisterT<QSettings, QtScriptQSettings>(targetNamespace, inherit);
 	Q_ASSERT(ctor.isFunction());
-	ctor.setProperty("setUserIniPath", engine->newFunction(
-		static_cast<QScriptValue (*)(QScriptContext *, QScriptEngine *)>(
-			&QtScriptQSettings::setUserIniPath)),
-			QScriptValue::ReadOnly | QScriptValue::Undeletable);
 	ctor.setProperty("defaultFormat", engine->newFunction(
 		static_cast<QScriptValue (*)(QScriptContext *, QScriptEngine *)>(
 			&QtScriptQSettings::defaultFormat)),
-			QScriptValue::ReadOnly | QScriptValue::Undeletable);
-	ctor.setProperty("setSystemIniPath", engine->newFunction(
-		static_cast<QScriptValue (*)(QScriptContext *, QScriptEngine *)>(
-			&QtScriptQSettings::setSystemIniPath)),
 			QScriptValue::ReadOnly | QScriptValue::Undeletable);
 	ctor.setProperty("setDefaultFormat", engine->newFunction(
 		static_cast<QScriptValue (*)(QScriptContext *, QScriptEngine *)>(
@@ -9698,28 +9619,6 @@ void QtScriptQSettings::endArray()
 	}
 }
 
-QScriptValue QtScriptQSettings::setUserIniPath(QScriptContext *context, QScriptEngine* __e)
-{
-	if (!QtScriptUtils::checkArgumentCount(context, 1, 1))
-	{
-		return __e->uncaughtException();
-	}
-
-	switch (context->argumentCount())
-	{
-		case 1:
-		{
-			auto arg0 = qscriptvalue_cast<QString>(context->argument(0));
-			QSettings::setUserIniPath(arg0);
-			return __e->undefinedValue();
-		}
-	}
-
-	QtScriptUtils::badArgumentsException(context,
-			"QSettings::setUserIniPath");
-	return __e->uncaughtException();
-}
-
 QScriptValue QtScriptQSettings::defaultFormat(QScriptContext *context, QScriptEngine* __e)
 {
 	if (!QtScriptUtils::checkArgumentCount(context, 0, 0))
@@ -9737,28 +9636,6 @@ QScriptValue QtScriptQSettings::defaultFormat(QScriptContext *context, QScriptEn
 
 	QtScriptUtils::badArgumentsException(context,
 			"QSettings::defaultFormat");
-	return __e->uncaughtException();
-}
-
-QScriptValue QtScriptQSettings::setSystemIniPath(QScriptContext *context, QScriptEngine* __e)
-{
-	if (!QtScriptUtils::checkArgumentCount(context, 1, 1))
-	{
-		return __e->uncaughtException();
-	}
-
-	switch (context->argumentCount())
-	{
-		case 1:
-		{
-			auto arg0 = qscriptvalue_cast<QString>(context->argument(0));
-			QSettings::setSystemIniPath(arg0);
-			return __e->undefinedValue();
-		}
-	}
-
-	QtScriptUtils::badArgumentsException(context,
-			"QSettings::setSystemIniPath");
 	return __e->uncaughtException();
 }
 
@@ -9921,10 +9798,6 @@ void QtScriptQStandardPaths::Register(const QScriptValue &targetNamespace)
 		static_cast<QScriptValue (*)(QScriptContext *, QScriptEngine *)>(
 			&QtScriptQStandardPaths::setTestModeEnabled)),
 			QScriptValue::ReadOnly | QScriptValue::Undeletable);
-	ctor.setProperty("enableTestMode", engine->newFunction(
-		static_cast<QScriptValue (*)(QScriptContext *, QScriptEngine *)>(
-			&QtScriptQStandardPaths::enableTestMode)),
-			QScriptValue::ReadOnly | QScriptValue::Undeletable);
 	ctor.setProperty("writableLocation", engine->newFunction(
 		static_cast<QScriptValue (*)(QScriptContext *, QScriptEngine *)>(
 			&QtScriptQStandardPaths::writableLocation)),
@@ -10038,28 +9911,6 @@ QScriptValue QtScriptQStandardPaths::setTestModeEnabled(QScriptContext *context,
 
 	QtScriptUtils::badArgumentsException(context,
 			"QStandardPaths::setTestModeEnabled");
-	return __e->uncaughtException();
-}
-
-QScriptValue QtScriptQStandardPaths::enableTestMode(QScriptContext *context, QScriptEngine* __e)
-{
-	if (!QtScriptUtils::checkArgumentCount(context, 1, 1))
-	{
-		return __e->uncaughtException();
-	}
-
-	switch (context->argumentCount())
-	{
-		case 1:
-		{
-			auto arg0 = qscriptvalue_cast<bool>(context->argument(0));
-			QStandardPaths::enableTestMode(arg0);
-			return __e->undefinedValue();
-		}
-	}
-
-	QtScriptUtils::badArgumentsException(context,
-			"QStandardPaths::enableTestMode");
 	return __e->uncaughtException();
 }
 
@@ -10333,10 +10184,6 @@ void QtScriptQTemporaryFile::Register(const QScriptValue &targetNamespace)
 		static_cast<QScriptValue (*)(QScriptContext *, QScriptEngine *)>(
 			&QtScriptQTemporaryFile::createNativeFile)),
 			QScriptValue::ReadOnly | QScriptValue::Undeletable);
-	ctor.setProperty("createLocalFile", engine->newFunction(
-		static_cast<QScriptValue (*)(QScriptContext *, QScriptEngine *)>(
-			&QtScriptQTemporaryFile::createLocalFile)),
-			QScriptValue::ReadOnly | QScriptValue::Undeletable);
 }
 
 bool QtScriptQTemporaryFile::open()
@@ -10405,27 +10252,6 @@ QScriptValue QtScriptQTemporaryFile::createNativeFile(QScriptContext *context, Q
 
 	QtScriptUtils::badArgumentsException(context,
 			"QTemporaryFile::createNativeFile");
-	return __e->uncaughtException();
-}
-
-QScriptValue QtScriptQTemporaryFile::createLocalFile(QScriptContext *context, QScriptEngine* __e)
-{
-	if (!QtScriptUtils::checkArgumentCount(context, 1, 1))
-	{
-		return __e->uncaughtException();
-	}
-
-	switch (context->argumentCount())
-	{
-		case 1:
-		{
-			auto arg0 = qscriptvalue_cast<QString>(context->argument(0));
-			return __e->toScriptValue(QTemporaryFile::createLocalFile(arg0));
-		}
-	}
-
-	QtScriptUtils::badArgumentsException(context,
-			"QTemporaryFile::createLocalFile");
 	return __e->uncaughtException();
 }
 
