@@ -162,13 +162,23 @@ QScriptValue QtScriptUtils::variantToScriptValue(
 	return result;
 }
 
-QVariant QtScriptUtils::scriptValueVariantData(QScriptValue value)
+QVariant QtScriptUtils::scriptValueVariantData(const QScriptValue &value)
 {
-	if (!value.isVariant() && value.isObject())
-		value = value.data();
+	auto data = toScriptValueData(value);
 
-	if (value.isVariant())
-		return value.toVariant();
+	if (data.isVariant())
+		return data.toVariant();
 
 	return QVariant();
+}
+
+QScriptValue QtScriptUtils::toScriptValueData(const QScriptValue &value)
+{
+	if (value.isVariant())
+		return value;
+
+	if (value.isObject())
+		return value.data();
+
+	return QScriptValue();
 }
