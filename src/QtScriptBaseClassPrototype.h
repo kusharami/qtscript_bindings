@@ -158,6 +158,11 @@ public:
 		if (!v.isValid())
 			return;
 
+		if (v.userType() == qMetaTypeId<QtScriptQVariantContainer>())
+		{
+			v = v.value<QtScriptQVariantContainer>().data;
+		}
+
 		if (!v.canConvert(qMetaTypeId<TT>()))
 			return;
 
@@ -205,16 +210,28 @@ protected:
 	}
 
 	template <typename TT,
-		typename std::enable_if<!std::is_pointer<TT>::value ||
-			(std::is_same<StorageType, T>::value &&
-				!std::is_base_of<QObject,
-					typename std::remove_pointer<TT>::type>::value)>::type * =
-			nullptr>
+		typename std::enable_if<!std::is_pointer<TT>::value>::type * = nullptr>
 	QScriptValue newInstance(TT const &obj, bool construct = false)
 	{
-		Q_UNUSED(construct);
+		Q_UNUSED(construct)
 		QScriptEngine *engine = this->engine();
-		auto data = engine->newVariant(QVariant::fromValue(obj));
+		auto v = QVariant::fromValue(obj);
+		v = QVariant::fromValue(QtScriptQVariantContainer{ v });
+		auto data = engine->newVariant(v);
+		return engine->newObject(this, data);
+	}
+
+	template <typename TT,
+		typename std::enable_if<std::is_pointer<TT>::value &&
+			std::is_same<StorageType, T>::value &&
+			!std::is_base_of<QObject, typename std::remove_pointer<TT>::type>::
+				value>::type * = nullptr>
+	QScriptValue newInstance(TT obj, bool construct = false)
+	{
+		Q_UNUSED(construct)
+		QScriptEngine *engine = this->engine();
+		auto v = QVariant::fromValue(obj);
+		auto data = engine->newVariant(v);
 		return engine->newObject(this, data);
 	}
 

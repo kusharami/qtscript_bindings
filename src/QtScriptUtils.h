@@ -2,6 +2,7 @@
 
 #include <QObject>
 #include <QScriptValue>
+#include <QScriptEngine>
 #include <QVariant>
 
 #define CSTRKEY(key) #key
@@ -10,6 +11,14 @@
 #define QSTRKEY(key) QStringLiteral(#key)
 
 class QScriptContext;
+
+struct QtScriptQVariantContainer
+{
+	QVariant data;
+};
+
+Q_DECLARE_METATYPE(QtScriptQVariantContainer)
+Q_DECLARE_METATYPE(QtScriptQVariantContainer *)
 
 class QtScriptUtils : public QObject
 {
@@ -32,7 +41,8 @@ public:
 	static QScriptValue variantToScriptValue(
 		const QVariant &variant, QScriptEngine *engine);
 
-	static QVariant scriptValueVariantData(QScriptValue value);
+	static QVariant scriptValueVariantData(const QScriptValue &value);
+	static QScriptValue toScriptValueData(const QScriptValue &value);
 
 	template <typename ENUM_T>
 	static QScriptValue enumToScriptValue(
@@ -50,12 +60,18 @@ public:
 	template <typename TT>
 	static TT *scriptValueData(const QScriptValue &value)
 	{
-		auto v = scriptValueVariantData(value);
+		auto data = toScriptValueData(value);
+		if (!data.isVariant())
+			return nullptr;
 
-		if (v.userType() == qMetaTypeId<TT>())
+		auto v = data.toVariant();
+
+		if (v.userType() == qMetaTypeId<QtScriptQVariantContainer>())
 		{
+			auto c = qscriptvalue_cast<QtScriptQVariantContainer *>(data);
+			Q_ASSERT(c);
 			return const_cast<TT *>(
-				reinterpret_cast<const TT *>(v.constData()));
+				reinterpret_cast<const TT *>(c->data.constData()));
 		}
 
 		if (v.userType() == qMetaTypeId<TT *>())
