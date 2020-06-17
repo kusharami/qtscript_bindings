@@ -70,11 +70,14 @@ void QtScriptQByteArray::fromScriptValue(
 		{
 			*ptr = scriptValueToChar(value.property(j));
 		}
+	} else if (!value.isValid() || value.isNull() || value.isUndefined())
+	{
+		out = QByteArray();
 	} else
 	{
 		QByteArray tempBa;
 		auto ba = getByteArrayPtr(value);
-		tempBa = ba ? *ba : value.toString().toLocal8Bit();
+		tempBa = ba ? *ba : value.toString().toUtf8();
 
 		if (!out.isEmpty())
 			out.append(tempBa);
@@ -930,7 +933,7 @@ bool QtScriptQByteArray::constructObject(
 			}
 
 			auto arg2 = context->argument(1);
-			if (!arg.isNumber() && !arg.isUndefined())
+			if (!arg.isNumber())
 			{
 				auto codec = scriptValueToTextCodec(arg2);
 				out = codec->fromUnicode(arg.toString());
@@ -1147,26 +1150,19 @@ char QtScriptQByteArray::scriptValueToChar(
 	bool ok = false;
 	int ch = 0;
 
-	if (value.isNumber() || value.isBool() || value.isNull() ||
-		value.isUndefined())
+	if (!value.isValid() || value.isNumber() || value.isBool() ||
+		value.isNull() || value.isUndefined())
 	{
 		ch = value.toInt32();
 		ok = true;
 	} else
 	{
 		auto str = value.toString();
-		int i = str.toInt(&ok);
-		if (ok)
+		auto latin1 = str.toLatin1();
+		if (latin1.size() == 1)
 		{
-			ch = i;
-		} else
-		{
-			auto latin1 = str.toLatin1();
-			if (latin1.size() == 1)
-			{
-				ch = latin1.at(0);
-				ok = true;
-			}
+			ch = latin1.at(0);
+			ok = true;
 		}
 	}
 
