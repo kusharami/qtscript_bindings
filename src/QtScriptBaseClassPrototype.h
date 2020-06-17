@@ -70,7 +70,7 @@ public:
 	static QScriptValue toScriptValue(QScriptEngine *engine, TT const &object)
 	{
 		if (object)
-			engine->toScriptValue(*object);
+			return engine->toScriptValue(*object);
 
 		return engine->nullValue();
 	}
@@ -182,8 +182,14 @@ protected:
 				value>::type * = nullptr>
 	QScriptValue newInstance(TT obj, bool construct = false)
 	{
-		Q_ASSERT(obj);
 		QScriptEngine *engine = this->engine();
+		if (construct)
+		{
+			Q_ASSERT(obj);
+		} else if (!obj)
+		{
+			return engine->nullValue();
+		}
 		QScriptEngine::QObjectWrapOptions wrapOptions(
 			QScriptEngine::ExcludeDeleteLater |
 			QScriptEngine::SkipMethodsInEnumeration |
@@ -203,6 +209,13 @@ protected:
 	QScriptValue newInstance(TT obj, bool construct = false)
 	{
 		QScriptEngine *engine = this->engine();
+		if (construct)
+		{
+			Q_ASSERT(obj);
+		} else if (!obj)
+		{
+			return engine->nullValue();
+		}
 
 		QVariant v = construct ? QVariant::fromValue(StorageType(obj))
 							   : QVariant::fromValue(static_cast<T>(obj));
@@ -230,6 +243,13 @@ protected:
 	{
 		Q_UNUSED(construct)
 		QScriptEngine *engine = this->engine();
+		if (construct)
+		{
+			Q_ASSERT(obj);
+		} else if (!obj)
+		{
+			return engine->nullValue();
+		}
 		auto v = QVariant::fromValue(obj);
 		auto data = engine->newVariant(v);
 		return engine->newObject(this, data);
