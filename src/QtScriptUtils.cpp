@@ -71,18 +71,20 @@ QScriptValue QtScriptUtils::getNamespaceObject(
 	QScriptEngine *engine, const QByteArray &nslist)
 {
 	auto result = engine->globalObject();
-
-	for (const auto &cns : nslist.split('.'))
+	if (!nslist.isEmpty())
 	{
-		auto ns = engine->toStringHandle(QString::fromLatin1(cns));
-		auto sv = result.property(ns);
-		if (!sv.isObject())
+		for (const auto &cns : nslist.split('.'))
 		{
-			sv = engine->newObject();
-			result.setProperty(
-				ns, sv, QScriptValue::ReadOnly | QScriptValue::Undeletable);
+			auto ns = engine->toStringHandle(QString::fromLatin1(cns));
+			auto sv = result.property(ns);
+			if (!sv.isObject())
+			{
+				sv = engine->newObject();
+				result.setProperty(
+					ns, sv, QScriptValue::ReadOnly | QScriptValue::Undeletable);
+			}
+			result = sv;
 		}
-		result = sv;
 	}
 	return result;
 }
