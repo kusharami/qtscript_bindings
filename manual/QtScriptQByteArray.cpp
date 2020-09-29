@@ -60,6 +60,16 @@ void QtScriptQByteArray::Register(const QScriptValue &targetNamespace)
 void QtScriptQByteArray::fromScriptValue(
 	const QScriptValue &value, QByteArray &out)
 {
+	out = QByteArray();
+	if (value.isValid() && !value.isNull() && !value.isUndefined())
+	{
+		fromScriptValueAppend(value, out);
+	}
+}
+
+void QtScriptQByteArray::fromScriptValueAppend(
+	const QScriptValue &value, QByteArray &out)
+{
 	if (value.isArray())
 	{
 		int length = value.property(QSTRKEY(length)).toInt32();
@@ -70,9 +80,6 @@ void QtScriptQByteArray::fromScriptValue(
 		{
 			*ptr = scriptValueToChar(value.property(j));
 		}
-	} else if (!value.isValid() || value.isNull() || value.isUndefined())
-	{
-		out = QByteArray();
 	} else
 	{
 		QByteArray tempBa;
@@ -1053,7 +1060,7 @@ QScriptValue QtScriptQByteArray::concat(
 
 	for (int i = 0, count = context->argumentCount(); i < count; i++)
 	{
-		fromScriptValue(context->argument(i), result);
+		fromScriptValueAppend(context->argument(i), result);
 	}
 
 	if (!result.isEmpty())

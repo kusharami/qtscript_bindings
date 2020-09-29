@@ -96,6 +96,8 @@ protected:
 		QScriptContext *context, QByteArray &out) override;
 
 	static void fromScriptValue(const QScriptValue &value, QByteArray &out);
+	static void fromScriptValueAppend(
+		const QScriptValue &value, QByteArray &out);
 
 	static QScriptValue toScriptValue(
 		QScriptEngine *engine, const QByteArray &object);
