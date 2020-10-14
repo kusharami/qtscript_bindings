@@ -2,6 +2,7 @@
 
 #include <QScriptContext>
 #include <QScriptEngine>
+#include <QMetaProperty>
 
 QScriptValue QtScriptUtils::noPublicConstructorException(
 	QScriptContext *context, const QByteArray &className)
@@ -164,6 +165,53 @@ QScriptValue QtScriptUtils::variantToScriptValue(
 	return result;
 }
 
+QVariant QtScriptUtils::scriptValueToVariant(const QScriptValue &sv, int type)
+{
+	QVariant result;
+	result.convert(type);
+	if (!qscriptvalue_cast_helper(sv, type, result.data()))
+	{
+		result = sv.toVariant();
+		if (result.userType() == qMetaTypeId<QtScriptQVariantContainer>())
+		{
+			result = result.value<QtScriptQVariantContainer>().data;
+		}
+		if (result.userType() != type)
+		{
+			result.convert(type);
+		}
+	}
+
+	return result;
+}
+
+QVariant QtScriptUtils::scriptValueToVariant(const QScriptValue &sv)
+{
+	if (sv.isQObject())
+	{
+		return QVariant::fromValue(sv.toQObject());
+	}
+
+	if (sv.isQMetaObject())
+	{
+		return QVariant(QString::fromLatin1(sv.toQMetaObject()->className()));
+	}
+
+	if (sv.scriptClass())
+	{
+		auto v = QtScriptUtils::scriptValueVariantData(sv);
+		if (!v.isValid())
+			return v;
+
+		if (v.userType() == qMetaTypeId<QtScriptQVariantContainer>())
+		{
+			v = v.value<QtScriptQVariantContainer>().data;
+		}
+	}
+
+	return sv.toVariant();
+}
+
 QVariant QtScriptUtils::scriptValueVariantData(const QScriptValue &value)
 {
 	auto data = toScriptValueData(value);
@@ -183,4 +231,15 @@ QScriptValue QtScriptUtils::toScriptValueData(const QScriptValue &value)
 		return value.data();
 
 	return QScriptValue();
+}
+
+QScriptValue QtScriptUtils::copyScriptValue(const QScriptValue &src)
+{
+	if (!src.isObject())
+	{
+		return src;
+	}
+
+	auto variant = scriptValueToVariant(src);
+	return variantToScriptValue(variant, src.engine());
 }

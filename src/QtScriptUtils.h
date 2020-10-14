@@ -11,6 +11,7 @@
 #define QSTRKEY(key) QStringLiteral(#key)
 
 class QScriptContext;
+class QScriptValueIterator;
 
 struct QtScriptQVariantContainer
 {
@@ -41,8 +42,13 @@ public:
 	static QScriptValue variantToScriptValue(
 		const QVariant &variant, QScriptEngine *engine);
 
+	static QVariant scriptValueToVariant(const QScriptValue &sv, int type);
+	static QVariant scriptValueToVariant(const QScriptValue &sv);
+
 	static QVariant scriptValueVariantData(const QScriptValue &value);
 	static QScriptValue toScriptValueData(const QScriptValue &value);
+
+	static QScriptValue copyScriptValue(const QScriptValue &src);
 
 	template <typename ENUM_T>
 	static QScriptValue enumToScriptValue(
