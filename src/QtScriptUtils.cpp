@@ -30,7 +30,7 @@ QScriptValue QtScriptUtils::calledConstructorWithoutNewError(
 {
 	Q_ASSERT(context);
 	return context->throwError(
-		tr("Constructor %1 is called without 'new'.").arg(className));
+		tr("Constructor %1 is called without 'new'").arg(className));
 }
 
 QScriptValue QtScriptUtils::badArgumentsException(
