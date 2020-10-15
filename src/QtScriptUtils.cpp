@@ -18,6 +18,21 @@ QScriptValue QtScriptUtils::unknownError(QScriptContext *context)
 	return context->throwError(tr("Unknown error"));
 }
 
+QScriptValue QtScriptUtils::calledConstructorWithoutNewError(
+	QScriptContext *context, const QByteArray &className)
+{
+	return calledConstructorWithoutNewError(
+		context, QString::fromLatin1(className));
+}
+
+QScriptValue QtScriptUtils::calledConstructorWithoutNewError(
+	QScriptContext *context, const QString &className)
+{
+	Q_ASSERT(context);
+	return context->throwError(
+		tr("Constructor %1 is called without 'new'.").arg(className));
+}
+
 QScriptValue QtScriptUtils::badArgumentsException(
 	QScriptContext *context, const QByteArray &functionName)
 {
@@ -167,8 +182,7 @@ QScriptValue QtScriptUtils::variantToScriptValue(
 
 QVariant QtScriptUtils::scriptValueToVariant(const QScriptValue &sv, int type)
 {
-	QVariant result;
-	result.convert(type);
+	QVariant result(type, nullptr);
 	if (!qscriptvalue_cast_helper(sv, type, result.data()))
 	{
 		result = sv.toVariant();
@@ -178,7 +192,10 @@ QVariant QtScriptUtils::scriptValueToVariant(const QScriptValue &sv, int type)
 		}
 		if (result.userType() != type)
 		{
-			result.convert(type);
+			if (!result.convert(type))
+			{
+				result = QVariant(type, nullptr);
+			}
 		}
 	}
 
@@ -187,6 +204,11 @@ QVariant QtScriptUtils::scriptValueToVariant(const QScriptValue &sv, int type)
 
 QVariant QtScriptUtils::scriptValueToVariant(const QScriptValue &sv)
 {
+	if (!sv.isValid() || sv.isUndefined() || sv.isNull())
+	{
+		return QVariant();
+	}
+
 	if (sv.isQObject())
 	{
 		return QVariant::fromValue(sv.toQObject());
@@ -194,7 +216,13 @@ QVariant QtScriptUtils::scriptValueToVariant(const QScriptValue &sv)
 
 	if (sv.isQMetaObject())
 	{
-		return QVariant(QString::fromLatin1(sv.toQMetaObject()->className()));
+		auto metaObject = sv.toQMetaObject();
+		if (!metaObject)
+		{
+			return QVariant();
+		}
+		return QVariant::fromValue(
+			QString::fromLatin1(metaObject->className()));
 	}
 
 	if (sv.scriptClass())
@@ -207,6 +235,7 @@ QVariant QtScriptUtils::scriptValueToVariant(const QScriptValue &sv)
 		{
 			v = v.value<QtScriptQVariantContainer>().data;
 		}
+		return v;
 	}
 
 	return sv.toVariant();

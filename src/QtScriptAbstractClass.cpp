@@ -1,8 +1,9 @@
 #include "QtScriptAbstractClass.h"
 
-#include <QScriptEngine>
-
 #include "QtScriptUtils.h"
+
+#include <QScriptEngine>
+#include <QDebug>
 
 QtScriptAbstractClass::QtScriptAbstractClass(
 	QScriptEngine *engine, const QByteArray &className)
@@ -19,6 +20,18 @@ QScriptValue QtScriptAbstractClass::tryConstructObject(QScriptContext *context)
 			constructorArgumentCountMin(), constructorArgumentCountMax()))
 	{
 		return engine->uncaughtException();
+	}
+
+	if (!context->isCalledAsConstructor())
+	{
+		auto thisObject = context->thisObject();
+		if (!thisObject.isObject() ||
+			thisObject.strictlyEquals(engine->globalObject()) ||
+			!thisObject.instanceOf(mConstructor))
+		{
+			return QtScriptUtils::calledConstructorWithoutNewError(
+				context, name());
+		}
 	}
 
 	auto result = newScriptObject(context);

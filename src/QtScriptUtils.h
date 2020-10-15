@@ -29,6 +29,10 @@ public:
 	static QScriptValue noPublicConstructorException(
 		QScriptContext *context, const QByteArray &className);
 	static QScriptValue unknownError(QScriptContext *context);
+	static QScriptValue calledConstructorWithoutNewError(
+		QScriptContext *context, const QByteArray &className);
+	static QScriptValue calledConstructorWithoutNewError(
+		QScriptContext *context, const QString &className);
 	static QScriptValue badArgumentsException(
 		QScriptContext *context, const QByteArray &functionName);
 	static bool isArgumentCountLessThan(QScriptContext *context, int minArgs);

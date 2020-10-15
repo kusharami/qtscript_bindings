@@ -59,12 +59,9 @@ QScriptValue QtScriptQObject::newScriptObject(QScriptContext *context)
 	QObject *newObject;
 	if (!constructObject(context, newObject))
 	{
+		Q_ASSERT(engine->hasUncaughtException());
 		return engine->uncaughtException();
 	}
 
-	return engine->newQObject(newObject, QScriptEngine::AutoOwnership,
-		QScriptEngine::ExcludeDeleteLater |
-			QScriptEngine::SkipMethodsInEnumeration |
-			QScriptEngine::ExcludeSuperClassContents |
-			QScriptEngine::ExcludeSlots);
+	return this->newInstance(newObject, context->thisObject());
 }

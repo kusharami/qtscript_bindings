@@ -180,9 +180,11 @@ protected:
 		typename std::enable_if<std::is_pointer<TT>::value &&
 			std::is_base_of<QObject, typename std::remove_pointer<TT>::type>::
 				value>::type * = nullptr>
-	QScriptValue newInstance(TT obj, bool construct = false)
+	QScriptValue newInstance(
+		TT obj, const QScriptValue &thisObject = QScriptValue())
 	{
 		QScriptEngine *engine = this->engine();
+		bool construct = thisObject.isObject();
 		if (construct)
 		{
 			Q_ASSERT(obj);
@@ -193,11 +195,17 @@ protected:
 		QScriptEngine::QObjectWrapOptions wrapOptions(
 			QScriptEngine::ExcludeDeleteLater |
 			QScriptEngine::SkipMethodsInEnumeration |
-			QScriptEngine::ExcludeSuperClassContents);
+			QScriptEngine::ExcludeSuperClassContents |
+			QScriptEngine::ExcludeSlots);
 
 		if (!construct)
 			wrapOptions |= QScriptEngine::PreferExistingWrapperObject;
 
+		if (construct)
+		{
+			return engine->newQObject(
+				thisObject, obj, QScriptEngine::AutoOwnership, wrapOptions);
+		}
 		return engine->newQObject(obj, QScriptEngine::QtOwnership, wrapOptions);
 	}
 
@@ -206,9 +214,10 @@ protected:
 			!std::is_same<StorageType, T>::value &&
 			!std::is_base_of<QObject, typename std::remove_pointer<TT>::type>::
 				value>::type * = nullptr>
-	QScriptValue newInstance(TT obj, bool construct = false)
+	QScriptValue newInstance(TT obj, QScriptValue thisObject = QScriptValue())
 	{
 		QScriptEngine *engine = this->engine();
+		bool construct = thisObject.isObject();
 		if (construct)
 		{
 			Q_ASSERT(obj);
@@ -217,20 +226,35 @@ protected:
 			return engine->nullValue();
 		}
 
-		QVariant v = construct ? QVariant::fromValue(StorageType(obj))
-							   : QVariant::fromValue(static_cast<T>(obj));
+		if (construct)
+		{
+			auto v = QVariant::fromValue(StorageType(obj));
+			thisObject.setScriptClass(this);
+			thisObject.setData(engine->newVariant(v));
+			return thisObject;
+		}
+
+		auto v = QVariant::fromValue(static_cast<T>(obj));
 		return engine->newObject(this, engine->newVariant(v));
 	}
 
 	template <typename TT,
 		typename std::enable_if<!std::is_pointer<TT>::value>::type * = nullptr>
-	QScriptValue newInstance(TT const &obj, bool construct = false)
+	QScriptValue newInstance(
+		TT const &obj, QScriptValue thisObject = QScriptValue())
 	{
-		Q_UNUSED(construct)
+		bool construct = thisObject.isObject();
+
 		QScriptEngine *engine = this->engine();
 		auto v = QVariant::fromValue(obj);
 		v = QVariant::fromValue(QtScriptQVariantContainer{ v });
 		auto data = engine->newVariant(v);
+		if (construct)
+		{
+			thisObject.setScriptClass(this);
+			thisObject.setData(data);
+			return thisObject;
+		}
 		return engine->newObject(this, data);
 	}
 
@@ -239,9 +263,9 @@ protected:
 			std::is_same<StorageType, T>::value &&
 			!std::is_base_of<QObject, typename std::remove_pointer<TT>::type>::
 				value>::type * = nullptr>
-	QScriptValue newInstance(TT obj, bool construct = false)
+	QScriptValue newInstance(TT obj, QScriptValue thisObject = QScriptValue())
 	{
-		Q_UNUSED(construct)
+		bool construct = thisObject.isObject();
 		QScriptEngine *engine = this->engine();
 		if (construct)
 		{
@@ -252,6 +276,12 @@ protected:
 		}
 		auto v = QVariant::fromValue(obj);
 		auto data = engine->newVariant(v);
+		if (construct)
+		{
+			thisObject.setScriptClass(this);
+			thisObject.setData(data);
+			return thisObject;
+		}
 		return engine->newObject(this, data);
 	}
 
@@ -341,6 +371,7 @@ protected:
 		targetNamespace.setProperty(obj->mClassName, ctor,
 			QScriptValue::ReadOnly | QScriptValue::Undeletable);
 
+		obj->mConstructor = ctor;
 		return ctor;
 	}
 
@@ -352,9 +383,10 @@ protected:
 		if (!constructObject(context, newObject))
 		{
 			QScriptEngine *engine = this->engine();
+			Q_ASSERT(engine->hasUncaughtException());
 			return engine->uncaughtException();
 		}
 
-		return this->newInstance(newObject, true);
+		return this->newInstance(newObject, context->thisObject());
 	}
 };

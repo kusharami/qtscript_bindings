@@ -40,6 +40,7 @@ protected:
 
 protected:
 	QScriptValue mProto;
+	QScriptValue mConstructor;
 	QString mClassName;
 };
 
