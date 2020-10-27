@@ -4,6 +4,8 @@
 #include "QtScriptUtils.h"
 #include "QtScriptBool.h"
 
+#include "qtscript_core.hpp"
+
 #include <QScriptEngine>
 #include <QtTest>
 #include <QVariant>
@@ -145,6 +147,50 @@ void QtScriptBindingsTests::testFailConstructorWithoutNew()
 	engine.evaluate(program);
 	QVERIFY(engine.hasUncaughtException());
 	printException(engine.uncaughtException());
+}
+
+void QtScriptBindingsTests::testCastDescendant_data()
+{
+	QTEST_ADD_COLUMN(QString, program);
+	QTEST_ADD_COLUMN(int, castType);
+
+	QTest::newRow("Buffer") << QStringLiteral("\
+function Buffer()\n\
+{\n\
+    qt.Buffer.call(this);\n\
+}\n\
+Buffer.prototype = Object.create(qt.Buffer.prototype);\n\
+var result = new Buffer();") << qMetaTypeId<QBuffer *>();
+
+	QTest::newRow("Point") //
+		<< QStringLiteral("\
+function Point()\n\
+{\n\
+    qt.Point.call(this, 12, 10);\n\
+}\n\
+Point.prototype = Object.create(qt.Point.prototype);\n\
+var result = new Point();")
+		<< qMetaTypeId<QPoint>();
+}
+
+void QtScriptBindingsTests::testCastDescendant()
+{
+	QFETCH(QString, program);
+	QFETCH(int, castType);
+
+	QScriptEngine engine;
+	QtScriptInstallQtCore(&engine);
+
+	engine.evaluate(program);
+	if (engine.hasUncaughtException())
+	{
+		printException(engine.uncaughtException());
+	}
+	QVERIFY(!engine.hasUncaughtException());
+	auto go = engine.globalObject();
+	auto result = go.property("result");
+	QVERIFY(QtScriptUtils::scriptValueToVariant(result, castType).isValid());
+	QCOMPARE(QtScriptUtils::scriptValueToVariant(result).userType(), castType);
 }
 
 void QtScriptBindingsTests::printException(const QScriptValue &exception)

@@ -211,7 +211,19 @@ QVariant QtScriptUtils::scriptValueToVariant(const QScriptValue &sv)
 
 	if (sv.isQObject())
 	{
-		return QVariant::fromValue(sv.toQObject());
+		auto object = sv.toQObject();
+		if (!object)
+		{
+			return QVariant();
+		}
+		auto className = object->metaObject()->className();
+		int type = QMetaType::type(
+			QByteArray::fromRawData(className, qstrlen(className)) + '*');
+		if (type != 0)
+		{
+			return QVariant(type, &object);
+		}
+		return QVariant::fromValue(object);
 	}
 
 	if (sv.isQMetaObject())

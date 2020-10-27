@@ -17,6 +17,9 @@ private slots:
 	void testFailConstructorWithoutNew_data();
 	void testFailConstructorWithoutNew();
 
+	void testCastDescendant_data();
+	void testCastDescendant();
+
 private:
 	void printException(const QScriptValue &exception);
 };
