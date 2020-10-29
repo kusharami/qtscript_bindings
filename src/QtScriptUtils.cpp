@@ -110,7 +110,7 @@ QScriptValue QtScriptUtils::variantToScriptValue(
 {
 	QScriptValue result;
 
-	switch (int(variant.type()))
+	switch (variant.userType())
 	{
 		case QVariant::Map:
 		{
@@ -173,7 +173,9 @@ QScriptValue QtScriptUtils::variantToScriptValue(
 			if (variant.isNull() || !variant.isValid())
 				result = QScriptValue(engine, QScriptValue::NullValue);
 			else
-				result = engine->newVariant(variant);
+			{
+				result = engine->toScriptValue(variant);
+			}
 			break;
 	}
 
@@ -215,13 +217,6 @@ QVariant QtScriptUtils::scriptValueToVariant(const QScriptValue &sv)
 		if (!object)
 		{
 			return QVariant();
-		}
-		auto className = object->metaObject()->className();
-		int type = QMetaType::type(
-			QByteArray::fromRawData(className, qstrlen(className)) + '*');
-		if (type != 0)
-		{
-			return QVariant(type, &object);
 		}
 		return QVariant::fromValue(object);
 	}

@@ -189,8 +189,10 @@ void QtScriptBindingsTests::testCastDescendant()
 	QVERIFY(!engine.hasUncaughtException());
 	auto go = engine.globalObject();
 	auto result = go.property("result");
-	QVERIFY(QtScriptUtils::scriptValueToVariant(result, castType).isValid());
-	QCOMPARE(QtScriptUtils::scriptValueToVariant(result).userType(), castType);
+	auto v = QtScriptUtils::scriptValueToVariant(result, castType);
+	QVERIFY(v.isValid());
+	QVERIFY(!v.isNull());
+	QCOMPARE(v.userType(), castType);
 }
 
 void QtScriptBindingsTests::printException(const QScriptValue &exception)
