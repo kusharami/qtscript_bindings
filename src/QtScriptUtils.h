@@ -80,8 +80,14 @@ public:
 		{
 			auto c = qscriptvalue_cast<QtScriptQVariantContainer *>(data);
 			Q_ASSERT(c);
-			return const_cast<TT *>(
-				reinterpret_cast<const TT *>(c->data.constData()));
+			auto &cdata = c->data;
+			if (cdata.userType() == qMetaTypeId<TT>())
+			{
+				return const_cast<TT *>(
+					reinterpret_cast<const TT *>(cdata.constData()));
+			}
+
+			v = cdata;
 		}
 
 		if (v.userType() == qMetaTypeId<TT *>())
