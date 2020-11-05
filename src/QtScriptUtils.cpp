@@ -128,8 +128,38 @@ QScriptValue QtScriptUtils::variantToScriptValue(
 			break;
 		}
 
-		case QVariant::List:
+		case QVariant::Hash:
+		{
+			auto vhash = variant.toHash();
+
+			result = engine->newObject();
+
+			for (auto it = vhash.cbegin(); it != vhash.cend(); ++it)
+			{
+				auto &key = it.key();
+				auto &value = it.value();
+
+				result.setProperty(key, variantToScriptValue(value, engine));
+			}
+			break;
+		}
+
 		case QVariant::StringList:
+		{
+			auto strlist = variant.toStringList();
+
+			int len = strlist.length();
+			result = engine->newArray(len);
+
+			for (int i = 0; i < len; i++)
+			{
+				auto &value = strlist.at(i);
+
+				result.setProperty(i, QScriptValue(engine, value));
+			}
+			break;
+		}
+		case QVariant::List:
 		{
 			auto vlist = variant.toList();
 
