@@ -6,6 +6,7 @@
 #include "QtScriptQByteArray.h"
 #include "QtScriptQDataStream.h"
 #include "qtscript_core.hpp"
+#include "qtscript_gui.hpp"
 #include "qtscript_network.hpp"
 
 Q_DECLARE_METATYPE(QVector<QPointF>)
@@ -29,5 +30,6 @@ void QtScriptInstallQtCore(QScriptEngine *engine)
 	QtScriptQByteArray::Register(targetNamespace);
 	QtScriptQDataStream::Register(targetNamespace);
 	qtscript_register_all_QtCore(engine);
+	qtscript_register_all_QtGui(engine);
 	qtscript_register_all_QtNetwork(engine);
 }

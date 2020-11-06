@@ -1,4 +1,4 @@
-QT += core script
+QT += core script gui
 
 TARGET = qtscript_bindings
 TEMPLATE = lib
@@ -38,6 +38,7 @@ HEADERS += \
     src/QtScriptInstall.h \
     src/QtScriptUtils.h \
     generated/qtscript_core.hpp \
+    generated/qtscript_gui.hpp \
     generated/qtscript_network.hpp
 
 SOURCES += \
@@ -49,10 +50,12 @@ SOURCES += \
     src/QtScriptInstall.cpp \
     src/QtScriptUtils.cpp \
     generated/qtscript_core.cpp \
+    generated/qtscript_gui.cpp \
     generated/qtscript_network.cpp
 
 OTHER_FILES += \
     generated/core_bindings.ini \
+    generated/gui_bindings.ini \
     generated/network_bindings.ini \
     generated/win32/userconf.ini \
     generated/mac/userconf.ini
