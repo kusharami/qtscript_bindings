@@ -236,7 +236,7 @@ QVariant QtScriptUtils::scriptValueToVariant(const QScriptValue &sv, int type)
 
 QVariant QtScriptUtils::scriptValueToVariant(const QScriptValue &sv)
 {
-	if (!sv.isValid() || sv.isUndefined() || sv.isNull())
+	if (!sv.isValid() || sv.isUndefined() || sv.isNull() || sv.isError())
 	{
 		return QVariant();
 	}
