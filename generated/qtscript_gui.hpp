@@ -218,7 +218,6 @@ public:
 	static QScriptValue dotProduct(QScriptContext *context, QScriptEngine* engine);
 };
 
-Q_DECLARE_METATYPE(QVector2D)
 Q_DECLARE_METATYPE(QVector2D *)
 Q_DECLARE_METATYPE(const QVector2D *)
 
@@ -264,7 +263,6 @@ public:
 	Q_INVOKABLE QMatrix* translate(qreal dx, qreal dy);
 };
 
-Q_DECLARE_METATYPE(QMatrix)
 Q_DECLARE_METATYPE(QMatrix *)
 Q_DECLARE_METATYPE(const QMatrix *)
 
@@ -335,7 +333,6 @@ public:
 	static QScriptValue squareToQuad(QScriptContext *context, QScriptEngine* engine);
 };
 
-Q_DECLARE_METATYPE(QTransform)
 Q_DECLARE_METATYPE(QTransform *)
 Q_DECLARE_METATYPE(const QTransform *)
 
@@ -387,7 +384,6 @@ public:
 	static QScriptValue normal(QScriptContext *context, QScriptEngine* engine);
 };
 
-Q_DECLARE_METATYPE(QVector3D)
 Q_DECLARE_METATYPE(QVector3D *)
 Q_DECLARE_METATYPE(const QVector3D *)
 
@@ -436,7 +432,6 @@ public:
 	static QScriptValue dotProduct(QScriptContext *context, QScriptEngine* engine);
 };
 
-Q_DECLARE_METATYPE(QVector4D)
 Q_DECLARE_METATYPE(QVector4D *)
 Q_DECLARE_METATYPE(const QVector4D *)
 
@@ -499,7 +494,6 @@ public:
 	static QScriptValue slerp(QScriptContext *context, QScriptEngine* engine);
 };
 
-Q_DECLARE_METATYPE(QQuaternion)
 Q_DECLARE_METATYPE(QQuaternion *)
 Q_DECLARE_METATYPE(const QQuaternion *)
 
