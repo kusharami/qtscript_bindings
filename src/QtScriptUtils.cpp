@@ -215,14 +215,16 @@ QScriptValue QtScriptUtils::variantToScriptValue(
 QVariant QtScriptUtils::scriptValueToVariant(const QScriptValue &sv, int type)
 {
 	QVariant result(type, nullptr);
-	if (!qscriptvalue_cast_helper(sv, type, result.data()))
+	if (type == 0 || type == QMetaType::QVariant ||
+		!qscriptvalue_cast_helper(sv, type, result.data()))
 	{
 		result = sv.toVariant();
 		if (result.userType() == qMetaTypeId<QtScriptQVariantContainer>())
 		{
 			result = result.value<QtScriptQVariantContainer>().data;
 		}
-		if (result.userType() != type)
+		if (type != 0 && type != QMetaType::QVariant &&
+			result.userType() != type)
 		{
 			if (!result.convert(type))
 			{
