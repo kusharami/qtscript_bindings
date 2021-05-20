@@ -89,7 +89,8 @@ QScriptValue QtScriptUtils::getNamespaceObject(
 	auto result = engine->globalObject();
 	if (!nslist.isEmpty())
 	{
-		for (const auto &cns : nslist.split('.'))
+		const auto namespaceList = nslist.split('.');
+		for (const auto &cns : namespaceList)
 		{
 			auto ns = engine->toStringHandle(QString::fromLatin1(cns));
 			auto sv = result.property(ns);

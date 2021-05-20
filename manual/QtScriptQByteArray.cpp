@@ -448,7 +448,7 @@ QString QtScriptQByteArray::join(const QString &separator) const
 
 	if (nullptr != ba)
 	{
-		for (char c : *ba)
+		for (char c : qAsConst(*ba))
 		{
 			if (!result.isEmpty())
 				result += separator;
@@ -1191,7 +1191,7 @@ QtScriptQByteArray::PropertyIterator::PropertyIterator(
 	const QScriptValue &object)
 	: QScriptClassPropertyIterator(object)
 {
-	toFront();
+	PropertyIterator::toFront();
 }
 
 bool QtScriptQByteArray::PropertyIterator::hasNext() const
