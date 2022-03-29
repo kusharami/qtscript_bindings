@@ -12,15 +12,12 @@ emscripten {
 
 include(qtscript_bindings_target.pri)
 
-!msvc {
-    clang|gcc {
-        CONFIG += warn_off
-        QMAKE_CXXFLAGS_WARN_OFF -= -w
-        QMAKE_CXXFLAGS += -Wall
-        QMAKE_CXXFLAGS += -Wno-overloaded-virtual
-    }
-}
-
+!msvc:clang|gcc:QMAKE_CXXFLAGS_WARN_ON += \
+    -Wno-unknown-warning-option \
+    -Wno-unknown-warning \
+    -Wno-overloaded-virtual \
+    -Wno-unused-command-line-argument
+    
 DESTDIR = $$QTSCRIPT_BINDINGS_LIB
 
 INCLUDEPATH += \
